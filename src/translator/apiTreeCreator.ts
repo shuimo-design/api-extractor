@@ -25,9 +25,9 @@ export const apiTreeCreator = (tokens: Tokens) => {
   let index = 0;
   const identifierAPIs: IdentifierAPI[] = [];
   while (index < tokens.length) {
-    const { blockToken, index: traverseIndex } = traverseToken(tokens, index);
+    const { identifierAPI, index: traverseIndex } = traverseToken(tokens, index);
     index = traverseIndex + 1;
-    identifierAPIs.push(blockToken);
+    identifierAPIs.push(identifierAPI);
   }
 
   return identifierAPIs;
@@ -36,7 +36,7 @@ export const apiTreeCreator = (tokens: Tokens) => {
 
 const traverseToken = (tokens: Tokens, index: number) => {
   const traverse = (pos: number, end: number, index: number) => {
-    const blockToken: IdentifierAPI = {
+    const identifierAPI: IdentifierAPI = {
       doc: {},
       identifier: '',
       children: []
@@ -52,12 +52,12 @@ const traverseToken = (tokens: Tokens, index: number) => {
         if (token.comment instanceof DocComment) {
           const apiObj = parseComment(token.comment);
           if (Object.keys(apiObj).length > 0) {
-            // blockToken.doc must only have one
-            blockToken.doc = parseComment(token.comment);
+            // identifierAPI.doc must only have one
+            identifierAPI.doc = parseComment(token.comment);
           }
         }
         if (token.kind === SyntaxKind.Identifier) {
-          blockToken.identifier = token.key;
+          identifierAPI.identifier = token.key;
         }
         continue;
       }
@@ -67,13 +67,13 @@ const traverseToken = (tokens: Tokens, index: number) => {
         break;
       }
 
-      const { blockToken: child, index: newIndex } = traverse(parent.pos, parent.end, index);
+      const { identifierAPI: child, index: newIndex } = traverse(parent.pos, parent.end, index);
       i = index = newIndex;
-      blockToken.children.push(child);
+      identifierAPI.children.push(child);
     }
 
     return {
-      blockToken,
+      identifierAPI,
       index
     };
   }
