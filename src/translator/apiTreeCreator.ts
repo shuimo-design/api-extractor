@@ -69,7 +69,16 @@ const traverseToken = (tokens: Tokens, index: number) => {
 
       const { identifierAPI: child, index: newIndex } = traverse(parent.pos, parent.end, index);
       i = index = newIndex;
-      identifierAPI.children.push(child);
+      if (child.identifier !== '') {
+        identifierAPI.children!.push(child);
+      }
+    }
+
+    if (identifierAPI.children!.length === 0) {
+      delete identifierAPI.children;
+    }
+    if (Object.keys(identifierAPI.doc!).length === 0) {
+      delete identifierAPI.doc;
     }
 
     return {

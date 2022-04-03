@@ -30,7 +30,7 @@ type Tokens = Token[];
 
 
 type IdentifierAPI = {
-  doc: Record<string, string>,
+  doc?: Record<string, string>,
   identifier: string,
-  children: IdentifierAPI[]
+  children?: IdentifierAPI[]
 }

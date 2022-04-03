@@ -24,7 +24,6 @@ test('parse .d.ts file to expect', async () => {
         {
           "children": [
             {
-              "children": [],
               "doc": {
                 "default": "''",
                 "description": "button inline text, will replace by slot
@@ -34,7 +33,6 @@ test('parse .d.ts file to expect', async () => {
               "identifier": "text",
             },
             {
-              "children": [],
               "doc": {
                 "default": "false",
                 "description": "disable or not 是否禁用",
@@ -43,7 +41,6 @@ test('parse .d.ts file to expect', async () => {
               "identifier": "disabled",
             },
             {
-              "children": [],
               "doc": {
                 "default": "'primary'",
                 "description": "button type 按钮类型",
@@ -53,25 +50,11 @@ test('parse .d.ts file to expect', async () => {
               "identifier": "type",
             },
           ],
-          "doc": {},
           "identifier": "ButtonProps",
         },
         {
           "children": [
             {
-              "children": [
-                {
-                  "children": [
-                    {
-                      "children": [],
-                      "doc": {},
-                      "identifier": "",
-                    },
-                  ],
-                  "doc": {},
-                  "identifier": "",
-                },
-              ],
               "doc": {
                 "description": "点击事件",
                 "type": "Function",
@@ -79,7 +62,6 @@ test('parse .d.ts file to expect', async () => {
               "identifier": "click",
             },
           ],
-          "doc": {},
           "identifier": "ButtonEvents",
         },
       ],
