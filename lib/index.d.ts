@@ -28,3 +28,11 @@ export declare type ButtonProps = {
    */
   type: string
 }
+
+export declare type ButtonEvents = {
+  /**
+   * @description 点击事件
+   * @type Function
+   */
+  click: () => void
+}

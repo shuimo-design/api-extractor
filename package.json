@@ -4,7 +4,7 @@
   "description": "A simple api extractor for code doc.",
   "main": "dist/index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node src/run.ts",
     "test": "vitest",
     "test-update": "vitest -u"
   },

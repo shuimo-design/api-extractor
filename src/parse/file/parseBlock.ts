@@ -6,20 +6,20 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { DocNode, DocExcerpt, DocBlock, DocBlockTag, DocSection, DocPlainText } from "@microsoft/tsdoc";
-import { isSoftBreak } from "../parse/uitls";
-import type { DocAPIType } from "../../types/types";
+import { DocNode, DocExcerpt, DocBlock, DocBlockTag, DocSection, DocPlainText, DocParagraph } from "@microsoft/tsdoc";
+import { isSoftBreak } from "../uitls";
+import type { DocAPIType } from "../../../types/types";
 
-export const parseBlock = (block: DocBlock): DocAPIType | undefined => {
+export const parseBlock = (block: DocBlock | DocParagraph): DocAPIType[] => {
 
   const blockInfo = block.getChildNodes();
   if (canNotParseBlockChild(blockInfo)) {
-    return;
+    return [];
   }
 
   const key = (blockInfo[0] as DocBlockTag).tagName.replace(/^@/, "");
   const value = parseBlockChild(blockInfo[1]);
-  return { key, value };
+  return [{ key, value }];
 }
 
 
@@ -56,7 +56,7 @@ const canNotParseBlockChild = (blockInfo: readonly DocNode[]) => {
   if (blockInfo.length !== 2 ||
     !(blockInfo[0] instanceof DocBlockTag) ||
     !(blockInfo[1] instanceof DocSection)) {
-    console.error('can not parse this block, please open an issue in github.');
+    console.error(blockInfo, 'can not parse this block, please open an issue on github.');
     return true;
   }
   return false;
@@ -64,7 +64,7 @@ const canNotParseBlockChild = (blockInfo: readonly DocNode[]) => {
 
 const canNotParseBlockSection = (section: DocNode) => {
   if (!(section instanceof DocSection)) {
-    console.error('can not parse this block\'s section, please open an issue in github.');
+    console.error('can not parse this block\'s section, please open an issue on github.');
     return true;
   }
   return false;
@@ -74,7 +74,7 @@ const canNotParsePlainText = (plainText: DocNode) => {
   if (!(plainText instanceof DocPlainText) ||
     plainText.getChildNodes().length !== 1 ||
     !(plainText.getChildNodes()[0] instanceof DocExcerpt)) {
-    console.error('can not parse this plain text, please open an issue in github.');
+    console.error('can not parse this plain text, please open an issue on github.');
     return true;
   }
   return false;

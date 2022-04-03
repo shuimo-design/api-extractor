@@ -16,7 +16,7 @@ import { createProgram, flattenDiagnosticMessageText, ScriptTarget } from "types
  * @param src root src
  */
 export const fileScanner = (src?: string) => {
-  const sourceFileSrc = '../lib/index.d.ts';
+  const sourceFileSrc = src || path.join(__dirname, '');
   const inputFilename: string = path.resolve(path.join(__dirname, '..', '', sourceFileSrc));
 
   return getSource(inputFilename, compiler([inputFilename]));
@@ -47,8 +47,6 @@ const compiler = (rootNames: string[]) => {
         console.warn(message);
       }
     }
-  } else {
-    console.log('No compiler errors or warnings.');
   }
   return program;
 }

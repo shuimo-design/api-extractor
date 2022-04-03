@@ -11,18 +11,10 @@
       "dom"
     ],
     "baseUrl": ".",
-    "paths": {
-      "/src/*": [
-        "src/*"
-      ]
-    },
-    "types": ["node","src/index.d.ts"],
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "lib/**/*.ts",
-    "lib/**/*.d.ts",
-    "types/*.d.ts"
-  ]
+    "types": [
+      "node",
+      "types/types.d.ts",
+      "typescript"
+    ]
+  }
 }
