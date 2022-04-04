@@ -15,7 +15,12 @@ type OptionType = {
   fileSrc?: string,
 }
 
-export declare type DocAPIType = {
+type TransformedAPI = {
+  fileDoc: any,
+  identifierAPIs: IdentifierAPI[]
+};
+
+type DocAPIType = {
   key: string,
   value: string
 }
@@ -28,9 +33,10 @@ type Token = {
 };
 type Tokens = Token[];
 
+type Doc = Record<string, string>;
 
 type IdentifierAPI = {
-  doc?: Record<string, string>,
+  doc?: Doc,
   identifier: string,
   children?: IdentifierAPI[]
 }

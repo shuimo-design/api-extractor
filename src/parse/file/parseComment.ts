@@ -7,7 +7,7 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import { DocBlock, DocComment, DocNode, DocParagraph, DocSection } from "@microsoft/tsdoc";
-import type { DocAPIType } from "../../../types/types";
+import type { Doc, DocAPIType } from "../../../types/types";
 import { parseBlock } from "./parseBlock";
 
 export const parseComment = (comment: DocComment) => {
@@ -33,7 +33,7 @@ const parseCommentChild = (node: DocNode): DocAPIType[] => {
 }
 
 const keyValueListToObj = (commentApiList: DocAPIType[]) => {
-  const obj: Record<string, string> = {};
+  const obj: Doc = {};
   commentApiList.forEach(item => {
     obj[item.key] = item.value;
   });
