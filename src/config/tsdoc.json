@@ -2,7 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
   "tagDefinitions": [
     {
-      "tagName": "@enum",
+      "tagName": "@name",
+      "syntaxKind": "block"
+    },
+    {
+      "tagName": "@docUrl",
+      "syntaxKind": "block"
+    },
+    {
+      "tagName": "@docDescription",
       "syntaxKind": "block"
     },
     {
@@ -27,6 +35,10 @@
     },
     {
       "tagName": "@default",
+      "syntaxKind": "block"
+    },
+    {
+      "tagName": "@enum",
       "syntaxKind": "block"
     }
   ]
