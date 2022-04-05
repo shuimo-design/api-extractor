@@ -10,6 +10,7 @@ import os from "os";
 import type { Program, SourceFile } from "typescript";
 import { createProgram, flattenDiagnosticMessageText, ScriptTarget } from "typescript";
 import { getSourceFileList } from "./getSourceFileList";
+import { SourceFileInfo } from "../../types/types";
 
 /**
  * @description file scanner
@@ -70,7 +71,7 @@ export default class FileScanner {
   }
 
 
-  run = async (): Promise<SourceFile[]> => {
+  run = async (): Promise<SourceFileInfo[]> => {
     const sourceFileLists = await Promise.all(this.basePaths.map(async path =>
       new Promise<string[]>(async resolve => {
         const res = await getSourceFileList(path, this.exclude);
@@ -78,6 +79,9 @@ export default class FileScanner {
       })))
     const sourceFileList = sourceFileLists.flat()
     const program = this.compiler(sourceFileList);
-    return sourceFileList.map(file => this.getSource(file, program));
+    return sourceFileList.map(file => ({
+      source: this.getSource(file, program),
+      file
+    }));
   }
 }

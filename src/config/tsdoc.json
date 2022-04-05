@@ -14,6 +14,10 @@
       "syntaxKind": "block"
     },
     {
+      "tagName": "@sourceSymbol",
+      "syntaxKind": "block"
+    },
+    {
       "tagName": "@description",
       "syntaxKind": "block"
     },

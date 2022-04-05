@@ -7,16 +7,30 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import { DocNode } from "@microsoft/tsdoc";
-import { SyntaxKind } from "typescript";
+import { SourceFile, SyntaxKind } from "typescript";
 import type { Node } from "typescript";
 
 type OptionType = {
-  tokenTranslator?: any, // todo can use custom token translator
   include?: string[],
+  exclude?: string[],
+  translator?: {
+    token?: () => void,
+  },
+  document?: WebTypeOption
+}
+
+type WebTypeOption = {
+  sourceSymbolTranslator?: (dirList: string[]) => string
+}
+
+type SourceFileInfo = {
+  source: SourceFile,
+  file: string
 }
 
 type TransformedAPI = {
   fileDoc: any,
+  file: string,
   identifierAPIs: IdentifierAPI[]
 };
 
