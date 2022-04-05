@@ -6,9 +6,11 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { test, expect } from "vitest";
+import { test, expect, describe, beforeAll } from "vitest";
 import { apiExtractor } from "../src";
-import { webTypesTagCreator } from "../src/documenter/web-types";
+import { webTypesTagCreator } from "../src/documenter/web-types/webTypesTagCreator";
+import type { TransformedAPI } from "../types/types";
+import { webTypesDocumentCreator } from "../src/documenter/web-types";
 
 const tag = {
   "name": "w-button",
@@ -45,9 +47,7 @@ const tag = {
         "default": "primary"
       }
     }
-  ],
-  "events": [],
-  "slots": []
+  ]
 };
 const apiInfo = {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
@@ -63,10 +63,135 @@ const apiInfo = {
   }
 }
 
-
-test('output web-type tags expect', async () => {
-  const apiInfo = await apiExtractor({
-    include: ['lib']
+let testApiInfo: TransformedAPI[] = [];
+beforeAll(async () => {
+  testApiInfo = await apiExtractor({
+    include: ['example']
   });
-  expect(webTypesTagCreator(apiInfo[0])).toMatchObject(tag);
+});
+
+const firstUpperCase = (str:string)=> {
+  return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+}
+
+const sourceSymbolTranslator = (dirList: string[]) => {
+  let lastDir = firstUpperCase(dirList[dirList.length - 1]);
+  return `W${lastDir}`;
+}
+
+describe('test web-type', () => {
+  test('output expected web-type tags', async () => {
+    expect(webTypesTagCreator({
+      sourceSymbolTranslator
+    }).run(testApiInfo[0])).toMatchObject(tag);
+  });
+
+  test('output expected web-type document', async () => {
+    expect(await webTypesDocumentCreator(testApiInfo,{
+      sourceSymbolTranslator
+    })).toMatchInlineSnapshot(`
+      [
+        {
+          "attributes": [
+            {
+              "description": "button inline text, will replace by slot
+      按钮文本 会被slot覆盖",
+              "name": "text",
+              "value": {
+                "default": "",
+                "kind": "expression",
+                "type": "string | VNode",
+              },
+            },
+            {
+              "description": "disable or not 是否禁用",
+              "name": "disabled",
+              "value": {
+                "default": "false",
+                "kind": "expression",
+                "type": "boolean",
+              },
+            },
+            {
+              "description": "button type 按钮类型",
+              "name": "type",
+              "value": {
+                "default": "primary",
+                "kind": "expression",
+                "type": "string",
+              },
+            },
+          ],
+          "description": "Button component with wash-painting-ui style.
+      水墨组件的按钮组件。",
+          "doc-url": "https://wash-painting.com/button",
+          "name": "w-button",
+          "source": {
+            "symbol": "WButton",
+          },
+        },
+        {
+          "attributes": [
+            {
+              "description": "form是否行内显示",
+              "name": "inline",
+              "value": {
+                "default": "false",
+                "kind": "expression",
+                "type": "boolean",
+              },
+            },
+            {
+              "description": "form 是否默认发送",
+              "name": "submit",
+              "value": {
+                "default": "false",
+                "kind": "expression",
+                "type": "boolean",
+              },
+            },
+          ],
+          "description": "Form component with wash-painting-ui style.
+      水墨组件的表单组件。",
+          "doc-url": "https://wash-painting.com/form",
+          "name": "w-form",
+          "source": {
+            "symbol": "WMenu",
+          },
+        },
+        {
+          "attributes": [
+            {
+              "description": "form item label
+      表单项的标题",
+              "name": "label",
+              "value": {
+                "default": undefined,
+                "kind": "expression",
+                "type": "string",
+              },
+            },
+            {
+              "description": "form item label prop
+      表单内置label的原生prop属性",
+              "name": "prop",
+              "value": {
+                "default": undefined,
+                "kind": "expression",
+                "type": "string",
+              },
+            },
+          ],
+          "description": "FormItem component with wash-painting-ui style.
+      水墨组件的表单item组件。",
+          "doc-url": "https://wash-painting.com/form#item",
+          "name": "w-form-item",
+          "source": {
+            "symbol": "WFormItem",
+          },
+        },
+      ]
+    `);
+  })
 })
+

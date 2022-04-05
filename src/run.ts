@@ -10,5 +10,5 @@
 import { apiExtractor } from "./index";
 
 apiExtractor({
-  fileSrc: "../lib/index.d.ts",
+  include: ["example"],
 });

@@ -13,18 +13,19 @@ import { getSourceFileList } from "../src/file/getSourceFileList";
 
 describe('get right file list', () => {
   test('with doc', async () => {
-    expect(await getSourceFileList('../wash-painting-ui/lib'))
+    expect(await getSourceFileList('example'))
       .toMatchInlineSnapshot(`
-      [
-        "../wash-painting-ui/lib/base/button/index.d.ts",
-        "../wash-painting-ui/lib/base/datePicker/basic/table.d.ts",
-      ]
-    `);
+        [
+          "example/base/button/index.d.ts",
+          "example/template/menu/form.d.ts",
+          "example/template/menu/formItem.d.ts",
+        ]
+      `);
   })
 
   // not support file yet
   test.skip('with file', async () => {
-    expect(await getSourceFileList('lib/index.d.ts'))
+    expect(await getSourceFileList('example/index.d.ts'))
       .toMatchInlineSnapshot('[]');
   })
 })
