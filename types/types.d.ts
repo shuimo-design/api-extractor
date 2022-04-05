@@ -20,6 +20,8 @@ type OptionType = {
 }
 
 type WebTypeOption = {
+  webTypesInfo?: Doc,
+  packageUrl?: string,
   sourceSymbolTranslator?: (dirList: string[]) => string
 }
 
