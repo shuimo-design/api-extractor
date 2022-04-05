@@ -12,7 +12,7 @@ import type { Node } from "typescript";
 
 type OptionType = {
   tokenTranslator?: any, // todo can use custom token translator
-  fileSrc?: string,
+  include?: string[],
 }
 
 type TransformedAPI = {

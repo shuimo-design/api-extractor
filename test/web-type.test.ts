@@ -66,7 +66,7 @@ const apiInfo = {
 
 test('output web-type tags expect', async () => {
   const apiInfo = await apiExtractor({
-    fileSrc: '../lib/index.d.ts'
+    include: ['lib']
   });
-  expect(webTypesTagCreator(apiInfo!)).toMatchObject(tag);
+  expect(webTypesTagCreator(apiInfo[0])).toMatchObject(tag);
 })

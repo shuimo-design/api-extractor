@@ -10,6 +10,7 @@ import type { Tokens } from "../../types/types";
 import { SyntaxKind } from "typescript";
 import { getFileDoc } from "./getFileDoc";
 import { apiTreeCreator } from "./apiTreeCreator";
+import { TransformedAPI } from "../../types/types";
 
 const tokensValidate = (tokens: Tokens) => {
   if (tokens.length === 0) {
@@ -20,9 +21,12 @@ const tokensValidate = (tokens: Tokens) => {
 }
 
 
-export const translator = (baseToken: Tokens) => {
+export const translator = (baseToken: Tokens): TransformedAPI => {
   if (tokensValidate(baseToken)) {
-    return;
+    return {
+      fileDoc: '',
+      identifierAPIs: []
+    };
   }
   let { tokens, fileDoc } = getFileDoc(baseToken);
   const identifierAPIs = apiTreeCreator(tokens);

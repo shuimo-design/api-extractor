@@ -8,11 +8,20 @@
  */
 
 import { parse } from "./parse";
-import { fileScanner } from "./source/fileScanner";
-import { OptionType } from "../types/types";
+import FileScanner from "./file/FileScanner";
+import { OptionType, TransformedAPI } from "../types/types";
 
-export const apiExtractor = async (option: OptionType) => {
-  const file = fileScanner(option.fileSrc);
-  return await parse(file);
+export const apiExtractor = async (option: OptionType): Promise<TransformedAPI[]> => {
+  const sourceList = await new FileScanner({
+    include: option.include,
+  }).run();
+  const apiList = await Promise.all(
+    sourceList.map(source => new Promise<TransformedAPI>(async resolve => {
+      const api = await parse(source);
+      resolve(api);
+    }))
+  );
+
+  return apiList.flat();
 }
 

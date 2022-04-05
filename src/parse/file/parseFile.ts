@@ -30,7 +30,7 @@ const tsdocParser: TSDocParser = new TSDocParser(customConfiguration);
 
 export const parseFile = async (sourceFile: SourceFile) => {
   const tokens = await getTokens(sourceFile);
-  return translator(tokens);;
+  return translator(tokens);
 }
 
 const getTokens = (sourceFile: SourceFile): Promise<Tokens> => {
