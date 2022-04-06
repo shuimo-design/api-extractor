@@ -28,3 +28,4 @@ pnpm-lock.yaml
 
 .pnpm-debug.log
 pnpm-global
+web-types.json
