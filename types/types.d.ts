@@ -10,7 +10,9 @@ import { DocNode } from "@microsoft/tsdoc";
 import { SourceFile, SyntaxKind } from "typescript";
 import type { Node } from "typescript";
 
-type OptionType = {
+export { JanghoodConfig } from "./config";
+
+export declare type OptionType = {
   include?: string[],
   exclude?: string[],
   translator?: {
@@ -19,39 +21,39 @@ type OptionType = {
   document?: WebTypeOption
 }
 
-type WebTypeOption = {
+export declare type WebTypeOption = {
   webTypesInfo?: Doc,
   packageUrl?: string,
   sourceSymbolTranslator?: (dirList: string[]) => string
 }
 
-type SourceFileInfo = {
+export declare type SourceFileInfo = {
   source: SourceFile,
   file: string
 }
 
-type TransformedAPI = {
+export declare type TransformedAPI = {
   fileDoc: any,
   file: string,
   identifierAPIs: IdentifierAPI[]
 };
 
-type DocAPIType = {
+export declare type DocAPIType = {
   key: string,
   value: string
 }
 
-type Token = {
+export declare type Token = {
   kind: SyntaxKind,
   comment: DocNode,
   key: string,
   parent: Node
 };
-type Tokens = Token[];
+export declare type Tokens = Token[];
 
-type Doc = Record<string, string>;
+export declare type Doc = Record<string, string>;
 
-type IdentifierAPI = {
+export declare type IdentifierAPI = {
   doc?: Doc,
   identifier: string,
   children?: IdentifierAPI[]
