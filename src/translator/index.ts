@@ -7,7 +7,6 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import type { Tokens } from "../../types/types";
-import { SyntaxKind } from "typescript";
 import { getFileDoc } from "./getFileDoc";
 import { apiTreeCreator } from "./apiTreeCreator";
 import { TransformedAPI } from "../../types/types";
@@ -21,7 +20,7 @@ const tokensValidate = (tokens: Tokens) => {
 }
 
 
-export const translator = (baseToken: Tokens): TransformedAPI => {
+export const translator = (baseToken: Tokens): Omit<TransformedAPI,'file'> => {
   if (tokensValidate(baseToken)) {
     return {
       fileDoc: '',
