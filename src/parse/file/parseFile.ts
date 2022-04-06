@@ -16,13 +16,12 @@ import {
   TSDocParser
 } from "@microsoft/tsdoc";
 import { TSDocConfigFile } from "@microsoft/tsdoc-config";
-import path from "path";
 import type { SourceFile } from "typescript";
 import type { Tokens } from "../../../types/types";
 import { translator } from "../../translator";
 
-const jsonConfig: string = '/../config/tsdoc.json';
-const tsdocConfigFile: TSDocConfigFile = TSDocConfigFile.loadFile(path.dirname(__dirname) + jsonConfig);
+const jsonConfig: string = 'tsdoc.json';
+const tsdocConfigFile: TSDocConfigFile = TSDocConfigFile.loadFile(jsonConfig);
 const customConfiguration: TSDocConfiguration = new TSDocConfiguration();
 tsdocConfigFile.configureParser(customConfiguration);
 const tsdocParser: TSDocParser = new TSDocParser(customConfiguration);
