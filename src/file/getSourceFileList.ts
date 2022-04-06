@@ -30,10 +30,11 @@ export const getSourceFileList = (filePath: string, excludes?: string[]): Promis
 
         const isDocument = stats.isDirectory();
         if (isDocument &&
-          !defaultExFiles.every(e => newFilePath.includes(e))) {
+          !defaultExFiles.some(e => newFilePath.includes(e))) {
           const files = await getSourceFileList(newFilePath);
           resolve2(files);
         }
+        resolve2([]);
       });
     })
   }
