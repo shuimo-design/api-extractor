@@ -9,6 +9,7 @@
 import { TransformedAPI, WebTypeOption } from "../../../types/types";
 import { WebTypesTag, webTypesTagCreator } from "./webTypesTagCreator";
 import { loadPackage } from "./loadPackage";
+import { createFile } from "../../file/createFile";
 
 export const webTypesDocumentCreator = async (apis: TransformedAPI[], option?: WebTypeOption) => {
   // need load package.json
@@ -32,4 +33,9 @@ export const webTypesDocumentCreator = async (apis: TransformedAPI[], option?: W
   webTypesInfo.contributions.html.tags = apis.map(api => webTypesCreator.run(api));
 
   return webTypesInfo;
+}
+
+export default async function (apis: TransformedAPI[], option?: WebTypeOption) {
+  const info = await webTypesDocumentCreator(apis, option);
+  createFile('web-types.json', JSON.stringify(info, null, 2));
 }

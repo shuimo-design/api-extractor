@@ -9,7 +9,7 @@
 
 
 import { test, expect, describe } from "vitest";
-import { getSourceFileList } from "../src/file/getSourceFileList";
+import { getSourceFileList } from "../../src/file/getSourceFileList";
 
 describe('get right file list', () => {
   test('with doc', async () => {

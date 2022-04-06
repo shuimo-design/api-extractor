@@ -8,7 +8,29 @@
  */
 
 import { apiExtractor } from "./index";
+import webTypes from "./documenter/web-types";
 
-apiExtractor({
-  include: ["example"],
-});
+
+const firstUpperCase = (str: string) => {
+  return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+}
+
+const sourceSymbolTranslator = (dirList: string[]) => {
+  let lastDir = firstUpperCase(dirList[dirList.length - 1]);
+  return `W${lastDir}`;
+}
+
+const run = async () => {
+  const api = await apiExtractor({
+    include: ["example"],
+  });
+
+  await webTypes(api, {
+    sourceSymbolTranslator,
+    webTypesInfo: {
+      "framework": "vue",
+    }
+  });
+}
+
+run();
