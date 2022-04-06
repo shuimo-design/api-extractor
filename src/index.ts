@@ -10,19 +10,30 @@
 import { parse } from "./parse";
 import FileScanner from "./file/FileScanner";
 import { OptionType, TransformedAPI } from "../types/types";
+import webTypes from "./documenter/web-types";
+import FileParser from "./parse/file/FileParser";
 
-export const apiExtractor = async (option: OptionType): Promise<TransformedAPI[]> => {
+const apiExtractor = async (option: OptionType): Promise<TransformedAPI[]> => {
   const sourceList = await new FileScanner(option).run();
+  const fp = new FileParser();
+  await fp.init();
   const apiList = await Promise.all(
-    sourceList.map(source => new Promise<TransformedAPI>(async resolve => {
-      const api = await parse(source);
-      resolve({
-        ...api,
-        file: source.file
-      });
+    sourceList.map(source => new Promise<TransformedAPI | null>(async resolve => {
+      const api = await parse(fp, source);
+      if (api) {
+        resolve({
+          ...api,
+          file: source.file
+        });
+      }
+      resolve(null);
     }))
   );
 
-  return apiList.flat();
+  return (apiList.filter(e => e) as TransformedAPI[]).flat();
 }
 
+export {
+  apiExtractor,
+  webTypes
+};

@@ -6,9 +6,9 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { parseFile } from "./file/parseFile";
+import FileParser from "./file/FileParser";
 import type { SourceFileInfo } from "../../types/types";
 
-export const parse = async (sourceFile: SourceFileInfo) => {
-  return await parseFile(sourceFile.source);
+export const parse = async (fp: FileParser, sourceFile: SourceFileInfo) => {
+  return await fp.run(sourceFile);
 }

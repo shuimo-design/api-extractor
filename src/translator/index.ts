@@ -20,15 +20,23 @@ const tokensValidate = (tokens: Tokens) => {
 }
 
 
-export const translator = (baseToken: Tokens): Omit<TransformedAPI,'file'> => {
+export const translator = (baseToken: Tokens, fileName: string): Omit<TransformedAPI, 'file'> => {
   if (tokensValidate(baseToken)) {
     return {
       fileDoc: '',
       identifierAPIs: []
     };
   }
-  let { tokens, fileDoc } = getFileDoc(baseToken);
-  const identifierAPIs = apiTreeCreator(tokens);
+  let apiToken = baseToken;
+  let fileDoc;
+  try {
+    let docInfo = getFileDoc(baseToken);
+    apiToken = docInfo.tokens;
+    fileDoc = docInfo.fileDoc;
+  } catch (e) {
+    console.warn(`file ${fileName} is ${(e as Error).message}`)
+  }
+  const identifierAPIs = apiTreeCreator(apiToken);
 
 
   return {

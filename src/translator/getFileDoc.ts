@@ -19,11 +19,7 @@ export const getFileDoc = (oldTokens: Tokens) => {
   let fileDoc = null;
   if (fileDocComment.kind !== SyntaxKind.MultiLineCommentTrivia ||
     !(fileDocComment.comment instanceof DocComment)) {
-    console.warn('this doc is not have file comment');
-    return {
-      fileDoc,
-      tokens: oldTokens
-    };
+    throw new Error('this doc is no file comment');
   }
   fileDoc = parseComment(fileDocComment.comment);
   return {
