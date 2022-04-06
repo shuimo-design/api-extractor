@@ -7,10 +7,10 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import os from "os";
-import type { Program, SourceFile } from "typescript";
 import { createProgram, flattenDiagnosticMessageText, ScriptTarget } from "typescript";
 import { getSourceFileList } from "./getSourceFileList";
-import { SourceFileInfo } from "../../types/types";
+import type { Program } from "typescript";
+import type { SourceFileInfo } from "../../types/types";
 
 /**
  * @description file scanner
@@ -24,8 +24,6 @@ export default class FileScanner {
   constructor(options: { include?: string[], exclude?: string[], }) {
     this.basePaths = options.include || ['src'];
     this.exclude = options.exclude || [];
-    // const sourceFileSrc = this.basePath || path.join(__dirname, '');
-    // const inputFilename: string = path.resolve(path.join(__dirname, '..', '', sourceFileSrc));
   }
 
   /**
@@ -36,10 +34,15 @@ export default class FileScanner {
     const program = createProgram(rootNames, {
       target: ScriptTarget.ESNext
     });
+    const ignoreCodeList: number[] = [2792];  // maybe 2792 is import error
+
     // Report any compiler errors
     const compilerDiagnostics = program.getSemanticDiagnostics();
     if (compilerDiagnostics.length > 0) {
       for (const diagnostic of compilerDiagnostics) {
+        if (ignoreCodeList.includes(diagnostic.code)) {
+          continue;
+        }
         const message: string = flattenDiagnosticMessageText(diagnostic.messageText, os.EOL);
         if (diagnostic.file) {
           const location = diagnostic.file.getLineAndCharacterOfPosition(
