@@ -30,7 +30,8 @@ export const webTypesDocumentCreator = async (apis: TransformedAPI[], option?: W
   }
 
   const webTypesCreator = webTypesTagCreator(option);
-  webTypesInfo.contributions.html.tags = apis.map(api => webTypesCreator.run(api));
+  webTypesInfo.contributions.html.tags = apis.map(api => webTypesCreator.run(api))
+    .filter(e => e) as WebTypesTag[];
 
   return webTypesInfo;
 }

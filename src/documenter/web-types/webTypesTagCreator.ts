@@ -27,10 +27,13 @@ export type WebTypesTag = {
 }
 
 export const webTypesTagCreator = (option?: WebTypeOption) => {
-  const run = (api: TransformedAPI): WebTypesTag => {
+  const run = (api: TransformedAPI): WebTypesTag | undefined => {
     // 这里输出的是单个tag的文档
 
     const { fileDoc, identifierAPIs } = api;
+    if (!fileDoc) {
+      return;
+    }
 
     const attributes: WebTypesAttributes[] = [];
     const events: [] = [];
