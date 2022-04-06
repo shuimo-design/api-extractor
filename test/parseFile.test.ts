@@ -8,12 +8,16 @@
  */
 
 import { test, expect } from 'vitest';
-import { parse } from "../src/parse";
 import FileScanner from "../src/file/FileScanner";
+import FileParser from "../src/parse/file/FileParser";
 
 test('parse .d.ts file to expect', async () => {
+
+  const fp = new FileParser();
+  await fp.init();
+
   const sourceList = await new FileScanner({ include: ["example"], }).run();
-  expect(await parse(sourceList[0]))
+  expect(await fp.run(sourceList[0]))
     .toMatchInlineSnapshot(`
       {
         "fileDoc": {
@@ -73,7 +77,7 @@ test('parse .d.ts file to expect', async () => {
         ],
       }
     `);
-  expect(await parse(sourceList[1]))
+  expect(await fp.run(sourceList[1]))
     .toMatchInlineSnapshot(`
       {
         "fileDoc": {
