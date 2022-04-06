@@ -53,7 +53,7 @@ const traverseToken = (tokens: Tokens, index: number) => {
           const apiObj = parseComment(token.comment);
           if (Object.keys(apiObj).length > 0) {
             // identifierAPI.doc must only have one
-            identifierAPI.doc = parseComment(token.comment);
+            identifierAPI.doc = apiObj;
           }
         }
         if (token.kind === SyntaxKind.Identifier) {
