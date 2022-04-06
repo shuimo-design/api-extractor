@@ -7,12 +7,22 @@
  * 公司的业务千篇一律，复杂的代码好几百行。
  */
 import typescript from "@rollup/plugin-typescript";
+import json from "@rollup/plugin-json";
 
 export default ({
   input: 'src/index.ts',
-  plugins: [typescript()],
+  plugins: [typescript(), json()],
   output: [{
     file: 'dist/index.js',
     format: 'cjs'
-  }]
+  }],
+  external: [
+    'typescript',
+    '@microsoft/tsdoc',
+    '@microsoft/tsdoc-config',
+    'tsutils',
+    'path',
+    'fs',
+    'os'
+  ]
 });

@@ -6,6 +6,7 @@
     "esModuleInterop": true,
     "strict": true,
     "sourceMap": true,
+    "resolveJsonModule": true,
     "lib": [
       "esnext",
       "dom"
@@ -13,7 +14,6 @@
     "baseUrl": ".",
     "types": [
       "node",
-      "types/types.d.ts",
       "typescript"
     ]
   }
