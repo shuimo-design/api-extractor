@@ -12,6 +12,7 @@ import { apiExtractor } from "../src";
 test('just run api', async () => {
   expect(await apiExtractor({
     include: ["example"],
+    exclude: ['template']
   })).toMatchInlineSnapshot(`
     [
       {
@@ -69,73 +70,6 @@ test('just run api', async () => {
               },
             ],
             "identifier": "ButtonEvents",
-          },
-        ],
-      },
-      {
-        "file": "example/template/menu/form.d.ts",
-        "fileDoc": {
-          "Version": "v1.0.0",
-          "docDescription": "Form component with wash-painting-ui style.
-    水墨组件的表单组件。",
-          "docUrl": "https://wash-painting.com/form",
-          "name": "w-form",
-        },
-        "identifierAPIs": [
-          {
-            "children": [
-              {
-                "doc": {
-                  "default": "false",
-                  "description": "form是否行内显示",
-                  "type": "boolean",
-                },
-                "identifier": "inline",
-              },
-              {
-                "doc": {
-                  "default": "false",
-                  "description": "form 是否默认发送",
-                  "type": "boolean",
-                },
-                "identifier": "submit",
-              },
-            ],
-            "identifier": "FormProps",
-          },
-        ],
-      },
-      {
-        "file": "example/template/menu/formItem.d.ts",
-        "fileDoc": {
-          "Version": "v1.0.0",
-          "docDescription": "FormItem component with wash-painting-ui style.
-    水墨组件的表单item组件。",
-          "docUrl": "https://wash-painting.com/form#item",
-          "name": "w-form-item",
-          "sourceSymbol": "WFormItem",
-        },
-        "identifierAPIs": [
-          {
-            "children": [
-              {
-                "doc": {
-                  "description": "form item label
-    表单项的标题",
-                  "type": "string",
-                },
-                "identifier": "label",
-              },
-              {
-                "doc": {
-                  "description": "form item label prop
-    表单内置label的原生prop属性",
-                  "type": "string",
-                },
-                "identifier": "prop",
-              },
-            ],
-            "identifier": "FormItemProps",
           },
         ],
       },
