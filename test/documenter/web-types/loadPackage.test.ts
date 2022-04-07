@@ -53,7 +53,7 @@ test('load package return expected info',async () => {
         "test-update": "vitest -u",
       },
       "types": "types/types.d.ts",
-      "version": "1.0.0",
+      "version": "0.0.1-alpha.0",
     }
   `);
 })

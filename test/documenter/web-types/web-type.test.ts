@@ -53,7 +53,7 @@ const apiInfo = {
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "framework": "vue",
   "name": "@janghood/api-extractor",
-  "version": "1.0.0",
+  "version": "0.0.1-alpha.0",
   "contributions": {
     "html": {
       "types-syntax": "typescript",
@@ -200,7 +200,7 @@ describe('test web-type', () => {
           },
         },
         "name": "@janghood/api-extractor",
-        "version": "1.0.0",
+        "version": "0.0.1-alpha.0",
       }
     `);
   });
