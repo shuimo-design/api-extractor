@@ -8,12 +8,22 @@
  */
 
 import typescript from "@rollup/plugin-typescript";
+import json from "@rollup/plugin-json";
 
 export default ({
-  input: 'src/bin/jhAPI.ts',
-  plugins: [typescript()],
+  input: 'src/bin/jh-api.ts',
+  plugins: [typescript(), json()],
   output: [{
-    file: 'dist/bin/jhAPI.js',
+    file: 'dist/bin/jh-api.js',
     format: 'cjs'
-  }]
+  }],
+  external: [
+    'typescript',
+    '@microsoft/tsdoc',
+    '@microsoft/tsdoc-config',
+    'tsutils',
+    'path',
+    'fs',
+    'os'
+  ]
 });

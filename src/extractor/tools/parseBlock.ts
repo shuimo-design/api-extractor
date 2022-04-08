@@ -7,8 +7,9 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import { DocNode, DocExcerpt, DocBlock, DocBlockTag, DocSection, DocPlainText, DocParagraph } from "@microsoft/tsdoc";
-import { isSoftBreak } from "../uitls";
-import type { DocAPIType } from "../../../types/types";
+import { DocAPIType } from "./parseComment";
+import { isSoftBreak } from "./uitls";
+import { jError } from "../../common/console";
 
 export const parseBlock = (block: DocBlock | DocParagraph): DocAPIType[] => {
 
@@ -56,7 +57,7 @@ const canNotParseBlockChild = (blockInfo: readonly DocNode[]) => {
   if (blockInfo.length !== 2 ||
     !(blockInfo[0] instanceof DocBlockTag) ||
     !(blockInfo[1] instanceof DocSection)) {
-    console.error(blockInfo, 'can not parse this block, please open an issue on github.');
+    jError('can not parse this block, please open an issue on github.');
     return true;
   }
   return false;
@@ -64,7 +65,7 @@ const canNotParseBlockChild = (blockInfo: readonly DocNode[]) => {
 
 const canNotParseBlockSection = (section: DocNode) => {
   if (!(section instanceof DocSection)) {
-    console.error('can not parse this block\'s section, please open an issue on github.');
+    jError('can not parse this block\'s section, please open an issue on github.');
     return true;
   }
   return false;
@@ -74,7 +75,7 @@ const canNotParsePlainText = (plainText: DocNode) => {
   if (!(plainText instanceof DocPlainText) ||
     plainText.getChildNodes().length !== 1 ||
     !(plainText.getChildNodes()[0] instanceof DocExcerpt)) {
-    console.error('can not parse this plain text, please open an issue on github.');
+    jError('can not parse this plain text, please open an issue on github.');
     return true;
   }
   return false;

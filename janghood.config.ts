@@ -6,7 +6,7 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { JanghoodConfig } from "./types/config";
+import { JanghoodConfig } from "./types/module/config";
 
 
 const firstUpperCase = (str: string) => {
@@ -23,10 +23,14 @@ export default {
   apiExtractor: {
     include: ["example"],
     document: {
-      webTypesInfo: {
-        "framework": "vue",
-      },
-      sourceSymbolTranslator
+      webTypes:{
+        active:true,
+        webTypesInfo: {
+          "framework": "vue",
+        },
+        sourceSymbolTranslator
+      }
+
     }
   }
 } as JanghoodConfig;

@@ -9,13 +9,13 @@
     "tsdoc.json"
   ],
   "bin": {
-    "jhAPI": "dist/bin/jhAPI.js"
+    "jh-api": "dist/bin/jh-api.js"
   },
   "types": "types/types.d.ts",
   "scripts": {
-    "jhAPI": "node dist/bin/jhAPI",
-    "test jhAPI": "npm run build && npm run jhAPI",
-    "start": "ts-node src/run.ts",
+    "jh-api": "node dist/bin/jh-api",
+    "test jh-api": "npm run build && npm run jh-api",
+    "start": "ts-node src/bin/jh-api.ts",
     "test": "vitest",
     "test-update": "vitest -u",
     "rm-dist": "rm -rf dist",

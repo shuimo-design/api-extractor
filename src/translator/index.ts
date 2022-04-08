@@ -6,42 +6,43 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import type { Tokens } from "../../types/types";
 import { getFileDoc } from "./getFileDoc";
 import { apiTreeCreator } from "./apiTreeCreator";
-import { TransformedAPI } from "../../types/types";
+import type { Tokens } from "../extractor/tools/tokenExtractor";
+import type { JhAPI } from "../../types/janghood-api-extractor";
+import { jWarn } from "../common/console";
 
 const tokensValidate = (tokens: Tokens) => {
   if (tokens.length === 0) {
-    console.warn('this file is empty');
+    jWarn('this file is empty');
     return true;
   }
   return false;
 }
 
 
-export const translator = (baseToken: Tokens, fileName: string): Omit<TransformedAPI, 'file'> => {
+export const translator = (baseToken: Tokens, fileName: string): JhAPI | undefined => {
   if (tokensValidate(baseToken)) {
-    return {
-      fileDoc: '',
-      identifierAPIs: []
-    };
+    return;
   }
   let apiToken = baseToken;
-  let fileDoc;
+  let doc;
   try {
     let docInfo = getFileDoc(baseToken);
-    apiToken = docInfo.tokens;
-    fileDoc = docInfo.fileDoc;
+    if (docInfo) {
+      apiToken = docInfo.tokens;
+      doc = docInfo.fileDoc;
+    }
   } catch (e) {
-    console.warn(`file ${fileName} is ${(e as Error).message}`)
+    jWarn(`file ${fileName} throw error: ${(e as Error).message}`)
   }
-  const identifierAPIs = apiTreeCreator(apiToken);
-
+  const children = apiTreeCreator(apiToken);
 
   return {
-    fileDoc,
-    identifierAPIs
+    //  to fix path info
+    name: fileName,
+    doc,
+    children
   }
 
 }

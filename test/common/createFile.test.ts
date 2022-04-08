@@ -8,7 +8,7 @@
  */
 
 import { test, vi } from 'vitest';
-import { createFile } from "../../src/file/createFile";
+import { createFile } from "../../src/common/createFile";
 
 vi.mock('fs', () => {
   return {
@@ -23,3 +23,5 @@ vi.mock('fs', () => {
 test('create file', () => {
   createFile('dist/base/button/index.d.ts', 'source');
 });
+
+vi.unmock('fs');

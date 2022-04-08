@@ -7,8 +7,14 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import { DocBlock, DocComment, DocNode, DocParagraph, DocSection } from "@microsoft/tsdoc";
-import type { Doc, DocAPIType } from "../../../types/types";
 import { parseBlock } from "./parseBlock";
+import { Doc } from "../../../types/module/common";
+import { jWarn } from "../../common/console";
+
+export declare type DocAPIType = {
+  key: string,
+  value: string
+}
 
 export const parseComment = (comment: DocComment) => {
   const commentApiList: DocAPIType[] = [];
@@ -25,10 +31,10 @@ const parseCommentChild = (node: DocNode): DocAPIType[] => {
   if (node instanceof DocBlock || node instanceof DocParagraph) {
     return parseBlock(node);
   }
-  if (node instanceof DocSection ) {
+  if (node instanceof DocSection) {
     return [];
   }
-  console.warn(`${node.kind} is not supported`);
+  jWarn(`${node.kind} is not supported`);
   return [];
 }
 

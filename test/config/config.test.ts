@@ -1,5 +1,5 @@
 /**
- * @description
+ * @description config test
  * @author 阿怪
  * @date 2022/4/6 4:32 PM
  * @version v1.0.0
@@ -12,25 +12,23 @@ import { test, expect } from 'vitest';
 import { loadConfigFromFile } from "../../src/config/config";
 
 test('load right config', async () => {
-  expect(await loadConfigFromFile()).toMatchInlineSnapshot(`
+  const info = await loadConfigFromFile();
+  expect(info?.config).toMatchInlineSnapshot(`
     {
-      "config": {
-        "apiExtractor": {
-          "document": {
+      "apiExtractor": {
+        "document": {
+          "webTypes": {
+            "active": true,
             "sourceSymbolTranslator": [Function],
             "webTypesInfo": {
               "framework": "vue",
             },
           },
-          "include": [
-            "example",
-          ],
         },
+        "include": [
+          "example",
+        ],
       },
-      "dependencies": [
-        "janghood.config.ts",
-      ],
-      "path": "/Users/higuaifan/Desktop/极客江湖/api-extractor/janghood.config.ts",
     }
   `)
 })

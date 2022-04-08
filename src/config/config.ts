@@ -1,5 +1,5 @@
 /**
- * @description
+ * @description get config methods
  * @author 阿怪
  * @date 2022/4/6 4:04 PM
  * @version v1.0.0
@@ -11,10 +11,13 @@
 import { performance } from "perf_hooks";
 import path from "path";
 import fs from "fs";
-import type { JanghoodConfig } from "../../types/config";
 import os from "os";
-import { JanghoodConfigExport } from "../../types/config";
+import type { JanghoodConfig, JanghoodConfigExport } from "../../types/module/config";
 import { build } from 'esbuild';
+
+interface NodeModuleWithCompile extends NodeModule {
+  _compile(code: string, filename: string): any
+}
 
 export function lookupFile(
   dir: string,
@@ -32,17 +35,20 @@ export function lookupFile(
     return lookupFile(parentDir, formats, pathOnly)
   }
 }
+
 export const isWindows = os.platform() === 'win32';
+
 export function slash(p: string): string {
   return p.replace(/\\/g, '/')
 }
+
 export function normalizePath(id: string): string {
   return path.posix.normalize(isWindows ? slash(id) : id)
 }
+
 export function isObject(value: unknown): value is Record<string, any> {
   return Object.prototype.toString.call(value) === '[object Object]'
 }
-
 
 
 export async function loadConfigFromFile(
@@ -223,10 +229,6 @@ async function bundleConfigFile(
     code: text,
     dependencies: result.metafile ? Object.keys(result.metafile.inputs) : []
   }
-}
-
-interface NodeModuleWithCompile extends NodeModule {
-  _compile(code: string, filename: string): any
 }
 
 async function loadConfigFromBundledFile(

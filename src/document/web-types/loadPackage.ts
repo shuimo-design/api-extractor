@@ -7,7 +7,7 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import fs from "fs";
-import { Doc } from "../../../types/types";
+import { Doc } from "../../../types/module/common";
 
 export const loadPackage = (packageUrl = 'package.json'): Promise<Doc> => {
   return new Promise((resolve, reject) => {

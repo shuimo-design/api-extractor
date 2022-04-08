@@ -6,59 +6,52 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import type { Doc, IdentifierAPI, WebTypeOption, TransformedAPI } from "../../../types/types";
 import path from "path";
+import type { WebTypeOption, WebTypesAttributes, WebTypesTag } from "../../../types/module/web-type";
+import type { JhAPI } from "../../../types/janghood-api-extractor";
+import { Doc } from "../../../types/module/common";
+import { jWarn } from "../../common/console";
 
-export type WebTypesAttributes = {
-  name: string,
-  description?: string,
-  'doc-url'?: string,
-  value?: Doc
-}
-
-export type WebTypesTag = {
-  name: string,
-  source?: { symbol: string } | { file: string, offset: number },
-  description?: string,
-  'doc-url'?: string,
-  attributes?: WebTypesAttributes[],
-  events?: [],
-  slots?: []
-}
+export declare type WebTypesTagCreatorRunner = (api: JhAPI) => WebTypesTag | undefined;
 
 export const webTypesTagCreator = (option?: WebTypeOption) => {
-  const run = (api: TransformedAPI): WebTypesTag | undefined => {
+  const run: WebTypesTagCreatorRunner = api => {
     // 这里输出的是单个tag的文档
+    if (!api) {
+      return;
+    }
 
-    const { fileDoc, identifierAPIs } = api;
-    if (!fileDoc) {
+    const { path, children, doc } = api;
+    if (!path) {
       return;
     }
 
     const attributes: WebTypesAttributes[] = [];
     const events: [] = [];
     const slots: [] = [];
-    if (identifierAPIs.length === 0) {
-      console.warn('no doc error!');
-    }
+    if (!children || children.length === 0) {
+      jWarn('no doc error!');
+    } else {
+      // maybe someday we need merge doc ,so use for()
+      for (const child of children) {
+        if (child.children) {
 
-    // maybe someday we need merge doc ,so use for()
-    for (const identifierAPI of identifierAPIs) {
-      if (identifierAPI.children) {
-
-        if (identifierAPI.identifier.includes('Prop')) {
-          for (const child of identifierAPI.children) {
-            attributes.push(childToAttribute(child));
+          if (child.name.includes('Prop')) {
+            for (const c of child.children) {
+              attributes.push(childToAttribute(c));
+            }
           }
-        }
 
+        }
       }
     }
+
+
     const tag: WebTypesTag = {
-      name: fileDoc.name,
-      source: { symbol: fileDoc.sourceSymbol ?? getDir(api.file) },
-      description: fileDoc.docDescription,
-      'doc-url': fileDoc.docUrl,
+      name: doc?.name ?? '',
+      source: { symbol: doc?.sourceSymbol ?? getDir(api.name ?? '') },
+      description: doc?.docDescription,
+      'doc-url': doc?.docUrl,
       attributes
     }
 
@@ -73,10 +66,10 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
     return tag;
   }
 
-  const childToAttribute = (identifierAPI: IdentifierAPI): WebTypesAttributes => {
-    const { doc, identifier } = identifierAPI;
+  const childToAttribute = (identifierAPI: JhAPI): WebTypesAttributes => {
+    const { doc, name } = identifierAPI;
     const attribute: WebTypesAttributes = {
-      name: identifier
+      name
     };
     const value: Doc = {};
     if (doc) {

@@ -7,10 +7,11 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 
-import { Tokens } from "../../types/types";
 import { SyntaxKind } from "typescript";
 import { DocComment } from "@microsoft/tsdoc";
-import { parseComment } from "../parse/file/parseComment";
+import { jError } from "../common/console";
+import { Tokens } from "../extractor/tools/tokenExtractor";
+import { parseComment } from "../extractor/tools/parseComment";
 
 
 export const getFileDoc = (oldTokens: Tokens) => {
@@ -19,7 +20,8 @@ export const getFileDoc = (oldTokens: Tokens) => {
   let fileDoc = null;
   if (fileDocComment.kind !== SyntaxKind.MultiLineCommentTrivia ||
     !(fileDocComment.comment instanceof DocComment)) {
-    throw new Error('this doc is no file comment');
+    jError('this doc is no file comment');
+    return;
   }
   fileDoc = parseComment(fileDocComment.comment);
   return {

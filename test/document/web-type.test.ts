@@ -6,11 +6,11 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { test, expect, describe, beforeAll } from "vitest";
-import { apiExtractor } from "../../../src";
-import { webTypesTagCreator } from "../../../src/documenter/web-types/webTypesTagCreator";
-import type { TransformedAPI } from "../../../types/types";
-import { webTypesDocumentCreator } from "../../../src/documenter/web-types";
+import { test, expect, describe, beforeAll, vi } from "vitest";
+import { JhAPIs, WebTypeOption } from "../../types/janghood-api-extractor";
+import { getJhApi } from "../../src";
+import webTypes, { webTypesCreator } from "../../src/document/web-types";
+
 
 const tag = {
   "name": "w-button",
@@ -62,14 +62,6 @@ const apiInfo = {
     }
   }
 }
-
-let testApiInfo: TransformedAPI[] = [];
-beforeAll(async () => {
-  testApiInfo = await apiExtractor({
-    include: ['example']
-  });
-});
-
 const firstUpperCase = (str: string) => {
   return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
 }
@@ -78,18 +70,36 @@ const sourceSymbolTranslator = (dirList: string[]) => {
   let lastDir = firstUpperCase(dirList[dirList.length - 1]);
   return `W${lastDir}`;
 }
+const webOptions: WebTypeOption = {
+  active: true,
+  sourceSymbolTranslator
+};
+let testApiInfo: JhAPIs = [];
+
+beforeAll(async () => {
+  testApiInfo = await getJhApi({
+    apiExtractor: {
+      include: ['example'],
+      document: {
+        webTypes: webOptions
+      }
+    }
+  });
+});
 
 describe('test web-type', () => {
   test('output expected web-type tag', async () => {
-    expect(webTypesTagCreator({
-      sourceSymbolTranslator
-    }).run(testApiInfo[0])).toMatchObject(tag);
+    const webTypeCreateHandler = webTypesCreator();
+    webTypeCreateHandler.init([testApiInfo[0]]);
+    const webTypesInfo = await webTypeCreateHandler.run(webOptions);
+    expect(webTypesInfo?.contributions.html.tags[0]).toMatchObject(tag);
   });
 
   test('output expected web-type tags', async () => {
-    expect(await webTypesDocumentCreator(testApiInfo, {
-      sourceSymbolTranslator
-    })).toMatchInlineSnapshot(`
+    const webTypeCreateHandler = webTypesCreator();
+    webTypeCreateHandler.init(testApiInfo);
+    const webTypesInfo = await webTypeCreateHandler.run(webOptions);
+    expect(webTypesInfo).toMatchInlineSnapshot(`
       {
         "\$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
         "contributions": {
@@ -205,13 +215,16 @@ describe('test web-type', () => {
     `);
   });
 
-  test('output expected web-type document', async () => {
-    expect(await webTypesDocumentCreator([testApiInfo[0]],{
-      sourceSymbolTranslator,
-      webTypesInfo:{
+  test('output expected web-type document with webTypesInfo', async () => {
+    const webTypeCreateHandler = webTypesCreator();
+    webTypeCreateHandler.init([testApiInfo[0]]);
+    const webTypesInfo = await webTypeCreateHandler.run({
+      ...webOptions,
+      webTypesInfo: {
         "framework": "vue",
       }
-    })).toMatchObject(apiInfo);
+    });
+    expect(webTypesInfo).toMatchObject(apiInfo);
   })
 })
 

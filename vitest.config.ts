@@ -4,6 +4,8 @@ export default defineConfig({
   test: {
     include:['test/**/**.test.ts']
     // include:['test/parseFile.test.ts']
-    // include:['test/getSourceFileList.test.ts']
+    // include: ['test/extractor/**/**.test.ts']
   },
 })
+
+
