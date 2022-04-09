@@ -7,6 +7,7 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import { WebTypeOption } from "./web-type";
+import { MarkdownOption } from "./markdown";
 
 /**
  * @description api option
@@ -31,6 +32,7 @@ export declare type APIOptionType = {
 
 export type Documents = {
   webTypes?: WebTypeOption,
+  markdown?: MarkdownOption
 }
 
 export interface JanghoodConfig {
