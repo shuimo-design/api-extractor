@@ -11,6 +11,7 @@ import { jError } from "../common/console";
 import type { Documents } from "../../types/module/config";
 import { getJhApi } from "../index";
 import webTypes from "../document/web-types";
+import markdown from "../document/markdown";
 
 const noActiveDocument = (document: Documents) => {
   return !document.webTypes || !document.webTypes.active;
@@ -37,6 +38,7 @@ const run = async () => {
 
   // call documents, but now just [web-types]
   await webTypes(apis, document.webTypes);
+  await markdown(apis, config);
 }
 
 run();

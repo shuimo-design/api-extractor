@@ -9,4 +9,12 @@
 import { BaseDocumentOption } from "./common";
 
 
-export declare type MarkdownOption = {} & BaseDocumentOption;
+/**
+ * @description markdown option
+ */
+export declare type MarkdownOption = {
+  /**
+   * @description output file path
+   */
+  output?: string;
+} & BaseDocumentOption;

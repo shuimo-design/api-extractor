@@ -7,16 +7,24 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import type { JhAPI } from "../../../types/janghood-api-extractor";
+import { jError } from "../../common/console";
 
 const propMDTableTitle = '|title|type|default|required|description|';
 const propMDTableSplit = '|---|---|---|---|---|';
 
-export const markdownFormCreator = (document: JhAPI) => {
+/**
+ * @description markdown table creator
+ * @param document means one file, maybe include multiple md table
+ */
+export const mdTableCreator = (document: JhAPI) => {
+  if (!document) {
+    jError('document is null');
+    return [];
+  }
 
   const { children: forms } = document;
   // make it strong
   if (forms && forms.length > 0) {
-
     return forms.map(form => {
       const { children: props } = form;
       if (props && props.length > 0) {
@@ -33,15 +41,13 @@ export const markdownFormCreator = (document: JhAPI) => {
 const toFormItem = (prop: JhAPI): string => {
   const { name, doc } = prop;
   const formItem: MarkdownFormItem = {
-    title: name||'',
+    title: name || '',
     type: doc?.type.replaceAll('|', 'or') ?? '',
     default: doc?.default ?? '',
     required: Boolean(doc?.required) ?? false,
-    remark: doc?.description ?? '',
+    remark: doc?.description.replaceAll('\n', '<br/>') ?? '',
   }
-
-
-  return `|${Object.values(formItem).join('|')}|`;
+  return `|${Object.values(formItem).map(e => e || '-').join('|')}|`;
 }
 
 export type MarkdownFormItem = {

@@ -28,4 +28,7 @@ pnpm-lock.yaml
 
 .pnpm-debug.log
 pnpm-global
+
+# janghood output files
 web-types.json
+doc

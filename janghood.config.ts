@@ -29,8 +29,11 @@ export default {
           "framework": "vue",
         },
         sourceSymbolTranslator
+      },
+      markdown: {
+        output: 'doc',
+        active: true
       }
-
     }
   }
 } as JanghoodConfig;
