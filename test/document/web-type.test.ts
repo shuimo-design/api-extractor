@@ -81,7 +81,7 @@ beforeAll(async () => {
     apiExtractor: {
       include: ['example'],
       document: {
-        webTypes: webOptions
+        webTypes: webOptions,
       }
     }
   });

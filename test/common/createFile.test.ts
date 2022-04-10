@@ -15,7 +15,10 @@ vi.mock('fs', () => {
     default: {
       writeFile: vi.fn((fileName: string, source: string, option: string) => {
         console.log(fileName, source, option);
-      })
+      }),
+      readdir(path: string, callback: (err: null) => void) {
+        callback(null);
+      }
     },
   }
 });

@@ -17,6 +17,10 @@ test('load right config', async () => {
     {
       "apiExtractor": {
         "document": {
+          "markdown": {
+            "active": true,
+            "output": "doc",
+          },
           "webTypes": {
             "active": true,
             "sourceSymbolTranslator": [Function],
