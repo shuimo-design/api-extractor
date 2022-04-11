@@ -102,6 +102,10 @@ describe('test web-type', () => {
     const webTypeCreateHandler = webTypesCreator();
     webTypeCreateHandler.init(testApiInfo);
     const webTypesInfo = await webTypeCreateHandler.run(janghoodConfig);
+    // skip version check
+    if (webTypesInfo && webTypesInfo?.version) {
+      webTypesInfo.version = '0.0.1-alpha.0';
+    }
     expect(webTypesInfo).toMatchInlineSnapshot(`
       {
         "\$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
@@ -227,6 +231,10 @@ describe('test web-type', () => {
       "framework": "vue",
     }
     const webTypesInfo = await webTypeCreateHandler.run(config);
+    // skip version check
+    if (webTypesInfo?.version) {
+      webTypesInfo.version = '0.0.1-alpha.0';
+    }
     expect(webTypesInfo).toMatchObject(apiInfo);
   })
 })
