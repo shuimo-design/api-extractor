@@ -72,7 +72,11 @@ export const tokenExtractor = async () => {
    */
   const extract = async (sourceFile: SourceFileInfo) => {
     const tokens = await getTokens(sourceFile);
-    return translator(tokens, sourceFile.filename);
+    try {
+      return translator(tokens, sourceFile.filename);
+    } catch (e) {
+      jError(`file:${sourceFile.filename}: ${(e as Error).message}`);
+    }
   }
 
   const extractFileSource = async (fileSourceList: SourceFileInfo[]) => {
