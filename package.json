@@ -11,7 +11,7 @@
   "bin": {
     "jh-api": "dist/bin/jh-api.js"
   },
-  "types": "types/types.d.ts",
+  "types": "types/janghood-api-extractor.d.ts",
   "scripts": {
     "jh-api": "node dist/bin/jh-api",
     "test jh-api": "npm run build && npm run jh-api",
