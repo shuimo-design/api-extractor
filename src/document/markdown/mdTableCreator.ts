@@ -42,7 +42,7 @@ const toFormItem = (prop: JhAPI): string => {
   const { name, doc } = prop;
   const formItem: MarkdownFormItem = {
     title: name || '',
-    type: doc?.type.replaceAll('|', 'or') ?? '',
+    type: doc?.type?.replaceAll('|', 'or') ?? '',
     default: doc?.default ?? '',
     required: Boolean(doc?.required) ?? false,
     remark: doc?.description.replaceAll('\n', '<br/>') ?? '',
