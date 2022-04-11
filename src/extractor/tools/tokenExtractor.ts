@@ -16,7 +16,7 @@ import type { Node } from "typescript";
 import { SourceFileInfo } from "./fileScanner";
 import { translator } from "../../translator";
 import { JhAPI, JhAPIs } from "../../../types/janghood-api-extractor";
-import { getPathInfo } from "./uitls";
+import { getPathInfo, logMessage } from "./uitls";
 
 export declare type Token = {
   kind: SyntaxKind,
@@ -42,12 +42,17 @@ export const tokenExtractor = async () => {
   }
 
   const getTokens = async (sourceFile: SourceFileInfo): Promise<Tokens> => {
-    const buffer = sourceFile.source.getSourceFile().getFullText();
-    const comments: any[] = [];
+    const { source } = sourceFile;
+    const buffer = source.getSourceFile().getFullText();
+    // check hole source file first
+    const parserContent = tsdocParser.parseString(buffer);
+    logMessage(parserContent, source);
+
+    const comments: Tokens = [];
     return new Promise((resolve) => {
-      forEachTokenWithTrivia(sourceFile.source, (fullText, kind, range, parent) => {
+      forEachTokenWithTrivia(source, (fullText, kind, range, parent) => {
         const textRange = TextRange.fromStringRange(buffer, range.pos, range.end);
-        const comment = getComment(textRange);
+        const comment: DocNode = getComment(textRange);
         comments.push({
           kind,
           key: textRange.toString(),
@@ -61,6 +66,10 @@ export const tokenExtractor = async () => {
     })
   }
 
+  /**
+   * @description extract single file
+   * @param sourceFile file info
+   */
   const extract = async (sourceFile: SourceFileInfo) => {
     const tokens = await getTokens(sourceFile);
     return translator(tokens, sourceFile.filename);

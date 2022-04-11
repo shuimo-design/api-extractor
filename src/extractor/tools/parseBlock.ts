@@ -6,10 +6,20 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { DocNode, DocExcerpt, DocBlock, DocBlockTag, DocSection, DocPlainText, DocParagraph } from "@microsoft/tsdoc";
+import {
+  DocNode,
+  DocExcerpt,
+  DocBlock,
+  DocBlockTag,
+  DocSection,
+  DocPlainText,
+  DocParagraph,
+  DocInlineTagBase,
+  DocErrorText
+} from "@microsoft/tsdoc";
 import { DocAPIType } from "./parseComment";
 import { isSoftBreak } from "./uitls";
-import { jError } from "../../common/console";
+import { jError, jWarn } from "../../common/console";
 
 export const parseBlock = (block: DocBlock | DocParagraph): DocAPIType[] => {
 
@@ -19,6 +29,13 @@ export const parseBlock = (block: DocBlock | DocParagraph): DocAPIType[] => {
   }
 
   const key = (blockInfo[0] as DocBlockTag).tagName.replace(/^@/, "");
+
+  // make validate better
+  if (key === 'example') {
+    jWarn('not support example right now');
+    return [];
+  }
+
   const value = parseBlockChild(blockInfo[1]);
   return [{ key, value }];
 }
@@ -41,6 +58,13 @@ const parseBlockChild = (section: DocNode) => {
         }
         continue;
       }
+      if (plainText instanceof DocInlineTagBase) {
+        // support inline tag
+        jWarn('not support inline tag right now');
+        continue;
+      }
+
+
       if (canNotParsePlainText(plainText)) {
         return info.join('\n');
       }
@@ -75,6 +99,11 @@ const canNotParsePlainText = (plainText: DocNode) => {
   if (!(plainText instanceof DocPlainText) ||
     plainText.getChildNodes().length !== 1 ||
     !(plainText.getChildNodes()[0] instanceof DocExcerpt)) {
+
+    if (plainText instanceof DocErrorText) {
+      jError(plainText.errorMessage);
+      return true;
+    }
     jError('can not parse this plain text, please open an issue on github.');
     return true;
   }
