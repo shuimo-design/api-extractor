@@ -10,7 +10,7 @@
 
 import { Doc } from "./module/common";
 
-export { JanghoodConfig, JanghoodConfigExport } from "./module/config";
+export { JanghoodConfig, defineJhConfig } from "./module/config";
 export { WebTypeOption } from "./module/web-type";
 
 /**

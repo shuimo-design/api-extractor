@@ -6,7 +6,7 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { JanghoodConfig } from "./types/module/config";
+import defineJhConfig from "./src/config/defineJhConfig";
 
 
 const firstUpperCase = (str: string) => {
@@ -18,13 +18,12 @@ const sourceSymbolTranslator = (dirList: string[]) => {
   return `W${lastDir}`;
 }
 
-// 后续可以扩展为defineConfig
-export default {
+export default defineJhConfig({
   apiExtractor: {
     include: ["example"],
     document: {
-      webTypes:{
-        active:true,
+      webTypes: {
+        active: true,
         webTypesInfo: {
           "framework": "vue",
         },
@@ -36,4 +35,4 @@ export default {
       }
     }
   }
-} as JanghoodConfig;
+});

@@ -44,6 +44,6 @@ export interface JanghoodConfig {
   }
 }
 
-// not support env yet, also it's not necessary.
-export type JanghoodConfigFn = () => JanghoodConfig | Promise<JanghoodConfig>;
+export type JanghoodConfigFn = (config:JanghoodConfig) => JanghoodConfig | Promise<JanghoodConfig>;
 export type JanghoodConfigExport = JanghoodConfig | Promise<JanghoodConfig> | JanghoodConfigFn;
+export declare function defineJhConfig(config?: JanghoodConfig): JanghoodConfigExport;

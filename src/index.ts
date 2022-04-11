@@ -9,6 +9,7 @@
 import type { JhAPIs, JanghoodConfig } from "../types/janghood-api-extractor";
 import { jError } from "./common/console";
 import { extractor } from "./extractor";
+import jhConfig from "./config/defineJhConfig";
 
 export const getJhApi = async (config: JanghoodConfig): Promise<JhAPIs> => {
   if (!config.apiExtractor) {
@@ -23,3 +24,5 @@ export const getJhApi = async (config: JanghoodConfig): Promise<JhAPIs> => {
 
   return await extractor(apiExtractor);
 }
+
+export const defineJhConfig = jhConfig;

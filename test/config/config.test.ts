@@ -6,14 +6,14 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-
-
 import { test, expect, describe } from 'vitest';
 import { loadConfigFromFile, validateDocumentConfig } from "../../src/config/config";
+import { defineJhConfig } from "../../src";
 
-test('load right config', async () => {
-  const info = await loadConfigFromFile();
-  expect(info?.config).toMatchInlineSnapshot(`
+describe('test load config', () => {
+  test('load right config by config object', async () => {
+    const info = await loadConfigFromFile();
+    expect(info?.config).toMatchInlineSnapshot(`
     {
       "apiExtractor": {
         "document": {
@@ -35,7 +35,35 @@ test('load right config', async () => {
       },
     }
   `)
-})
+  });
+
+  test('load right config by func', async () => {
+    expect(defineJhConfig({
+      apiExtractor: {
+        document: {
+          markdown: {
+            active: false,
+          }
+        },
+        include: ['example'],
+      },
+    })).toMatchInlineSnapshot(`
+      {
+        "apiExtractor": {
+          "document": {
+            "markdown": {
+              "active": false,
+            },
+          },
+          "include": [
+            "example",
+          ],
+        },
+      }
+    `);
+  })
+});
+
 
 describe('config validate test', () => {
 
