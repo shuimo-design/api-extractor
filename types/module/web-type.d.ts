@@ -15,18 +15,17 @@ export declare type WebTypeOption = {
   /**
    * @description to fill base web-type.json information
    * @type object
-   * @default {}
    */
   webTypesInfo?: Doc,
   /**
-   * @description package.json path , to set name\version
+   * @description package.json path , to set name and version
    * @type string
    * @default 'package.json'
    */
   packageUrl?: string,
   /**
    * @description source symbol translator
-   * @type (dirList: string[]) => string
+   * @type (dirList: string[]): string
    * @default extDir name
    */
   sourceSymbolTranslator?: (dirList: string[]) => string

@@ -19,12 +19,9 @@ export { WebTypeOption } from "./module/web-type";
 export declare type JhAPI = {
   /**
    * @description api belongs to which file information.
-   * @type { file:string, directory:string }
+   * @type JhAPIPath
    */
-  path?: {
-    file: string,
-    directory: string
-  },
+  path?: JhAPIPath,
   /**
    * @description api name, maybe prop attribute's name.
    * @type string
@@ -39,6 +36,20 @@ export declare type JhAPI = {
    * @description api doc attribute
    */
   doc?: Doc,
+}
+
+/**
+ * @description file information
+ */
+type JhAPIPath = {
+  /**
+   * @description file name
+   */
+  file: string,
+  /**
+   * @description file directory
+   */
+  directory: string
 }
 
 export declare type JhAPIs = JhAPI[];
