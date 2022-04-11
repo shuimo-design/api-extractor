@@ -110,11 +110,14 @@ test('jh-api', async () => {
           },
         ],
         "doc": {
-          "Version": "v1.0.0",
+          "author": "阿怪",
+          "date": "2022/4/5 9:42 AM",
+          "description": "form api type",
           "docDescription": "Form component with wash-painting-ui style.
     水墨组件的表单组件。",
           "docUrl": "https://wash-painting.com/form",
           "name": "w-form",
+          "version": "v1.0.0",
         },
         "name": "example/template/menu/form.d.ts",
         "path": {
@@ -147,12 +150,15 @@ test('jh-api', async () => {
           },
         ],
         "doc": {
-          "Version": "v1.0.0",
+          "author": "阿怪",
+          "date": "2022/4/5 9:43 AM",
+          "description": "form item api type",
           "docDescription": "FormItem component with wash-painting-ui style.
     水墨组件的表单item组件。",
           "docUrl": "https://wash-painting.com/form#item",
           "name": "w-form-item",
           "sourceSymbol": "WFormItem",
+          "version": "v1.0.0",
         },
         "name": "example/template/menu/formItem.d.ts",
         "path": {
