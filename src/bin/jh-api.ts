@@ -17,8 +17,9 @@ const noActiveDocument = (document: Documents) => {
   return !document.webTypes || !document.webTypes.active;
 }
 
-// run jh-api
+const documents = [webTypes, markdown];
 
+// run jh-api
 const run = async () => {
   // resolve janghood.config, such as default value....
   const jhConfigInfo = await loadConfigFromFile();
@@ -36,9 +37,11 @@ const run = async () => {
   // get jh api
   const apis = await getJhApi(config);
 
-  // call documents, but now just [web-types]
-  await webTypes(apis, document.webTypes);
-  await markdown(apis, config);
+  // call documents
+  documents.forEach(document => {
+    document(apis, config);
+  })
+
 }
 
 run();

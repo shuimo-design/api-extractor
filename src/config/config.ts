@@ -12,8 +12,9 @@ import { performance } from "perf_hooks";
 import path from "path";
 import fs from "fs";
 import os from "os";
-import type { JanghoodConfig, JanghoodConfigExport } from "../../types/module/config";
+import type { Documents, JanghoodConfig, JanghoodConfigExport } from "../../types/module/config";
 import { build } from 'esbuild';
+import { jError } from "../common/console";
 
 interface NodeModuleWithCompile extends NodeModule {
   _compile(code: string, filename: string): any
@@ -50,6 +51,16 @@ export function isObject(value: unknown): value is Record<string, any> {
   return Object.prototype.toString.call(value) === '[object Object]'
 }
 
+export const validateDocumentConfig = (config: JanghoodConfig, documentName: string) => {
+  if (!config.apiExtractor?.document ||
+    !documentName ||
+    !config.apiExtractor.document[documentName as keyof Documents]
+  ) {
+    jError('please check param is right.');
+    return false;
+  }
+  return config.apiExtractor.document[documentName as keyof Documents]!.active;
+}
 
 export async function loadConfigFromFile(
   configFile?: string,

@@ -6,8 +6,8 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { test, expect, describe, beforeAll, vi } from "vitest";
-import { JhAPIs, WebTypeOption } from "../../types/janghood-api-extractor";
+import { test, expect, describe, beforeAll } from "vitest";
+import type { JanghoodConfig, JhAPIs, WebTypeOption } from "../../types/janghood-api-extractor";
 import { getJhApi } from "../../src";
 import webTypes, { webTypesCreator } from "../../src/document/web-types";
 
@@ -76,29 +76,32 @@ const webOptions: WebTypeOption = {
 };
 let testApiInfo: JhAPIs = [];
 
-beforeAll(async () => {
-  testApiInfo = await getJhApi({
+describe('test web-type', () => {
+
+  const janghoodConfig: JanghoodConfig = {
     apiExtractor: {
       include: ['example'],
       document: {
         webTypes: webOptions,
       }
     }
-  });
-});
+  }
 
-describe('test web-type', () => {
+  beforeAll(async () => {
+    testApiInfo = await getJhApi(janghoodConfig);
+  });
+
   test('output expected web-type tag', async () => {
     const webTypeCreateHandler = webTypesCreator();
     webTypeCreateHandler.init([testApiInfo[0]]);
-    const webTypesInfo = await webTypeCreateHandler.run(webOptions);
+    const webTypesInfo = await webTypeCreateHandler.run(janghoodConfig);
     expect(webTypesInfo?.contributions.html.tags[0]).toMatchObject(tag);
   });
 
   test('output expected web-type tags', async () => {
     const webTypeCreateHandler = webTypesCreator();
     webTypeCreateHandler.init(testApiInfo);
-    const webTypesInfo = await webTypeCreateHandler.run(webOptions);
+    const webTypesInfo = await webTypeCreateHandler.run(janghoodConfig);
     expect(webTypesInfo).toMatchInlineSnapshot(`
       {
         "\$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
@@ -218,12 +221,12 @@ describe('test web-type', () => {
   test('output expected web-type document with webTypesInfo', async () => {
     const webTypeCreateHandler = webTypesCreator();
     webTypeCreateHandler.init([testApiInfo[0]]);
-    const webTypesInfo = await webTypeCreateHandler.run({
-      ...webOptions,
-      webTypesInfo: {
-        "framework": "vue",
-      }
-    });
+
+    const config = Object.create(janghoodConfig);
+    config.apiExtractor.document.webTypes.webTypesInfo = {
+      "framework": "vue",
+    }
+    const webTypesInfo = await webTypeCreateHandler.run(config);
     expect(webTypesInfo).toMatchObject(apiInfo);
   })
 })

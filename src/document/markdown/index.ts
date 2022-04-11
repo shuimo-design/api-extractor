@@ -6,12 +6,12 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { JanghoodConfig, JhAPIs } from "../../../types/janghood-api-extractor";
+import type { JanghoodConfig, JhAPIs } from "../../../types/janghood-api-extractor";
 import { mdTableCreator } from "./mdTableCreator";
-import { APIOptionType, Documents } from "../../../types/module/config";
 import path from "path";
 import { jError } from "../../common/console";
 import { createFile } from "../../common/createFile";
+import { validateDocumentConfig } from "../../config/config";
 
 const replaceDictionary = (dict: string, output: string) => {
   const dictList = dict.split(path.sep);
@@ -28,6 +28,9 @@ export const markdownCreator = () => {
   }
 
   const run = (config: JanghoodConfig) => {
+    if (!validateDocumentConfig(config, 'markdown')) {
+      return []
+    }
     return apis.map(api => {
       if (!api.path?.directory) {
         jError('no path directory');

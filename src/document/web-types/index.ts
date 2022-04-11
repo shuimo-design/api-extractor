@@ -6,13 +6,13 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import type { WebTypeOption, WebTypesTag } from "../../../types/module/web-type";
-import type { JhAPIs } from "../../../types/janghood-api-extractor";
+import type { WebTypesTag } from "../../../types/module/web-type";
+import type { JanghoodConfig, JhAPIs } from "../../../types/janghood-api-extractor";
 import { loadPackage } from "./loadPackage";
 import { jError } from "../../common/console";
 import { webTypesTagCreator, WebTypesTagCreatorRunner } from "./webTypesTagCreator";
 import { createFile } from "../../common/createFile";
-
+import { validateDocumentConfig } from "../../config/config";
 
 export const webTypesCreator = () => {
 
@@ -30,8 +30,9 @@ export const webTypesCreator = () => {
     })
   }
 
-  const createBaseInfo = async (option: WebTypeOption) => {
+  const createBaseInfo = async (config: JanghoodConfig) => {
     // get package.json info
+    const option = config.apiExtractor!.document!.webTypes;
     const packageJson = await loadPackage(option?.packageUrl);
     tagCreator = webTypesTagCreator(option);
     if (!packageJson) {
@@ -54,8 +55,11 @@ export const webTypesCreator = () => {
   }
 
 
-  const run = async (option: WebTypeOption) => {
-    const webTypesInfo = await createBaseInfo(option);
+  const run = async (config: JanghoodConfig) => {
+    if (!validateDocumentConfig(config, 'webTypes')) {
+      return;
+    }
+    const webTypesInfo = await createBaseInfo(config);
     if (!apis || !tagCreator) {
       jError('please init first');
       return;
@@ -70,9 +74,11 @@ export const webTypesCreator = () => {
   }
 }
 
-export default async function (apis: JhAPIs, option?: WebTypeOption) {
+export default async function (apis: JhAPIs, option?: JanghoodConfig) {
   const w = webTypesCreator();
   w.init(apis);
   const info = await w.run(option || {});
-  createFile('web-types.json', JSON.stringify(info, null, 2));
+  if (info) {
+    createFile('web-types.json', JSON.stringify(info, null, 2));
+  }
 }

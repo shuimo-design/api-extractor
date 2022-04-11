@@ -8,8 +8,8 @@
  */
 
 
-import { test, expect } from 'vitest';
-import { loadConfigFromFile } from "../../src/config/config";
+import { test, expect, describe } from 'vitest';
+import { loadConfigFromFile, validateDocumentConfig } from "../../src/config/config";
 
 test('load right config', async () => {
   const info = await loadConfigFromFile();
@@ -35,4 +35,36 @@ test('load right config', async () => {
       },
     }
   `)
+})
+
+describe('config validate test', () => {
+
+  test('can not found janghood config will throw error', () => {
+    expect(() => validateDocumentConfig({}, 'markdown'))
+      .toThrowError('please check param is right.');
+  });
+
+  test('if document active is false', () => {
+    expect(validateDocumentConfig({
+      apiExtractor: {
+        document: {
+          markdown: {
+            active: false
+          }
+        }
+      }
+    }, 'markdown')).toBe(false);
+  });
+
+  test('if document active is true', () => {
+    expect(validateDocumentConfig({
+      apiExtractor: {
+        document: {
+          markdown: {
+            active: true
+          }
+        }
+      }
+    }, 'markdown')).toBe(true);
+  });
 })
