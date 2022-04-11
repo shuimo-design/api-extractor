@@ -26,14 +26,15 @@ export const mdTableCreator = (document: JhAPI) => {
   // make it strong
   if (forms && forms.length > 0) {
     return forms.map(form => {
-      const { children: props } = form;
-      if (props && props.length > 0) {
+      const { children: props, name } = form;
+      // to support more types
+      if (name.includes('Prop') && props && props.length > 0) {
         return {
           table: [propMDTableTitle, propMDTableSplit, ...props.map(prop => toFormItem(prop))].join('\n'),
           name: form.name
         }
       }
-    });
+    }).filter(e => e) || [];
   }
   return [];
 }

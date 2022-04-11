@@ -42,12 +42,6 @@ describe('mdTableCreator return right', () => {
       |disabled|boolean|false|-|disable or not 是否禁用|
       |type|string|primary|-|button type 按钮类型|",
         },
-        {
-          "name": "ButtonEvents",
-          "table": "|title|type|default|required|description|
-      |---|---|---|---|---|
-      |click|Function|-|-|点击事件|",
-        },
       ]
     `);
   })
@@ -84,12 +78,6 @@ test('test return right markdown info', () => {
     |text|string or VNode|''|-|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
     |disabled|boolean|false|-|disable or not 是否禁用|
     |type|string|primary|-|button type 按钮类型|",
-          },
-          {
-            "name": "ButtonEvents",
-            "table": "|title|type|default|required|description|
-    |---|---|---|---|---|
-    |click|Function|-|-|点击事件|",
           },
         ],
       },
