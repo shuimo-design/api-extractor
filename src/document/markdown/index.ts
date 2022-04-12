@@ -75,9 +75,14 @@ export default async function (apis: JhAPIs, option: JanghoodConfig) {
   const results = m.run(option);
   results.forEach(result => {
     if (result) {
+      const source = result.tables.map(t => t && t.table).join('\n\n');
+      if (source) {
+        return;
+      }
+
       createFile(
         `${result.path.directory}/${result.path.file.replace('.d.ts', '.md')}`,
-        result.tables.map(t => t && t.table).join('\n\n'));
+        source);
     }
   })
 }
