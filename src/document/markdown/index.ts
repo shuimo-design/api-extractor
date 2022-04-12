@@ -13,10 +13,14 @@ import { jError } from "../../common/console";
 import { createFile } from "../../common/createFile";
 import { validateDocumentConfig } from "../../config/config";
 
-const replaceDictionary = (dict: string, output: string) => {
-  const dictList = dict.split(path.sep);
-  // replace include
-  return [output, ...dictList.splice(1, dictList.length - 1)].join(path.sep);
+const replaceDictionary = (dict: string, output: string, include: string[]) => {
+  // maybe have some strange error
+  for (const i of include) {
+    if (dict.startsWith(i)) {
+      return `${output}${path.sep}${dict.replace(i, '')}`;
+    }
+  }
+  jError(`can not create output file: [dict]:${dict}, [output]:${output}`);
 }
 
 export const markdownCreator = () => {
@@ -47,7 +51,7 @@ export const markdownCreator = () => {
       }
       const path = {
         file: api.path.file,
-        directory: replaceDictionary(api.path.directory, document.markdown.output)
+        directory: replaceDictionary(api.path.directory, document.markdown.output, config.apiExtractor.include!)
       }
 
       return {
