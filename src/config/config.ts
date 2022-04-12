@@ -14,7 +14,7 @@ import fs from "fs";
 import os from "os";
 import type { Documents, JanghoodConfig, JanghoodConfigExport } from "../../types/module/config";
 import { build } from 'esbuild';
-import { jError } from "../common/console";
+import { jWarn } from "../common/console";
 
 interface NodeModuleWithCompile extends NodeModule {
   _compile(code: string, filename: string): any
@@ -56,7 +56,7 @@ export const validateDocumentConfig = (config: JanghoodConfig, documentName: str
     !documentName ||
     !config.apiExtractor.document[documentName as keyof Documents]
   ) {
-    jError('please check param is right.');
+    jWarn(`${documentName} is not active or check config is right.`);
     return false;
   }
   return config.apiExtractor.document[documentName as keyof Documents]!.active;

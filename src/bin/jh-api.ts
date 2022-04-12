@@ -14,7 +14,12 @@ import webTypes from "../document/web-types";
 import markdown from "../document/markdown";
 
 const noActiveDocument = (document: Documents) => {
-  return !document.webTypes || !document.webTypes.active;
+  const documents = Object.values(document);
+
+  if (documents.length < 1) {
+    return true;
+  }
+  return !documents.some(e => e.active);
 }
 
 const documents = [webTypes, markdown];
@@ -32,6 +37,7 @@ const run = async () => {
 
   const document = config.apiExtractor?.document;
   if (!document || noActiveDocument(document)) {
+    console.log('can not found document in config or not have any active document');
     return;
   }
   // get jh api
