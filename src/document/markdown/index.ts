@@ -76,7 +76,7 @@ export default async function (apis: JhAPIs, option: JanghoodConfig) {
   results.forEach(result => {
     if (result) {
       const source = result.tables.map(t => t && t.table).join('\n\n');
-      if (source) {
+      if (!source) {
         return;
       }
 
