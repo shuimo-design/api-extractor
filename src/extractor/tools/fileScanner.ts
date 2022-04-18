@@ -34,8 +34,9 @@ export const fileScanner = async (option: APIOptionType): Promise<SourceFileInfo
     const program = createProgram(rootNames, {
       target: ScriptTarget.ESNext
     });
-    const ignoreCodeList: number[] = [2792];  // maybe 2792 is import error
     // Report any compiler errors
+
+    const ignoreCodeList: number[] = [2792];  // maybe 2792 is import error
     const compilerDiagnostics = program.getSemanticDiagnostics();
     if (compilerDiagnostics.length > 0) {
       for (const diagnostic of compilerDiagnostics) {
@@ -47,9 +48,9 @@ export const fileScanner = async (option: APIOptionType): Promise<SourceFileInfo
           const location = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
           const formattedMessage =
             `${diagnostic.file.fileName}(${location.line + 1},${location.character + 1}): [TypeScript] ${message}`;
-          jWarn(formattedMessage);
+          // jWarn(formattedMessage);
         } else {
-          jWarn(message);
+          // jWarn(message);
         }
       }
     }
