@@ -38,7 +38,7 @@ describe('mdTableCreator return right', () => {
           "name": "ButtonProps",
           "table": "|title|type|default|required|description|
       |---|---|---|---|---|
-      |text|string or VNode|''|-|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
+      |text|string | VNode|''|-|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
       |disabled|boolean|false|-|disable or not 是否禁用|
       |type|string|primary|-|button type 按钮类型|",
         },
@@ -67,7 +67,7 @@ test('test return right markdown info', () => {
         },
         "name": "example/base/button/index.d.ts",
         "path": {
-          "directory": "doc/base/button",
+          "directory": "doc//base/button",
           "file": "index.d.ts",
         },
         "tables": [
@@ -75,7 +75,7 @@ test('test return right markdown info', () => {
             "name": "ButtonProps",
             "table": "|title|type|default|required|description|
     |---|---|---|---|---|
-    |text|string or VNode|''|-|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
+    |text|string | VNode|''|-|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
     |disabled|boolean|false|-|disable or not 是否禁用|
     |type|string|primary|-|button type 按钮类型|",
           },

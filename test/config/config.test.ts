@@ -67,9 +67,8 @@ describe('test load config', () => {
 
 describe('config validate test', () => {
 
-  test('can not found janghood config will throw error', () => {
-    expect(() => validateDocumentConfig({}, 'markdown'))
-      .toThrowError('please check param is right.');
+  test('can not found janghood config will return false', () => {
+    expect(validateDocumentConfig({}, 'markdown')).toBe(false);
   });
 
   test('if document active is false', () => {
