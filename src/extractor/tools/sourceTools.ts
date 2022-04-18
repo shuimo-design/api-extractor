@@ -10,7 +10,7 @@ import { Program } from "typescript";
 import path from "path";
 import fs from "fs";
 
-const defaultExFiles = ['node_modules', 'dist', '.nuxt', '.yarn', 'assets'];
+const defaultExFiles: string[] = [];
 
 
 /**
