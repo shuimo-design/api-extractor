@@ -7,85 +7,75 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import { SyntaxKind } from "typescript";
-import { DocComment } from "@microsoft/tsdoc";
-import { Tokens } from "../extractor/tools/tokenExtractor";
+import { Token, Tokens } from "../extractor/tools/tokenExtractor";
 import { JhAPI, JhAPIs } from "../../types/janghood-api-extractor";
-import { parseComment } from "../extractor/tools/parseComment";
+import { identifierInterpreter } from "./interpreter/identifier";
 
-const tokenSkip = (kind: SyntaxKind) => {
-  return !![
-    SyntaxKind.WhitespaceTrivia,
-    SyntaxKind.NewLineTrivia,
-    SyntaxKind.OpenBraceToken,
-    SyntaxKind.CloseBraceToken,
-  ].includes(kind);
+
+export type GToken = Generator<Token, void, unknown>
+
+const toTokenIterator: (tokens: Tokens) => GToken = tokens => {
+  // clear token
+  const t = tokens.filter(t => t.kind !== 4 && t.kind !== 5);
+  function* tokenIterable() {
+    for (let i = 0; i < t.length; i++) {
+      yield t[i];
+    }
+  }
+
+  return tokenIterable();
 }
 
 
 export const apiTreeCreator = (tokens: Tokens) => {
-  let index = 0;
   const identifierAPIs: JhAPIs = [];
-  while (index < tokens.length) {
-    const { identifierAPI, index: traverseIndex } = traverseToken(tokens, index);
-    index = traverseIndex + 1;
-    identifierAPIs.push(identifierAPI);
+
+  let tokenIterator = toTokenIterator(tokens);
+  let token = tokenIterator.next();
+
+  while (!token.done) {
+    const { kind } = token.value;
+
+    if (kind === SyntaxKind.TypeKeyword) {
+      // is type
+      token = tokenIterator.next();
+      if (token.value!.kind === SyntaxKind.Identifier) {
+        let jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [] };
+        jhApi.name = token.value!.key;
+        const iResult = identifierInterpreter(tokenIterator);
+        tokenIterator = iResult.tokenIterator;
+        if (iResult.jhApi.children) {
+          jhApi.children!.push(...iResult.jhApi.children);
+        }
+        if (iResult.jhApi.intersections) {
+          jhApi.intersections!.push(...iResult.jhApi.intersections);
+        }
+        identifierAPIs.push(clearAPI(jhApi));
+      }
+      token = tokenIterator.next();
+      continue;
+    }
+
+    if (kind === SyntaxKind.EnumKeyword) {
+
+    }
+
+    token = tokenIterator.next();
   }
+
 
   return identifierAPIs;
 }
 
-
-const traverseToken = (tokens: Tokens, index: number) => {
-  const traverse = (pos: number, end: number, index: number) => {
-    const jhApi: JhAPI = {
-      doc: {},
-      name: '',
-      children: []
-    };
-    for (let i = index; i < tokens.length; i++) {
-      if (tokenSkip(tokens[i].kind)) continue;
-      const token = tokens[i];
-      index = i;
-      const parent = token.parent;
-
-      if (parent.pos === pos && parent.end === end) {
-        // set api
-        if (token.comment instanceof DocComment) {
-          const apiObj = parseComment(token.comment);
-          if (Object.keys(apiObj).length > 0) {
-            // identifierAPI.doc must only have one
-            jhApi.doc = apiObj;
-          }
-        }
-        if (token.kind === SyntaxKind.Identifier) {
-          jhApi.name = token.key;
-        }
-        continue;
-      }
-
-      if (parent.pos >= end) {
-        index--;
-        break;
-      }
-
-      const { identifierAPI: child, index: newIndex } = traverse(parent.pos, parent.end, index);
-      i = index = newIndex;
-      if (child.name !== '') {
-        jhApi.children!.push(child);
-      }
-    }
-
-    if (jhApi.children && jhApi.children.length === 0) {
-      delete jhApi.children;
-    }
-    if (Object.keys(jhApi.doc!).length === 0) {
-      delete jhApi.doc;
-    }
-
-    return {
-      identifierAPI: jhApi,
-      index
-    };
+export const clearAPI = (jhApi:JhAPI)=>{
+  if (jhApi.children && jhApi.children.length === 0) {
+    delete jhApi.children;
   }
-  return traverse(tokens[index].parent.pos, tokens[index].parent.end, index);
+  if (jhApi.intersections && jhApi.intersections.length === 0) {
+    delete jhApi.intersections;
+  }
+  if (Object.keys(jhApi.doc!).length === 0) {
+    delete jhApi.doc;
+  }
+  return jhApi;
 }

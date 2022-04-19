@@ -98,6 +98,7 @@ export const tokenExtractor = async () => {
   }
 
   return {
+    getTokens,
     extract,
     extractFileSource
   }

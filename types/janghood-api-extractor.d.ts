@@ -36,6 +36,11 @@ export declare type JhAPI = {
    * @description api doc attribute
    */
   doc?: Doc,
+  /**
+   * @description intersection type list
+   * @type string[]
+   */
+  intersections?: string[]
 }
 
 /**
