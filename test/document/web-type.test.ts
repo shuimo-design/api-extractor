@@ -24,7 +24,7 @@ const tag = {
       "name": "text",
       "description": "button inline text, will replace by slot\n按钮文本 会被slot覆盖",
       "value": {
-        "type": "string | VNode",
+        "type": "string",
         "kind": "expression",
         "default": ""
       }
@@ -122,7 +122,7 @@ describe('test web-type', () => {
                     "value": {
                       "default": "",
                       "kind": "expression",
-                      "type": "string | VNode",
+                      "type": "string",
                     },
                   },
                   {
@@ -150,6 +150,43 @@ describe('test web-type', () => {
                 "name": "w-button",
                 "source": {
                   "symbol": "WButton",
+                },
+              },
+              {
+                "attributes": [
+                  {
+                    "description": "按钮是否有边框",
+                    "name": "border",
+                    "value": {
+                      "default": "false",
+                      "kind": "expression",
+                      "type": "boolean",
+                    },
+                  },
+                  {
+                    "description": "disable or not 是否禁用",
+                    "name": "disabled",
+                    "value": {
+                      "default": "false",
+                      "kind": "expression",
+                      "type": "boolean|string",
+                    },
+                  },
+                  {
+                    "description": "按钮类型",
+                    "name": "K in ButtonType",
+                    "value": {
+                      "default": "false",
+                      "kind": "expression",
+                      "type": "boolean",
+                    },
+                  },
+                ],
+                "description": undefined,
+                "doc-url": undefined,
+                "name": "",
+                "source": {
+                  "symbol": "WMerge",
                 },
               },
               {

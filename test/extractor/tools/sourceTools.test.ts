@@ -17,6 +17,7 @@ describe('getSourceFileList return right filenames', () => {
       .toMatchInlineSnapshot(`
         [
           "example/base/button/index.d.ts",
+          "example/merge/merge.d.ts",
           "example/template/menu/form.d.ts",
           "example/template/menu/formItem.d.ts",
         ]
@@ -27,6 +28,7 @@ describe('getSourceFileList return right filenames', () => {
       .toMatchInlineSnapshot(`
         [
           "example/base/button/index.d.ts",
+          "example/merge/merge.d.ts",
         ]
       `);
   });

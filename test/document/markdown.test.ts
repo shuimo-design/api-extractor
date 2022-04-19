@@ -38,9 +38,9 @@ describe('mdTableCreator return right', () => {
           "name": "ButtonProps",
           "table": "|title|type|default|required|description|
       |---|---|---|---|---|
-      |text|string &#124; VNode|''|-|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
-      |disabled|boolean|false|-|disable or not 是否禁用|
-      |type|string|primary|-|button type 按钮类型|",
+      |text|string|''|true|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
+      |disabled|boolean|false|true|disable or not 是否禁用|
+      |type|string|primary|true|button type 按钮类型|",
         },
       ]
     `);
@@ -75,9 +75,9 @@ test('test return right markdown info', () => {
             "name": "ButtonProps",
             "table": "|title|type|default|required|description|
     |---|---|---|---|---|
-    |text|string &#124; VNode|''|-|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
-    |disabled|boolean|false|-|disable or not 是否禁用|
-    |type|string|primary|-|button type 按钮类型|",
+    |text|string|''|true|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
+    |disabled|boolean|false|true|disable or not 是否禁用|
+    |type|string|primary|true|button type 按钮类型|",
           },
         ],
       },

@@ -15,7 +15,7 @@ export declare type ButtonProps = {
   /**
    * @description button inline text, will replace by slot
    *              按钮文本 会被slot覆盖
-   * @type string | VNode
+   * @type string
    * @default ''
    */
   text: string,

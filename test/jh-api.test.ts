@@ -32,7 +32,8 @@ test('jh-api', async () => {
                   "default": "''",
                   "description": "button inline text, will replace by slot
     按钮文本 会被slot覆盖",
-                  "type": "string | VNode",
+                  "required": "true",
+                  "type": "string",
                 },
                 "name": "text",
               },
@@ -40,6 +41,7 @@ test('jh-api', async () => {
                 "doc": {
                   "default": "false",
                   "description": "disable or not 是否禁用",
+                  "required": "true",
                   "type": "boolean",
                 },
                 "name": "disabled",
@@ -49,6 +51,7 @@ test('jh-api', async () => {
                   "default": "primary",
                   "description": "button type 按钮类型",
                   "enum": "primary|gray",
+                  "required": "true",
                   "type": "string",
                 },
                 "name": "type",
@@ -61,7 +64,8 @@ test('jh-api', async () => {
               {
                 "doc": {
                   "description": "点击事件",
-                  "type": "Function",
+                  "required": "true",
+                  "type": "()=>void",
                 },
                 "name": "click",
               },
@@ -92,7 +96,63 @@ test('jh-api', async () => {
               {
                 "doc": {
                   "default": "false",
+                  "description": "按钮是否有边框",
+                  "required": "false",
+                  "type": "boolean",
+                },
+                "name": "border",
+              },
+              {
+                "doc": {
+                  "default": "false",
+                  "description": "disable or not 是否禁用",
+                  "required": "true",
+                  "type": "boolean|string",
+                },
+                "name": "disabled",
+              },
+            ],
+            "intersections": [
+              "ButtonTypeProps",
+            ],
+            "name": "ButtonProps",
+          },
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "false",
+                  "description": "按钮类型",
+                  "required": "true",
+                  "type": "boolean",
+                },
+                "name": "K in ButtonType",
+              },
+            ],
+            "name": "ButtonTypeProps",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2022/4/19 00:08",
+          "description": "merge props",
+          "version": "v1.0.0",
+        },
+        "name": "example/merge/merge.d.ts",
+        "path": {
+          "directory": "example/merge",
+          "file": "merge.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "false",
                   "description": "form是否行内显示",
+                  "required": "true",
                   "type": "boolean",
                 },
                 "name": "inline",
@@ -101,6 +161,7 @@ test('jh-api', async () => {
                 "doc": {
                   "default": "false",
                   "description": "form 是否默认发送",
+                  "required": "true",
                   "type": "boolean",
                 },
                 "name": "submit",
@@ -133,6 +194,7 @@ test('jh-api', async () => {
                 "doc": {
                   "description": "form item label
     表单项的标题",
+                  "required": "true",
                   "type": "string",
                 },
                 "name": "label",
@@ -141,6 +203,7 @@ test('jh-api', async () => {
                 "doc": {
                   "description": "form item label prop
     表单内置label的原生prop属性",
+                  "required": "true",
                   "type": "string",
                 },
                 "name": "prop",
