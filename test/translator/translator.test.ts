@@ -35,10 +35,15 @@ test('expect translator return right JhAPI', async () => {
               },
               "name": "disabled",
             },
+            {
+              "doc": {
+                "required": "true",
+                "type": "boolean",
+              },
+              "name": "K in ButtonType",
+            },
           ],
-          "intersections": [
-            "ButtonTypeProps",
-          ],
+          "intersections": [],
           "name": "ButtonProps",
         },
         {

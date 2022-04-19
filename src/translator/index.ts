@@ -11,6 +11,7 @@ import { apiTreeCreator } from "./apiTreeCreator";
 import type { Tokens } from "../extractor/tools/tokenExtractor";
 import type { JhAPI } from "../../types/janghood-api-extractor";
 import { jWarn } from "../common/console";
+import { intersectionsProcess } from "./process/intersectionsProcess";
 
 const tokensValidate = (tokens: Tokens) => {
   if (tokens.length === 0) {
@@ -36,7 +37,9 @@ export const translator = (baseToken: Tokens, fileName: string): JhAPI | undefin
   } catch (e) {
     jWarn(`file ${fileName} throw error: ${(e as Error).message}`)
   }
-  const children = apiTreeCreator(apiToken);
+  let children = apiTreeCreator(apiToken);
+
+  children = intersectionsProcess(children);
 
   return {
     //  to fix path info
