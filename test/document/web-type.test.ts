@@ -181,6 +181,15 @@ describe('test web-type', () => {
                       "type": "boolean",
                     },
                   },
+                  {
+                    "description": "按钮类型",
+                    "name": "K in ButtonType",
+                    "value": {
+                      "default": "false",
+                      "kind": "expression",
+                      "type": "boolean",
+                    },
+                  },
                 ],
                 "description": undefined,
                 "doc-url": undefined,

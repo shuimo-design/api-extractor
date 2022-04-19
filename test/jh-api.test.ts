@@ -111,10 +111,17 @@ test('jh-api', async () => {
                 },
                 "name": "disabled",
               },
+              {
+                "doc": {
+                  "default": "false",
+                  "description": "按钮类型",
+                  "required": "true",
+                  "type": "boolean",
+                },
+                "name": "K in ButtonType",
+              },
             ],
-            "intersections": [
-              "ButtonTypeProps",
-            ],
+            "intersections": [],
             "name": "ButtonProps",
           },
           {
