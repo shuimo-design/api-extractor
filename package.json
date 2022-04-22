@@ -18,6 +18,7 @@
     "start": "ts-node src/bin/jh-api.ts",
     "test": "vitest",
     "test-update": "vitest -u",
+    "coverage": "vitest --coverage",
     "rm-dist": "rm -rf dist",
     "build": "npm run rm-dist && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript && npm run build-bin",
     "build-bin": "rollup --config src/bin/rollup.config.ts --configPlugin @rollup/plugin-typescript"
