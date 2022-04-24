@@ -18,6 +18,7 @@ describe('getSourceFileList return right filenames', () => {
         [
           "example/base/button/index.d.ts",
           "example/merge/merge.d.ts",
+          "example/pure/withValue.d.ts",
           "example/template/menu/form.d.ts",
           "example/template/menu/formItem.d.ts",
         ]
@@ -29,6 +30,7 @@ describe('getSourceFileList return right filenames', () => {
         [
           "example/base/button/index.d.ts",
           "example/merge/merge.d.ts",
+          "example/pure/withValue.d.ts",
         ]
       `);
   });
