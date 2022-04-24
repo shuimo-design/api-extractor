@@ -181,8 +181,7 @@ const getParamInfo = (currentToken: IteratorResult<Token>, tokenIterator: GToken
 }
 
 const notBreakKind = (kind: SyntaxKind) => {
-  return ![SyntaxKind.Identifier,
-    SyntaxKind.CloseBraceToken,
+  return ![SyntaxKind.CloseBraceToken,
     SyntaxKind.CommaToken,
     SyntaxKind.MultiLineCommentTrivia].includes(kind);
 }

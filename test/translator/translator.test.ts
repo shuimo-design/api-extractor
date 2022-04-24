@@ -66,3 +66,27 @@ test('expect translator return right JhAPI', async () => {
 
 
 })
+
+test('expect type with value is return right',async ()=>{
+  const res = await run('example/pure');
+  expect(translator(res as Tokens,'withValue')).toMatchInlineSnapshot(`
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "doc": {
+                "required": "true",
+                "type": "string|VNode[]|WithValue[]",
+              },
+              "name": "key",
+            },
+          ],
+          "name": "WithValue",
+        },
+      ],
+      "doc": undefined,
+      "name": "withValue",
+    }
+  `);
+})

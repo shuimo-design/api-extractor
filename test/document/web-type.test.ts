@@ -199,6 +199,15 @@ describe('test web-type', () => {
                 },
               },
               {
+                "attributes": [],
+                "description": undefined,
+                "doc-url": undefined,
+                "name": "",
+                "source": {
+                  "symbol": "WPure",
+                },
+              },
+              {
                 "attributes": [
                   {
                     "description": "form是否行内显示",

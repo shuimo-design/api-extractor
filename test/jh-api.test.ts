@@ -157,6 +157,33 @@ test('jh-api', async () => {
             "children": [
               {
                 "doc": {
+                  "required": "true",
+                  "type": "string|VNode[]|WithValue[]",
+                },
+                "name": "key",
+              },
+            ],
+            "name": "WithValue",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2022/4/25 00:37",
+          "description": "params with value",
+          "version": "v1.0.0",
+        },
+        "name": "example/pure/withValue.d.ts",
+        "path": {
+          "directory": "example/pure",
+          "file": "withValue.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
                   "default": "false",
                   "description": "form是否行内显示",
                   "required": "true",
