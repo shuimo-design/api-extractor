@@ -45,7 +45,7 @@ const toFormItem = (prop: JhAPI): string => {
     title: name || '',
     type: doc?.type?.replaceAll('|', '&#124;') ?? '',
     default: doc?.default ?? '',
-    required: Boolean(doc?.required) ?? false,
+    required: doc?.required !== 'false' ?? false,
     remark: doc?.description.replaceAll('\n', '<br/>') ?? '',
   }
   return `|${Object.values(formItem).map(e => e || '-').join('|')}|`;
