@@ -32,3 +32,4 @@ pnpm-global
 # janghood output files
 web-types.json
 doc
+coverage
