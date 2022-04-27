@@ -39,11 +39,15 @@ export const mdTableCreator = (document: JhAPI) => {
   return [];
 }
 
+const formatType = (type: string) => type.replaceAll('|', '&#124;')
+  .replaceAll('<', '\<')
+  .replaceAll('>', '\>');
+
 const toFormItem = (prop: JhAPI): string => {
   const { name, doc } = prop;
   const formItem: MarkdownFormItem = {
     title: name || '',
-    type: doc?.type?.replaceAll('|', '&#124;') ?? '',
+    type: formatType(doc?.type ?? ''),
     default: doc?.default ?? '',
     required: doc?.required !== 'false' ?? false,
     remark: doc?.description.replaceAll('\n', '<br/>') ?? '',
