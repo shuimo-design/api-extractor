@@ -9,7 +9,6 @@
 import { APIOptionType } from "../../../types/module/config";
 import os from "os";
 import { createProgram, flattenDiagnosticMessageText, ScriptTarget, SourceFile } from "typescript";
-import { jWarn } from "../../common/console";
 import { getSource, getSourceFilenameLists } from "./sourceTools";
 
 
