@@ -14,27 +14,27 @@ describe('test load config', () => {
   test('load right config by config object', async () => {
     const info = await loadConfigFromFile();
     expect(info?.config).toMatchInlineSnapshot(`
-    {
-      "apiExtractor": {
-        "document": {
-          "markdown": {
-            "active": true,
-            "output": "doc",
-          },
-          "webTypes": {
-            "active": true,
-            "sourceSymbolTranslator": [Function],
-            "webTypesInfo": {
-              "framework": "vue",
+      {
+        "apiExtractor": {
+          "document": {
+            "markdown": {
+              "active": true,
+              "output": "doc",
+            },
+            "webTypes": {
+              "active": true,
+              "sourceSymbolTranslator": [Function],
+              "webTypesInfo": {
+                "framework": "vue",
+              },
             },
           },
+          "include": [
+            "example/**/*.d.ts",
+          ],
         },
-        "include": [
-          "example",
-        ],
-      },
-    }
-  `)
+      }
+    `)
   });
 
   test('load right config by func', async () => {

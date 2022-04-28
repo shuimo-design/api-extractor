@@ -14,7 +14,7 @@ import { Tokens } from "../../src/extractor/tools/tokenExtractor";
 
 test('expect translator return right JhAPI', async () => {
 
-  const res = await run('example/merge');
+  const res = await run('example/merge/**.d.ts');
 
   expect(translator(res as Tokens, 'merge')).toMatchInlineSnapshot(`
     {
@@ -68,7 +68,7 @@ test('expect translator return right JhAPI', async () => {
 })
 
 test('expect type with value is return right',async ()=>{
-  const res = await run('example/pure');
+  const res = await run('example/pure/**.d.ts');
   expect(translator(res as Tokens,'withValue')).toMatchInlineSnapshot(`
     {
       "children": [

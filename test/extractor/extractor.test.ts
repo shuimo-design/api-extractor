@@ -12,8 +12,8 @@ import { extractor } from "../../src/extractor";
 
 test('just run extractor test', async () => {
   const res = await extractor({
-    include: ["example"],
-    exclude: ['template']
+    include: ["example/**/*.d.ts"],
+    exclude: ['**/template/**/*.d.ts', '**/merge/**/*.d.ts', '**/pure/**/*.d.ts'],
   });
   expect(res[0]).toMatchInlineSnapshot(`
     {

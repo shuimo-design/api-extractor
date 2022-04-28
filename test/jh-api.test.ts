@@ -13,8 +13,8 @@ import { extractor } from "../src/extractor";
 
 test('jh-api', async () => {
   const apis = await extractor({
-    include:['example'],
-    exclude:['document']
+    include:['example/**/*.d.ts'],
+    exclude:['**/document/**/**']
   });
   apis.forEach(api=>{
     if(api.children&&api.children.length>0){
@@ -23,72 +23,6 @@ test('jh-api', async () => {
   })
   expect(apis).toMatchInlineSnapshot(`
     [
-      {
-        "children": [
-          {
-            "children": [
-              {
-                "doc": {
-                  "default": "''",
-                  "description": "button inline text, will replace by slot
-    按钮文本 会被slot覆盖",
-                  "required": "true",
-                  "type": "string",
-                },
-                "name": "text",
-              },
-              {
-                "doc": {
-                  "default": "false",
-                  "description": "disable or not 是否禁用",
-                  "required": "true",
-                  "type": "boolean",
-                },
-                "name": "disabled",
-              },
-              {
-                "doc": {
-                  "default": "primary",
-                  "description": "button type 按钮类型",
-                  "enum": "primary|gray",
-                  "required": "true",
-                  "type": "string",
-                },
-                "name": "type",
-              },
-            ],
-            "name": "ButtonProps",
-          },
-          {
-            "children": [
-              {
-                "doc": {
-                  "description": "点击事件",
-                  "required": "true",
-                  "type": "()=>void",
-                },
-                "name": "click",
-              },
-            ],
-            "name": "ButtonEvents",
-          },
-        ],
-        "doc": {
-          "author": "阿怪",
-          "date": "2022/4/2 11:26 AM",
-          "description": "按钮组件API",
-          "docDescription": "Button component with wash-painting-ui style.
-    水墨组件的按钮组件。",
-          "docUrl": "https://wash-painting.com/button",
-          "name": "w-button",
-          "version": "v1.0.0",
-        },
-        "name": "example/base/button/index.d.ts",
-        "path": {
-          "directory": "example/base/button",
-          "file": "index.d.ts",
-        },
-      },
       {
         "children": [
           {
@@ -176,6 +110,72 @@ test('jh-api', async () => {
         "path": {
           "directory": "example/pure",
           "file": "withValue.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "''",
+                  "description": "button inline text, will replace by slot
+    按钮文本 会被slot覆盖",
+                  "required": "true",
+                  "type": "string",
+                },
+                "name": "text",
+              },
+              {
+                "doc": {
+                  "default": "false",
+                  "description": "disable or not 是否禁用",
+                  "required": "true",
+                  "type": "boolean",
+                },
+                "name": "disabled",
+              },
+              {
+                "doc": {
+                  "default": "primary",
+                  "description": "button type 按钮类型",
+                  "enum": "primary|gray",
+                  "required": "true",
+                  "type": "string",
+                },
+                "name": "type",
+              },
+            ],
+            "name": "ButtonProps",
+          },
+          {
+            "children": [
+              {
+                "doc": {
+                  "description": "点击事件",
+                  "required": "true",
+                  "type": "()=>void",
+                },
+                "name": "click",
+              },
+            ],
+            "name": "ButtonEvents",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2022/4/2 11:26 AM",
+          "description": "按钮组件API",
+          "docDescription": "Button component with wash-painting-ui style.
+    水墨组件的按钮组件。",
+          "docUrl": "https://wash-painting.com/button",
+          "name": "w-button",
+          "version": "v1.0.0",
+        },
+        "name": "example/base/button/index.d.ts",
+        "path": {
+          "directory": "example/base/button",
+          "file": "index.d.ts",
         },
       },
       {

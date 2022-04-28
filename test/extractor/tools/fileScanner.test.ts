@@ -13,8 +13,13 @@ import { SyntaxKind } from "typescript";
 
 describe('fileScanner expect return right file source', () => {
   test('scan example/base/button', async () => {
-    const fileSourceList = await fileScanner({ include: ['example/base/button'] });
+    const fileSourceList = await fileScanner({ include: ['example/base/button/**.d.ts'] });
     expect(fileSourceList.length).toBe(1);
     expect(fileSourceList[0].source.kind === SyntaxKind.SourceFile).toBe(true);
-  })
+  });
+
+  test('scan example and except merge document', async () => {
+    const fileSourceList = await fileScanner({ include: ['example/**/*.d.ts'],exclude:['**/merge/**/*.d.ts'] });
+    expect(fileSourceList.length).toBe(4);
+  });
 })

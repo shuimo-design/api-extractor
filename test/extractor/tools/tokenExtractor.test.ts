@@ -14,7 +14,7 @@ import { fileScanner, SourceFileInfo } from "../../../src/extractor/tools/fileSc
 const fileSourceList: SourceFileInfo[] = [];
 beforeAll(async () => {
   fileSourceList.push(...await fileScanner({
-    include: ['example/merge']
+    include: ['example/merge/**.d.ts']
   }));
 })
 

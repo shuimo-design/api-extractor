@@ -18,7 +18,7 @@ import { intersectionsProcess } from "../../../src/translator/process/intersecti
 const jhApis: JhAPIs = [];
 
 beforeAll(async () => {
-  const res = await run('example/merge');
+  const res = await run('example/merge/**.d.ts');
   const result = translator(res as Tokens, 'merge');
   if (result && result.children) {
     jhApis.push(...result.children);

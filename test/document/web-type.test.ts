@@ -80,7 +80,7 @@ describe('test web-type', () => {
 
   const janghoodConfig: JanghoodConfig = {
     apiExtractor: {
-      include: ['example'],
+      include: ['example/base/**/**.d.ts'],
       document: {
         webTypes: webOptions,
       }
@@ -150,121 +150,6 @@ describe('test web-type', () => {
                 "name": "w-button",
                 "source": {
                   "symbol": "WButton",
-                },
-              },
-              {
-                "attributes": [
-                  {
-                    "description": "按钮是否有边框",
-                    "name": "border",
-                    "value": {
-                      "default": "false",
-                      "kind": "expression",
-                      "type": "boolean",
-                    },
-                  },
-                  {
-                    "description": "disable or not 是否禁用",
-                    "name": "disabled",
-                    "value": {
-                      "default": "false",
-                      "kind": "expression",
-                      "type": "boolean|string",
-                    },
-                  },
-                  {
-                    "description": "按钮类型",
-                    "name": "K in ButtonType",
-                    "value": {
-                      "default": "false",
-                      "kind": "expression",
-                      "type": "boolean",
-                    },
-                  },
-                  {
-                    "description": "按钮类型",
-                    "name": "K in ButtonType",
-                    "value": {
-                      "default": "false",
-                      "kind": "expression",
-                      "type": "boolean",
-                    },
-                  },
-                ],
-                "description": undefined,
-                "doc-url": undefined,
-                "name": "",
-                "source": {
-                  "symbol": "WMerge",
-                },
-              },
-              {
-                "attributes": [],
-                "description": undefined,
-                "doc-url": undefined,
-                "name": "",
-                "source": {
-                  "symbol": "WPure",
-                },
-              },
-              {
-                "attributes": [
-                  {
-                    "description": "form是否行内显示",
-                    "name": "inline",
-                    "value": {
-                      "default": "false",
-                      "kind": "expression",
-                      "type": "boolean",
-                    },
-                  },
-                  {
-                    "description": "form 是否默认发送",
-                    "name": "submit",
-                    "value": {
-                      "default": "false",
-                      "kind": "expression",
-                      "type": "boolean",
-                    },
-                  },
-                ],
-                "description": "Form component with wash-painting-ui style.
-      水墨组件的表单组件。",
-                "doc-url": "https://wash-painting.com/form",
-                "name": "w-form",
-                "source": {
-                  "symbol": "WMenu",
-                },
-              },
-              {
-                "attributes": [
-                  {
-                    "description": "form item label
-      表单项的标题",
-                    "name": "label",
-                    "value": {
-                      "default": undefined,
-                      "kind": "expression",
-                      "type": "string",
-                    },
-                  },
-                  {
-                    "description": "form item label prop
-      表单内置label的原生prop属性",
-                    "name": "prop",
-                    "value": {
-                      "default": undefined,
-                      "kind": "expression",
-                      "type": "string",
-                    },
-                  },
-                ],
-                "description": "FormItem component with wash-painting-ui style.
-      水墨组件的表单item组件。",
-                "doc-url": "https://wash-painting.com/form#item",
-                "name": "w-form-item",
-                "source": {
-                  "symbol": "WFormItem",
                 },
               },
             ],

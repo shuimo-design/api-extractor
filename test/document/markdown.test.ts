@@ -16,7 +16,7 @@ import { mdTableCreator } from "../../src/document/markdown/mdTableCreator";
 let testApiInfo: JhAPIs = [];
 const option = {
   apiExtractor: {
-    include: ['example'],
+    include: ['example/**/*.d.ts'],
     document: {
       markdown: {
         output: 'doc',
@@ -38,9 +38,15 @@ describe('mdTableCreator return right', () => {
           "name": "ButtonProps",
           "table": "|title|type|default|required|description|
       |---|---|---|---|---|
-      |text|string|''|true|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
-      |disabled|boolean|false|true|disable or not 是否禁用|
-      |type|string|primary|true|button type 按钮类型|",
+      |border|boolean|false|-|按钮是否有边框|
+      |disabled|boolean&#124;string|false|true|disable or not 是否禁用|
+      |K in ButtonType|boolean|false|true|按钮类型|",
+        },
+        {
+          "name": "ButtonTypeProps",
+          "table": "|title|type|default|required|description|
+      |---|---|---|---|---|
+      |K in ButtonType|boolean|false|true|按钮类型|",
         },
       ]
     `);
@@ -57,27 +63,29 @@ test('test return right markdown info', () => {
       {
         "doc": {
           "author": "阿怪",
-          "date": "2022/4/2 11:26 AM",
-          "description": "按钮组件API",
-          "docDescription": "Button component with wash-painting-ui style.
-    水墨组件的按钮组件。",
-          "docUrl": "https://wash-painting.com/button",
-          "name": "w-button",
+          "date": "2022/4/19 00:08",
+          "description": "merge props",
           "version": "v1.0.0",
         },
-        "name": "example/base/button/index.d.ts",
+        "name": "example/merge/merge.d.ts",
         "path": {
-          "directory": "doc//base/button",
-          "file": "index.d.ts",
+          "directory": "doc/example/merge",
+          "file": "merge.d.ts",
         },
         "tables": [
           {
             "name": "ButtonProps",
             "table": "|title|type|default|required|description|
     |---|---|---|---|---|
-    |text|string|''|true|button inline text, will replace by slot<br/>按钮文本 会被slot覆盖|
-    |disabled|boolean|false|true|disable or not 是否禁用|
-    |type|string|primary|true|button type 按钮类型|",
+    |border|boolean|false|-|按钮是否有边框|
+    |disabled|boolean&#124;string|false|true|disable or not 是否禁用|
+    |K in ButtonType|boolean|false|true|按钮类型|",
+          },
+          {
+            "name": "ButtonTypeProps",
+            "table": "|title|type|default|required|description|
+    |---|---|---|---|---|
+    |K in ButtonType|boolean|false|true|按钮类型|",
           },
         ],
       },
