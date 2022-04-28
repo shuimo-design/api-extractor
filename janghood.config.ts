@@ -20,7 +20,7 @@ const sourceSymbolTranslator = (dirList: string[]) => {
 
 export default defineJhConfig({
   apiExtractor: {
-    include: ["example"],
+    include: ["example/**/*.d.ts"],
     document: {
       webTypes: {
         active: true,

@@ -14,13 +14,7 @@ import { createFile } from "../../common/createFile";
 import { validateDocumentConfig } from "../../config/config";
 
 const replaceDictionary = (dict: string, output: string, include: string[]) => {
-  // maybe have some strange error
-  for (const i of include) {
-    if (dict.startsWith(i)) {
-      return `${output}${path.sep}${dict.replace(i, '')}`;
-    }
-  }
-  jError(`can not create output file: [dict]:${dict}, [output]:${output}`);
+  return `${output}${path.sep}${dict}`;
 }
 
 export const markdownCreator = () => {

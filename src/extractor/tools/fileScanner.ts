@@ -23,7 +23,7 @@ export type SourceFileInfo = {
 
 export const fileScanner = async (option: APIOptionType): Promise<SourceFileInfo[]> => {
 
-  const include = option.include || ['src'];
+  const include = option.include || ['/src/**/*.d.ts'];
   const exclude = option.exclude || [];
 
   /**

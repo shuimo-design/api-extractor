@@ -28,6 +28,7 @@
   "dependencies": {
     "@microsoft/tsdoc": "^0.13.2",
     "@microsoft/tsdoc-config": "^0.15.2",
+    "fast-glob": "^3.2.11",
     "tsutils": "^3.21.0",
     "typescript": "^4.6.3"
   },

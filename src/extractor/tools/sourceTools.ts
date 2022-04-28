@@ -9,8 +9,7 @@
 import { Program } from "typescript";
 import path from "path";
 import fs from "fs";
-
-const defaultExFiles: string[] = [];
+import FastGlob from 'fast-glob';
 
 
 /**
@@ -29,26 +28,15 @@ export const getSource = (inputFilename: string, program: Program) => {
 /**
  * get filename list from filepath
  * @param filepath filepath
- * @param exclude
  */
-export const getSourceFilenameList = (filepath: string, exclude: readonly string[] = defaultExFiles): Promise<string[]> => {
+export const getSourceFilenameList = (filepath: string): Promise<string[]> => {
   const filePromise = (__filename: string) => {
-    // for single document/file name  针对单个文件(夹)名
+    // for single file name  针对单个文件名
     return new Promise<string[]>((resolve2) => {
       const newFilePath = path.join(filepath, __filename);
       fs.stat(newFilePath, async (error, stats) => {
         if (stats.isFile()) {
-          if (newFilePath.endsWith('.d.ts') && !exclude.some(e => newFilePath.includes(e))) {
-            resolve2([newFilePath]);
-          }
-          resolve2([]);
-        }
-
-        const isDocument = stats.isDirectory();
-        if (isDocument &&
-          !exclude.some(e => newFilePath.includes(e))) {
-          const files = await getSourceFilenameList(newFilePath, exclude);
-          resolve2(files);
+          resolve2([newFilePath]);
         }
         resolve2([]);
       });
@@ -75,21 +63,12 @@ export const getSourceFilenameList = (filepath: string, exclude: readonly string
 
 /**
  * @description get source filename list
- * @param include ['src']
+ * @param include ['/src\/**\/*.d.ts']
  * @param exclude []
  * @return source filename list
  */
 export const getSourceFilenameLists = async (include: string[],
                                              exclude?: string[]): Promise<string[]> => {
-  if (exclude) {
-    defaultExFiles.push(...exclude);
-  }
-  const sourceFileLists = await Promise.all(include.map(async path =>
-    new Promise<string[]>(async resolve => {
-      const res = await getSourceFilenameList(path, defaultExFiles);
-      resolve(res);
-    })));
-
-  return sourceFileLists.flat();
+  return await FastGlob(include, { ignore: exclude });
 }
 
