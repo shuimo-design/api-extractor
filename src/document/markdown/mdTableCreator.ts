@@ -40,8 +40,8 @@ export const mdTableCreator = (document: JhAPI) => {
 }
 
 const formatType = (type: string) => type.replaceAll('|', '&#124;')
-  .replaceAll('<', '\<')
-  .replaceAll('>', '\>');
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;');
 
 const toFormItem = (prop: JhAPI): string => {
   const { name, doc } = prop;
