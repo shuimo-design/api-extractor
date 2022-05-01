@@ -46,6 +46,15 @@ test('if props have merge type', async () => {
             },
             {
               "doc": {
+                "default": "[]",
+                "description": "button type 按钮的类型",
+                "required": "true",
+                "type": "Array<any>",
+              },
+              "name": "type",
+            },
+            {
+              "doc": {
                 "default": "false",
                 "description": "按钮类型",
                 "required": "true",

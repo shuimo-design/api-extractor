@@ -40,6 +40,7 @@ describe('mdTableCreator return right', () => {
       |---|---|---|---|---|
       |border|boolean|false|-|按钮是否有边框|
       |disabled|boolean&#124;string|false|true|disable or not 是否禁用|
+      |type|Array&lt;any&gt;|[]|true|button type 按钮的类型|
       |K in ButtonType|boolean|false|true|按钮类型|",
         },
         {
@@ -79,6 +80,7 @@ test('test return right markdown info', () => {
     |---|---|---|---|---|
     |border|boolean|false|-|按钮是否有边框|
     |disabled|boolean&#124;string|false|true|disable or not 是否禁用|
+    |type|Array&lt;any&gt;|[]|true|button type 按钮的类型|
     |K in ButtonType|boolean|false|true|按钮类型|",
           },
           {

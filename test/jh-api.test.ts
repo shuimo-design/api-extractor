@@ -47,6 +47,15 @@ test('jh-api', async () => {
               },
               {
                 "doc": {
+                  "default": "[]",
+                  "description": "button type 按钮的类型",
+                  "required": "true",
+                  "type": "Array<any>",
+                },
+                "name": "type",
+              },
+              {
+                "doc": {
                   "default": "false",
                   "description": "按钮类型",
                   "required": "true",

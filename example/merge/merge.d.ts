@@ -20,6 +20,11 @@ export declare type ButtonProps = {
    * @default false
    */
   disabled: boolean | string,
+  /**
+   * @description button type 按钮的类型
+   * @default []
+   */
+  type: Array<any>,
 } & ButtonTypeProps;
 
 type ButtonTypeProps = {

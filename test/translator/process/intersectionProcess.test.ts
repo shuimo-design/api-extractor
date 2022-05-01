@@ -47,6 +47,13 @@ test('expect intersectionProcess success', () => {
           {
             "doc": {
               "required": "true",
+              "type": "Array<any>",
+            },
+            "name": "type",
+          },
+          {
+            "doc": {
+              "required": "true",
               "type": "boolean",
             },
             "name": "K in ButtonType",
