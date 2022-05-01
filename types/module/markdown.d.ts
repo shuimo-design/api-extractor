@@ -16,5 +16,9 @@ export declare type MarkdownOption = {
   /**
    * @description output file path
    */
-  output?: string;
+  output?: string,
+  /**
+   * @description replace output file path to ''
+   */
+  replace?: string
 } & BaseDocumentOption;

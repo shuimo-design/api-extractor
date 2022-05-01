@@ -13,8 +13,8 @@ import { jError } from "../../common/console";
 import { createFile } from "../../common/createFile";
 import { validateDocumentConfig } from "../../config/config";
 
-const replaceDictionary = (dict: string, output: string, include: string[]) => {
-  return `${output}${path.sep}${dict}`;
+const replaceDictionary = (dict: string, output: string, replaceStr: string) => {
+  return `${output}${path.sep}${dict.replace(replaceStr, '')}`;
 }
 
 export const markdownCreator = () => {
@@ -45,7 +45,7 @@ export const markdownCreator = () => {
       }
       const path = {
         file: api.path.file,
-        directory: replaceDictionary(api.path.directory, document.markdown.output, config.apiExtractor.include!)
+        directory: replaceDictionary(api.path.directory, document.markdown.output, document.markdown.replace!)
       }
 
       return {
