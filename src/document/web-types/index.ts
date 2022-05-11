@@ -64,7 +64,14 @@ export const webTypesCreator = () => {
       jError('please init first');
       return;
     }
-    webTypesInfo.contributions.html.tags = apis.map(api => tagCreator.run(api)).filter(e => e) as WebTypesTag[];
+    webTypesInfo.contributions.html.tags = apis.map(api => tagCreator.run(api))
+      .filter(e => e)
+      .sort((a, b) => {
+        if (!a || !b || !a.name || !b.name) {
+          return 0;
+        }
+        return a.name.localeCompare(b.name);
+      }) as WebTypesTag[];
     return webTypesInfo;
   }
 
