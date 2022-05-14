@@ -9,9 +9,7 @@
 import defineJhConfig from "./src/config/defineJhConfig";
 
 
-const firstUpperCase = (str: string) => {
-  return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
-}
+const firstUpperCase = (str: string) => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
 
 const sourceSymbolTranslator = (dirList: string[]) => {
   let lastDir = firstUpperCase(dirList[dirList.length - 1]);
