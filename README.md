@@ -4,6 +4,39 @@ A simple api extractor for code. based on [tsdoc](https://tsdoc.org/).
 
 [![codecov](https://codecov.io/gh/janghood/api-extractor/branch/master/graph/badge.svg?token=NU71GX2KFM)](https://codecov.io/gh/janghood/api-extractor)
 
+
+## config
+
+```typescript
+// janghood.config.ts
+const firstUpperCase = (str: string) => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+
+const sourceSymbolTranslator = (dirList: string[]) => {
+  let lastDir = firstUpperCase(dirList[dirList.length - 1]);
+  return `W${lastDir}`;
+}
+
+export default defineJhConfig({
+  apiExtractor: {
+    include: ["example/**/*.d.ts"],
+    document: {
+      webTypes: {
+        active: true,
+        webTypesInfo: {
+          "framework": "vue",
+        },
+        sourceSymbolTranslator
+      },
+      markdown: {
+        output: 'doc',
+        active: true
+      }
+    }
+  }
+});
+
+```
+
 ## demo
 
 ```typescript
