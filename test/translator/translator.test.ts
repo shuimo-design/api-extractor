@@ -75,7 +75,7 @@ test('expect translator return right JhAPI', async () => {
 })
 
 test('expect type with value is return right',async ()=>{
-  const res = await run('example/pure/**.d.ts');
+  const res = await run('example/pure/withValue.d.ts');
   expect(translator(res as Tokens,'withValue')).toMatchInlineSnapshot(`
     {
       "children": [
@@ -94,6 +94,37 @@ test('expect type with value is return right',async ()=>{
       ],
       "doc": undefined,
       "name": "withValue",
+    }
+  `);
+})
+
+test('expect function type param is return right',async ()=>{
+  const res = await run('example/pure/functionValue.d.ts');
+  expect(translator(res as Tokens,'functionValue')).toMatchInlineSnapshot(`
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "doc": {
+                "required": "false",
+                "type": "string",
+              },
+              "name": "placeholder",
+            },
+            {
+              "doc": {
+                "required": "false",
+                "type": "(option:any,value:any)=>Boolean",
+              },
+              "name": "toMatch",
+            },
+          ],
+          "name": "FunctionValue",
+        },
+      ],
+      "doc": undefined,
+      "name": "functionValue",
     }
   `);
 })

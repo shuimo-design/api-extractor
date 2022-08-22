@@ -100,6 +100,47 @@ test('jh-api', async () => {
             "children": [
               {
                 "doc": {
+                  "default": "'请选择...'",
+                  "description": "input placeholder. 提示语",
+                  "required": "false",
+                  "type": "string",
+                },
+                "name": "placeholder",
+              },
+              {
+                "doc": {
+                  "default": "undefined",
+                  "description": "modelValue match function
+    用于比较参数和modelValue是否相等的方法，常用于modelValue为对象的场景
+    option: 列表数据
+    value: modelValue",
+                  "required": "false",
+                  "type": "(option:any,value:any)=>Boolean",
+                },
+                "name": "toMatch",
+              },
+            ],
+            "name": "FunctionValue",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2022/8/22 11:05",
+          "description": "",
+          "version": "v1.0.0",
+        },
+        "name": "example/pure/functionValue.d.ts",
+        "path": {
+          "directory": "example/pure",
+          "file": "functionValue.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
                   "required": "true",
                   "type": "string|VNode[]|WithValue[]",
                 },

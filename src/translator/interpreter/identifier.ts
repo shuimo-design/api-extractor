@@ -168,6 +168,23 @@ const getParamInfo = (currentToken: IteratorResult<Token>, tokenIterator: GToken
   token = tokenIterator.next();
   const keyList = [];
   while (notBreakKind(token.value!.kind)) {
+
+    if (token.value!.kind === SyntaxKind.CommaToken) {
+      const backupTokenIterator = tokenIterator;
+      const backupToken = token;
+      token = backupTokenIterator.next();
+
+      if (notBreakKind(token.value!.kind)) {
+        keyList.push(backupToken.value!.key);
+        tokenIterator = backupTokenIterator;
+        continue;
+      } else {
+        break;
+      }
+
+    }
+
+
     keyList.push(token.value!.key);
     token = tokenIterator.next();
   }
@@ -182,7 +199,6 @@ const getParamInfo = (currentToken: IteratorResult<Token>, tokenIterator: GToken
 
 const notBreakKind = (kind: SyntaxKind) => {
   return ![SyntaxKind.CloseBraceToken,
-    SyntaxKind.CommaToken,
     SyntaxKind.MultiLineCommentTrivia].includes(kind);
 }
 
