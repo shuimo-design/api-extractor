@@ -1,4 +1,4 @@
-# @janghood/doc-extractor
+# @janghood/api-extractor
 
 A simple api extractor for code. based on [tsdoc](https://tsdoc.org/).
 
