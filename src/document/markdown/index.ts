@@ -75,7 +75,7 @@ export default async function (apis: JhAPIs, option: JanghoodConfig) {
       }
 
       createFile(
-        `${result.path.directory}/${result.path.file.replace('.d.ts', '.md')}`,
+        `${result.path.directory}${path.sep}${result.path.file.replace('.d.ts', '.md')}`,
         source);
     }
   })
