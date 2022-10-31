@@ -14,6 +14,7 @@ export default ({
   input: 'src/bin/jh-api.ts',
   plugins: [typescript(), json()],
   output: [{
+    sourcemap: true,
     file: 'dist/bin/jh-api.js',
     format: 'cjs'
   }],

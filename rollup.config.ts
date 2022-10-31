@@ -13,6 +13,7 @@ export default ({
   input: 'src/index.ts',
   plugins: [typescript(), json()],
   output: [{
+    sourcemap: true,
     file: 'dist/index.js',
     format: 'cjs'
   }],
@@ -23,6 +24,7 @@ export default ({
     'tsutils',
     'path',
     'fs',
-    'os'
-  ]
+    'os',
+    'fast-glob'
+  ],
 });
