@@ -211,7 +211,7 @@ async function loadConfigFromBundledFile(
     const fileUrl = `${pathToFileURL(fileBase)}.mjs`
     fs.writeFileSync(fileNameTmp, bundledCode)
     try {
-      return (await new Function('file', 'return import(file)')(fileUrl)).default
+      return (await import(fileUrl)).default
     } finally {
       try {
         fs.unlinkSync(fileNameTmp)
