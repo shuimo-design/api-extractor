@@ -6,20 +6,22 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import jsonConfigObjStr from "../../../tsdoc.json";
 import { jError } from "../../common/console";
 import { TSDocConfigFile } from "@microsoft/tsdoc-config";
 import { DocNode, TextRange, TSDocConfiguration, TSDocParser } from "@microsoft/tsdoc";
 import { forEachTokenWithTrivia } from "tsutils";
-import { SyntaxKind } from "typescript";
-import type { Node } from "typescript";
-import { SourceFileInfo } from "./fileScanner";
+import type { Node, SyntaxKind as SyntaxKindType } from "typescript";
+import typescript from "typescript";
+import type { SourceFileInfo } from "./fileScanner";
 import { translator } from "../../translator";
 import { JhAPI, JhAPIs } from "../../../types/janghood-api-extractor";
 import { getPathInfo, logMessage } from "./uitls";
+import jsonConfigObjStr from '../../../tsdoc.json';
+
+const { SyntaxKind } = typescript;
 
 export declare type Token = {
-  kind: SyntaxKind,
+  kind: SyntaxKindType,
   comment: DocNode,
   key: string,
   parent: Node

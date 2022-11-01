@@ -8,7 +8,7 @@
  */
 import type { APIOptionType } from "../../types/module/config";
 import type { JhAPIs } from "../../types/janghood-api-extractor";
-import { fileScanner, SourceFileInfo } from "./tools/fileScanner";
+import { fileScanner, type SourceFileInfo } from "./tools/fileScanner";
 import { tokenExtractor } from "./tools/tokenExtractor";
 
 export const extractor = async (option: APIOptionType): Promise<JhAPIs> => {

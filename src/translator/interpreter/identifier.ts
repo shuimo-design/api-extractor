@@ -6,14 +6,17 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { clearAPI, GToken } from "../apiTreeCreator";
-import { SyntaxKind } from "typescript";
+import typescript from "typescript";
+import type { SyntaxKind as SyntaxKindType } from "typescript";
 import { DocComment } from "@microsoft/tsdoc";
+import type { JhAPI, JhAPIs } from "../../../types/janghood-api-extractor";
+import type { Token } from "../../extractor/tools/tokenExtractor";
+import type { GToken } from "../apiTreeCreator";
+import { clearAPI } from "../apiTreeCreator";
 import { parseComment } from "../../extractor/tools/parseComment";
-import { JhAPI, JhAPIs } from "../../../types/janghood-api-extractor";
 import { jError } from "../../common/console";
-import { Token } from "../../extractor/tools/tokenExtractor";
 
+const { SyntaxKind } = typescript;
 
 // when token is identifier
 export const identifierInterpreter = (tokenIterator: GToken) => {
@@ -197,12 +200,12 @@ const getParamInfo = (currentToken: IteratorResult<Token>, tokenIterator: GToken
   };
 }
 
-const notBreakKind = (kind: SyntaxKind) => {
+const notBreakKind = (kind: SyntaxKindType) => {
   return ![SyntaxKind.CloseBraceToken,
     SyntaxKind.MultiLineCommentTrivia].includes(kind);
 }
 
-const passedKind = (kind: SyntaxKind) => {
+const passedKind = (kind: SyntaxKindType) => {
   return [SyntaxKind.Identifier,
     SyntaxKind.MultiLineCommentTrivia,
     // 中括号

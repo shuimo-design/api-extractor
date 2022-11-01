@@ -9,7 +9,7 @@
 import path from "path";
 import type { WebTypeOption, WebTypesAttributes, WebTypesTag } from "../../../types/module/web-type";
 import type { JhAPI } from "../../../types/janghood-api-extractor";
-import { Doc } from "../../../types/module/common";
+import type { Doc } from "../../../types/module/common";
 import { jWarn } from "../../common/console";
 
 export declare type WebTypesTagCreatorRunner = (api: JhAPI) => WebTypesTag | undefined;

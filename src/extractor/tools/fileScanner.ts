@@ -6,11 +6,14 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { APIOptionType } from "../../../types/module/config";
+import type { APIOptionType } from "../../../types/module/config";
 import os from "os";
-import { createProgram, flattenDiagnosticMessageText, ScriptTarget, SourceFile } from "typescript";
+import type { SourceFile } from 'typescript';
+import typescript from "typescript";
 import { getSource, getSourceFilenameLists } from "./sourceTools";
 
+
+const { createProgram, flattenDiagnosticMessageText, ScriptTarget } = typescript;
 
 /**
  * @description file scanner will return this type array.

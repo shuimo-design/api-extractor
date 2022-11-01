@@ -6,12 +6,12 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { SyntaxKind } from "typescript";
-import { Token, Tokens } from "../extractor/tools/tokenExtractor";
-import { JhAPI, JhAPIs } from "../../types/janghood-api-extractor";
+import typescript from "typescript";
+import type { Token, Tokens } from "../extractor/tools/tokenExtractor";
+import type { JhAPI, JhAPIs } from "../../types/janghood-api-extractor";
 import { identifierInterpreter } from "./interpreter/identifier";
 
-
+const { SyntaxKind } = typescript;
 export type GToken = Generator<Token, void, unknown>
 
 const toTokenIterator: (tokens: Tokens) => GToken = tokens => {

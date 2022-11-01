@@ -7,11 +7,13 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 
-import { SyntaxKind } from "typescript";
+import typescript from "typescript";
 import { DocComment } from "@microsoft/tsdoc";
-import { jError } from "../common/console";
 import { Tokens } from "../extractor/tools/tokenExtractor";
 import { parseComment } from "../extractor/tools/parseComment";
+import { jError } from "../common/console";
+
+const { SyntaxKind } = typescript;
 
 
 export const getFileDoc = (oldTokens: Tokens) => {
