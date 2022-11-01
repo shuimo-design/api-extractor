@@ -12,13 +12,11 @@ import { performance } from "perf_hooks";
 import path from "path";
 import fs from "fs";
 import os from "os";
-import type { Documents, JanghoodConfig, JanghoodConfigExport } from "../../types/module/config";
+import type { Documents, JanghoodConfig } from "../../types/module/config";
 import { build } from 'esbuild';
 import { jWarn } from "../common/console";
+import { pathToFileURL } from "node:url";
 
-interface NodeModuleWithCompile extends NodeModule {
-  _compile(code: string, filename: string): any
-}
 
 export function lookupFile(
   dir: string,
@@ -62,6 +60,15 @@ export const validateDocumentConfig = (config: JanghoodConfig, documentName: str
   return config.apiExtractor.document[documentName as keyof Documents]!.active;
 }
 
+export const DEFAULT_CONFIG_FILES = [
+  'janghood.config.js',
+  'janghood.config.mjs',
+  'janghood.config.ts',
+  'janghood.config.cjs',
+  'janghood.config.mts',
+  'janghood.config.cts'
+]
+
 export async function loadConfigFromFile(
   configFile?: string,
   configRoot: string = process.cwd(),
@@ -74,111 +81,59 @@ export async function loadConfigFromFile(
   const getTime = () => `${(performance.now() - start).toFixed(2)}ms`
 
   let resolvedPath: string | undefined
-  let isTS = false
-  let isESM = false
-  let dependencies: string[] = []
-
-  // check package.json for type: "module" and set `isMjs` to true
-  try {
-    const pkg = lookupFile(configRoot, ['package.json'])
-    if (pkg && JSON.parse(pkg).type === 'module') {
-      isESM = true
-    }
-  } catch (e) {}
 
   if (configFile) {
     // explicit config path is always resolved from cwd
     resolvedPath = path.resolve(configFile)
-    isTS = configFile.endsWith('.ts')
-
-    if (configFile.endsWith('.mjs')) {
-      isESM = true
-    }
   } else {
     // implicit config file loaded from inline root (if present)
     // otherwise from cwd
-    const jsconfigFile = path.resolve(configRoot, 'janghood.config.js')
-    if (fs.existsSync(jsconfigFile)) {
-      resolvedPath = jsconfigFile
-    }
+    for (const filename of DEFAULT_CONFIG_FILES) {
+      const filePath = path.resolve(configRoot, filename)
+      if (!fs.existsSync(filePath)) continue
 
-    if (!resolvedPath) {
-      const mjsconfigFile = path.resolve(configRoot, 'janghood.config.mjs')
-      if (fs.existsSync(mjsconfigFile)) {
-        resolvedPath = mjsconfigFile
-        isESM = true
-      }
-    }
-
-    if (!resolvedPath) {
-      const tsconfigFile = path.resolve(configRoot, 'janghood.config.ts')
-      if (fs.existsSync(tsconfigFile)) {
-        resolvedPath = tsconfigFile
-        isTS = true
-      }
-    }
-
-    if (!resolvedPath) {
-      const cjsConfigFile = path.resolve(configRoot, 'janghood.config.cjs')
-      if (fs.existsSync(cjsConfigFile)) {
-        resolvedPath = cjsConfigFile
-        isESM = false
-      }
+      resolvedPath = filePath
+      break
     }
   }
 
   if (!resolvedPath) {
-    console.warn('no config file found.')
+    console.error('no config file found.')
     return null
   }
 
+  let isESM = false
+  if (/\.m[jt]s$/.test(resolvedPath)) {
+    isESM = true
+  } else if (/\.c[jt]s$/.test(resolvedPath)) {
+    isESM = false
+  } else {
+    // check package.json for type: "module" and set `isESM` to true
+    try {
+      const pkg = lookupFile(configRoot, ['package.json'])
+      isESM = !!pkg && JSON.parse(pkg).type === 'module'
+    } catch (e) {}
+  }
+
   try {
-    let janghoodConfig: JanghoodConfigExport | undefined
-    if (isESM) {
-      const fileUrl = require('url').pathToFileURL(resolvedPath)
-      const bundled = await bundleConfigFile(resolvedPath, true)
-      dependencies = bundled.dependencies
-      if (isTS) {
-        // before we can register loaders without requiring users to run node
-        // with --experimental-loader themselves, we have to do a hack here:
-        // bundle the config file w/ ts transforms first, write it to disk,
-        // load it with native Node ESM, then delete the file.
-        fs.writeFileSync(resolvedPath + '.js', bundled.code)
-        janghoodConfig = (await require(`${fileUrl}.js?t=${Date.now()}`))
-          .default
-        fs.unlinkSync(resolvedPath + '.js')
-        console.debug(`TS + native esm config loaded in ${getTime()}`, fileUrl)
-      } else {
-        // using Function to avoid this from being compiled away by TS/Rollup
-        // append a query so that we force reload fresh config in case of
-        // server restart
-        janghoodConfig = (await require(`${fileUrl}?t=${Date.now()}`)).default
-        console.debug(`native esm config loaded in ${getTime()}`, fileUrl)
-      }
-    }
+    const bundled = await bundleConfigFile(resolvedPath, isESM)
+    const userConfig = await loadConfigFromBundledFile(
+      resolvedPath,
+      bundled.code,
+      isESM
+    )
+    console.log(`bundled config file loaded in ${getTime()}`)
 
-    if (!janghoodConfig) {
-      // Bundle config file and transpile it to cjs using esbuild.
-
-      const bundled = await bundleConfigFile(resolvedPath)
-      dependencies = bundled.dependencies
-      janghoodConfig = await loadConfigFromBundledFile(resolvedPath, bundled.code)
-
-    }
-
-    const config = await (typeof janghoodConfig === 'function'
-      ? janghoodConfig()
-      : janghoodConfig)
+    const config = userConfig;
     if (!isObject(config)) {
       throw new Error(`config must export or return an object.`)
     }
     return {
       path: normalizePath(resolvedPath),
       config,
-      dependencies
+      dependencies: bundled.dependencies
     }
   } catch (e) {
-    console.error(`failed to load config from ${resolvedPath}`);
     throw e
   }
 }
@@ -244,21 +199,30 @@ async function bundleConfigFile(
 
 async function loadConfigFromBundledFile(
   fileName: string,
-  bundledCode: string
+  bundledCode: string,
+  isESM: boolean
 ): Promise<JanghoodConfig> {
-  const extension = path.extname(fileName)
-  const defaultLoader = require.extensions[extension]!
-  require.extensions[extension] = (module: NodeModule, filename: string) => {
-    if (filename === fileName) {
-      ;(module as NodeModuleWithCompile)._compile(bundledCode, filename)
-    } else {
-      defaultLoader(module, filename)
+  // for esm, before we can register loaders without requiring users to run node
+  // with --experimental-loader themselves, we have to do a hack here:
+  // write it to disk, load it with native Node ESM, then delete the file.
+  if (isESM) {
+    const fileBase = `${fileName}.timestamp-${Date.now()}`
+    const fileNameTmp = `${fileBase}.mjs`
+    const fileUrl = `${pathToFileURL(fileBase)}.mjs`
+    fs.writeFileSync(fileNameTmp, bundledCode)
+    try {
+      return (await new Function('file', 'return import(file)')(fileUrl)).default
+    } finally {
+      try {
+        fs.unlinkSync(fileNameTmp)
+      } catch {
+        console.error('some error here');
+        // already removed if this function is called twice simultaneously
+      }
     }
   }
-  // clear cache in case of server restart
-  delete require.cache[require.resolve(fileName)]
-  const raw = require(fileName)
-  const config = raw.__esModule ? raw.default : raw
-  require.extensions[extension] = defaultLoader
-  return config
+  // for cjs, we can register a custom loader via `_require.extensions`
+  else {
+    throw new Error('not support cjs');
+  }
 }
