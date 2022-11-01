@@ -4,7 +4,6 @@ A simple api extractor for code. based on [tsdoc](https://tsdoc.org/).
 
 [![codecov](https://codecov.io/gh/janghood/api-extractor/branch/master/graph/badge.svg?token=NU71GX2KFM)](https://codecov.io/gh/janghood/api-extractor)
 
-
 ## config
 
 ```typescript
@@ -87,3 +86,21 @@ according to inline tags definition, the following code is not valid:
  * @default (id:number) => void
  */
 ```
+
+## TODO
+
+- [ ] support tool functions
+
+```typescript
+const firstUpperCase = (str: string) => {
+  return `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
+}
+
+const sourceSymbolTranslator = (dirList: string[]) => {
+  let lastDir = firstUpperCase(dirList[dirList.length - 1]);
+  return `M${lastDir}`;
+}
+```
+
+- [ ] webTypes add default icon
+

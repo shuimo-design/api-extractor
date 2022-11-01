@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "Node16",
+    "module": "esnext",
     "moduleResolution": "node",
-    "esModuleInterop": true,
     "strict": true,
     "sourceMap": true,
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "lib": [
       "esnext",

@@ -15,7 +15,6 @@ export default ({
   output: [{
     sourcemap: true,
     file: 'dist/index.js',
-    format: 'cjs'
   }],
   external: [
     'typescript',
