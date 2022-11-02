@@ -128,3 +128,51 @@ test('expect function type param is return right',async ()=>{
     }
   `);
 })
+
+test('expect default with greater than is return right',async ()=>{
+  const res = await run('example/pure/defaultWithGreaterThan.d.ts');
+  expect(translator(res as Tokens,'defaultWithGreaterThan')).toMatchInlineSnapshot(`
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "doc": {
+                "required": "true",
+                "type": "()=>void",
+              },
+              "name": "func",
+            },
+          ],
+          "name": "defaultWithGreaterThan",
+        },
+      ],
+      "doc": undefined,
+      "name": "defaultWithGreaterThan",
+    }
+  `);
+})
+
+test('expect default with greater than is return right',async ()=>{
+  const res = await run('example/pure/defaultWithCurlyBraces.d.ts');
+  expect(translator(res as Tokens,'defaultWithCurlyBraces')).toMatchInlineSnapshot(`
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "doc": {
+                "required": "true",
+                "type": "{key:string,value:number",
+              },
+              "name": "object",
+            },
+          ],
+          "name": "defaultWithCurlyBraces",
+        },
+      ],
+      "doc": undefined,
+      "name": "defaultWithCurlyBraces",
+    }
+  `);
+})

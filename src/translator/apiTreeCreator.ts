@@ -17,6 +17,7 @@ export type GToken = Generator<Token, void, unknown>
 const toTokenIterator: (tokens: Tokens) => GToken = tokens => {
   // clear token
   const t = tokens.filter(t => t.kind !== 4 && t.kind !== 5);
+
   function* tokenIterable() {
     for (let i = 0; i < t.length; i++) {
       yield t[i];
@@ -41,8 +42,9 @@ export const apiTreeCreator = (tokens: Tokens) => {
       token = tokenIterator.next();
       if (token.value!.kind === SyntaxKind.Identifier) {
         let jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [] };
-        jhApi.name = token.value!.key;
-        const iResult = identifierInterpreter(tokenIterator);
+        const name = token.value!.key;
+        const iResult = identifierInterpreter(tokenIterator, name);
+        jhApi.name = iResult.name;
         tokenIterator = iResult.tokenIterator;
         if (iResult.jhApi.children) {
           jhApi.children!.push(...iResult.jhApi.children);
@@ -67,7 +69,7 @@ export const apiTreeCreator = (tokens: Tokens) => {
   return identifierAPIs;
 }
 
-export const clearAPI = (jhApi:JhAPI)=>{
+export const clearAPI = (jhApi: JhAPI) => {
   if (jhApi.children && jhApi.children.length === 0) {
     delete jhApi.children;
   }

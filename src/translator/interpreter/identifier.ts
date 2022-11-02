@@ -6,8 +6,8 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import typescript from "typescript";
 import type { SyntaxKind as SyntaxKindType } from "typescript";
+import typescript from "typescript";
 import { DocComment } from "@microsoft/tsdoc";
 import type { JhAPI, JhAPIs } from "../../../types/janghood-api-extractor";
 import type { Token } from "../../extractor/tools/tokenExtractor";
@@ -18,16 +18,48 @@ import { jError } from "../../common/console";
 
 const { SyntaxKind } = typescript;
 
+const appendGenericInfo = (name: string, tokenIterator: GToken) => {
+  let genericInfo = '<';
+  let token = tokenIterator.next();
+  while (true) {
+    // unknown has generic like <<>> or not ?
+    // if (token.value!.kind === SyntaxKind.LessThanToken) {
+    //   genericInfo = appendGenericInfo(name, tokenIterator);
+    // }
+
+    genericInfo += token.value!.key;
+    token = tokenIterator.next();
+    if (token.value!.kind === SyntaxKind.GreaterThanToken) {
+      genericInfo += '>';
+      break;
+    }
+  }
+
+  return name + genericInfo;
+}
+
 // when token is identifier
-export const identifierInterpreter = (tokenIterator: GToken) => {
+export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
   let token = tokenIterator.next();
   if (!token.value) {
     jError('interpreter error: identifier is empty');
   }
   let jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [] };
+  // if key follow kind not equals token
   if (token.value!.kind !== SyntaxKind.EqualsToken) {
-    // unknown token
-    jError(`【interpreter error】 unknown token ${token.value?.key} kind is ${token.value?.kind}`);
+
+    if (token.value!.kind === SyntaxKind.LessThanToken) {
+      // maybe is generic
+      name = appendGenericInfo(name, tokenIterator);
+      token = tokenIterator.next();
+      // @ts-ignore this is a ts bug.
+      if (token.value!.kind !== SyntaxKind.EqualsToken) {
+        jError(`interpreter error: generic type must be followed by equals token, but ${token.value!.key}. If this is legal, please open an issue on github.`);
+      }
+    } else {
+      // unknown token
+      jError(`【interpreter error】 unknown token ${token.value?.key} kind is ${token.value?.kind}`);
+    }
   }
 
   // after equal token,
@@ -42,7 +74,7 @@ export const identifierInterpreter = (tokenIterator: GToken) => {
 
   // 1. maybe document is end
   if (token.done) {
-    return { jhApi, tokenIterator };
+    return { jhApi, tokenIterator, name };
   }
 
   // 2. maybe have AmpersandToken
@@ -58,7 +90,8 @@ export const identifierInterpreter = (tokenIterator: GToken) => {
 
   return {
     jhApi: clearAPI(jhApi),
-    tokenIterator
+    tokenIterator,
+    name
   };
 }
 
@@ -73,7 +106,8 @@ const interpretType = (tokenIterator: GToken) => {
     jError('interpreter error: type identifier is empty');
   }
   if (token.value!.kind !== SyntaxKind.OpenBraceToken) {
-    jError('interpreter error: can not interpret type block');
+    // todo kind maybe Array like:  export declare type MParamLabelArr<T> = Array<{ param: keyof T } & BaseParamLabel> , to support this
+    jError(`interpreter error: can not interpret type block: ${token.value!.key}`);
   }
   // must start with openBraceToken
 

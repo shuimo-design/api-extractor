@@ -7,19 +7,20 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 import {
-  DocNode,
-  DocExcerpt,
   DocBlock,
   DocBlockTag,
-  DocSection,
-  DocPlainText,
-  DocParagraph,
+  DocErrorText,
+  DocExcerpt,
   DocInlineTagBase,
-  DocErrorText
+  DocNode,
+  DocParagraph,
+  DocPlainText,
+  DocSection
 } from "@microsoft/tsdoc";
 import { DocAPIType } from "./parseComment";
 import { isSoftBreak } from "./uitls";
 import { jError, jWarn } from "../../common/console";
+import { blockErrorHandler } from "./blockErrorHandler";
 
 export const parseBlock = (block: DocBlock | DocParagraph): DocAPIType[] => {
 
@@ -36,12 +37,12 @@ export const parseBlock = (block: DocBlock | DocParagraph): DocAPIType[] => {
     return [];
   }
 
-  const value = parseBlockChild(blockInfo[1]);
+  const value = parseBlockChild(blockInfo[1], key);
   return [{ key, value }];
 }
 
 
-const parseBlockChild = (section: DocNode) => {
+const parseBlockChild = (section: DocNode, block?: string) => {
   if (canNotParseBlockSection(section)) {
     return '';
   }
@@ -49,6 +50,7 @@ const parseBlockChild = (section: DocNode) => {
   let softBreakCount = 0;
   // maybe have more than one paragraph
   for (const paragraph of section.getChildNodes()) {
+    let prevIsPrevCurlyBraces = false
     const plainTexts = paragraph.getChildNodes();
     for (const plainText of plainTexts) {
       if (isSoftBreak(plainText)) {
@@ -63,6 +65,20 @@ const parseBlockChild = (section: DocNode) => {
         jWarn('not support inline tag right now');
         continue;
       }
+      if (plainText instanceof DocErrorText) {
+        const fixedErrorText = blockErrorHandler(plainText, block);
+        // 如果是部分已知可修复的问题
+        if (fixedErrorText) {
+          if (fixedErrorText === '{') {
+            prevIsPrevCurlyBraces = true;
+          }
+
+          info[info.length - 1] += fixedErrorText;
+          continue;
+        }
+        jWarn(`in block ${block}:${plainText.errorMessage}`);
+        continue;
+      }
 
 
       if (canNotParsePlainText(plainText)) {
@@ -70,7 +86,13 @@ const parseBlockChild = (section: DocNode) => {
       }
       softBreakCount = 0
       const plainTextDocExcerpt = plainText.getChildNodes()[0] as DocExcerpt;
-      info.push(plainTextDocExcerpt.content.toString().trim());
+      const str = plainTextDocExcerpt.content.toString().trim();
+      if (prevIsPrevCurlyBraces) {
+        info[info.length - 1] += str;
+        prevIsPrevCurlyBraces = false;
+      } else {
+        info.push(str);
+      }
     }
   }
   return info.join('\n');

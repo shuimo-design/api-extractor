@@ -100,6 +100,63 @@ test('jh-api', async () => {
             "children": [
               {
                 "doc": {
+                  "default": "{key:string, value:number}",
+                  "required": "true",
+                  "type": "{key:string,value:number",
+                },
+                "name": "object",
+              },
+            ],
+            "name": "defaultWithCurlyBraces",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2022/11/3 02:54",
+          "description": "",
+          "version": "v1.0.0",
+        },
+        "name": "example/pure/defaultWithCurlyBraces.d.ts",
+        "path": {
+          "directory": "example/pure",
+          "file": "defaultWithCurlyBraces.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "() =>
+    void",
+                  "required": "true",
+                  "type": "()=>void",
+                },
+                "name": "func",
+              },
+            ],
+            "name": "defaultWithGreaterThan",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2022/11/3 01:34",
+          "description": "default with greater than",
+          "version": "v1.0.0",
+        },
+        "name": "example/pure/defaultWithGreaterThan.d.ts",
+        "path": {
+          "directory": "example/pure",
+          "file": "defaultWithGreaterThan.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
                   "default": "'请选择...'",
                   "description": "input placeholder. 提示语",
                   "required": "false",
@@ -311,6 +368,262 @@ test('jh-api', async () => {
         "path": {
           "directory": "example/template/menu",
           "file": "formItem.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "''",
+                  "description": "参数label显示",
+                  "required": "true",
+                  "type": "string",
+                },
+                "name": "label",
+              },
+              {
+                "doc": {
+                  "default": "true",
+                  "description": "是否显示，false的话将会直接不渲染",
+                  "required": "false",
+                  "type": "boolean",
+                },
+                "name": "visible",
+              },
+              {
+                "doc": {
+                  "default": "text",
+                  "description": "默认插槽类型",
+                  "required": "false",
+                  "type": "'text'|'input'",
+                },
+                "name": "type",
+              },
+              {
+                "doc": {
+                  "default": "false",
+                  "description": "是否是插槽",
+                  "required": "false",
+                  "type": "boolean",
+                },
+                "name": "isSlot",
+              },
+              {
+                "doc": {
+                  "default": "(value: any, row: any) =>
+    void",
+                  "description": "自定义内容渲染,支持VNode",
+                  "required": "false",
+                  "type": "(value:any,row:any)=>void",
+                },
+                "name": "customRender",
+              },
+              {
+                "doc": {
+                  "default": "''",
+                  "description": "参数",
+                  "required": "false",
+                  "type": "Record<string,any>",
+                },
+                "name": "props",
+              },
+            ],
+            "name": "BaseParamLabel",
+          },
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "''",
+                  "description": "参数key",
+                  "required": "true",
+                  "type": "string",
+                },
+                "name": "param",
+              },
+              {
+                "doc": {
+                  "default": "''",
+                  "description": "参数label显示",
+                  "required": "true",
+                  "type": "string",
+                },
+                "name": "label",
+              },
+              {
+                "doc": {
+                  "default": "true",
+                  "description": "是否显示，false的话将会直接不渲染",
+                  "required": "false",
+                  "type": "boolean",
+                },
+                "name": "visible",
+              },
+              {
+                "doc": {
+                  "default": "text",
+                  "description": "默认插槽类型",
+                  "required": "false",
+                  "type": "'text'|'input'",
+                },
+                "name": "type",
+              },
+              {
+                "doc": {
+                  "default": "false",
+                  "description": "是否是插槽",
+                  "required": "false",
+                  "type": "boolean",
+                },
+                "name": "isSlot",
+              },
+              {
+                "doc": {
+                  "default": "(value: any, row: any) =>
+    void",
+                  "description": "自定义内容渲染,支持VNode",
+                  "required": "false",
+                  "type": "(value:any,row:any)=>void",
+                },
+                "name": "customRender",
+              },
+              {
+                "doc": {
+                  "default": "''",
+                  "description": "参数",
+                  "required": "false",
+                  "type": "Record<string,any>",
+                },
+                "name": "props",
+              },
+            ],
+            "intersections": [],
+            "name": "MParamLabel",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2022/10/21 02:29",
+          "description": "通用的参数类型",
+          "version": "v1.0.0",
+        },
+        "name": "example/template/table /MParamLabel.d.ts",
+        "path": {
+          "directory": "example/template/table ",
+          "file": "MParamLabel.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "[]",
+                  "description": "表格数据",
+                  "required": "true",
+                  "type": "any[]",
+                },
+                "name": "data",
+              },
+              {
+                "doc": {
+                  "default": "[]",
+                  "description": "表格列",
+                  "required": "true",
+                  "type": "MParamLabel[]",
+                },
+                "name": "columns",
+              },
+              {
+                "doc": {
+                  "default": "''",
+                  "description": "表格高度",
+                  "required": "false",
+                  "type": "string",
+                },
+                "name": "height",
+              },
+              {
+                "doc": {
+                  "default": "{current: undefined, total: 0, onChange: undefined, align: 'end'}",
+                  "description": "分页相关内容",
+                  "required": "false",
+                  "type": "Pagination",
+                },
+                "name": "pagination",
+              },
+            ],
+            "name": "MTablePlusProps",
+          },
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "undefined",
+                  "description": "当前页",
+                  "required": "false",
+                  "type": "number",
+                },
+                "name": "current",
+              },
+              {
+                "doc": {
+                  "default": "10",
+                  "description": "页大小，组件暂不支持",
+                  "required": "false",
+                  "type": "number",
+                },
+                "name": "pageSize",
+              },
+              {
+                "doc": {
+                  "default": "0",
+                  "description": "总共条数",
+                  "required": "true",
+                  "type": "number",
+                },
+                "name": "total",
+              },
+              {
+                "doc": {
+                  "default": "'end'",
+                  "description": "分页位置 'center' | 'left' | 'end'",
+                  "required": "false",
+                  "type": "string",
+                },
+                "name": "align",
+              },
+              {
+                "doc": {
+                  "default": "(pn: number) =>
+    void",
+                  "description": "分页切换回调",
+                  "required": "false",
+                  "type": "(pn:number)=>void",
+                },
+                "name": "onChange",
+              },
+            ],
+            "name": "Pagination",
+          },
+        ],
+        "doc": {
+          "author": "youus",
+          "date": "2022/10/21 22:22",
+          "description": "Form Plus component with shuimo-ui style.
+    水墨组件的高级表格组件",
+          "docUrl": "https://shuimo.janghood.com/pro/table#pro-table",
+          "name": "m-table-plus",
+          "sourceSymbol": "MTablePlus",
+          "version": "v1.0.0",
+        },
+        "name": "example/template/table /TablePlus.d.ts",
+        "path": {
+          "directory": "example/template/table ",
+          "file": "TablePlus.d.ts",
         },
       },
     ]
