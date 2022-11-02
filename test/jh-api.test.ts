@@ -13,12 +13,12 @@ import { extractor } from "../src/extractor";
 
 test('jh-api', async () => {
   const apis = await extractor({
-    include:['example/**/*.d.ts'],
-    exclude:['**/document/**/**']
+    include: ['example/**/*.d.ts'],
+    exclude: ['**/document/**/**']
   });
-  apis.forEach(api=>{
-    if(api.children&&api.children.length>0){
-      api.children = api.children.filter(item=>item.name!=='')
+  apis.forEach(api => {
+    if (api.children && api.children.length > 0) {
+      api.children = api.children.filter(item => item.name !== '')
     }
   })
   expect(apis).toMatchInlineSnapshot(`
