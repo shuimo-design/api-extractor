@@ -28,8 +28,8 @@ export declare type Token = {
 };
 export declare type Tokens = Token[];
 
-export const tokenExtractor = async () => {
-
+export const parseInit = () => {
+  // need init config
   if (!jsonConfigObjStr) {
     jError('tsdoc.json not found');
   }
@@ -38,12 +38,21 @@ export const tokenExtractor = async () => {
   tsdocConfigFile.configureParser(customConfiguration);
   const tsdocParser = new TSDocParser(customConfiguration);
 
+  return {
+    tsdocParser
+  }
+}
+
+export const tokenExtractor = async () => {
+
+  const { tsdocParser } = parseInit();
+
   const getComment = (textRange: TextRange) => {
     const parserContext = tsdocParser!.parseRange(textRange);
     return parserContext.docComment;
   }
 
-  const getTokens = async (sourceFile: SourceFileInfo): Promise<Tokens> => {
+  const getTokensByFile = async (sourceFile: SourceFileInfo): Promise<Tokens> => {
     const { source } = sourceFile;
     const buffer = source.getSourceFile().getFullText();
     // check hole source file first
@@ -73,7 +82,7 @@ export const tokenExtractor = async () => {
    * @param sourceFile file info
    */
   const extract = async (sourceFile: SourceFileInfo) => {
-    const tokens = await getTokens(sourceFile);
+    const tokens = await getTokensByFile(sourceFile);
     try {
       return translator(tokens, sourceFile.filename);
     } catch (e) {
@@ -100,7 +109,7 @@ export const tokenExtractor = async () => {
   }
 
   return {
-    getTokens,
+    getTokensByFile,
     extract,
     extractFileSource
   }

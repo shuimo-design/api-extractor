@@ -14,8 +14,8 @@ export const run = async (dir: string) => {
   const fileSourceList: SourceFileInfo[] = await fileScanner({
     include: [dir],
   })
-  const { getTokens } = await tokenExtractor();
-  const dirtyTokens = await getTokens(fileSourceList[0]);
+  const { getTokensByFile } = await tokenExtractor();
+  const dirtyTokens = await getTokensByFile(fileSourceList[0]);
   return dirtyTokens.filter(t => t.kind !== 4 && t.kind !== 5).map(t => slimToken(t));
 }
 
