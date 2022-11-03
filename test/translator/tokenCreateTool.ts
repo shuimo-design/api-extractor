@@ -10,9 +10,9 @@ import { Token, tokenExtractor } from "../../src/extractor/tools/tokenExtractor"
 import { fileScanner, SourceFileInfo } from "../../src/extractor/tools/fileScanner";
 import type { Node } from "typescript";
 
-export const run = async (dir: string) => {
+export const run = async (dir: string | string[]) => {
   const fileSourceList: SourceFileInfo[] = await fileScanner({
-    include: [dir],
+    include: typeof dir === 'string' ? [dir] : dir,
   })
   const { getTokensByFile } = await tokenExtractor();
   const dirtyTokens = await getTokensByFile(fileSourceList[0]);
@@ -22,8 +22,8 @@ export const run = async (dir: string) => {
 
 const slimToken = (token: Token) => {
   return {
-    kind:token.kind,
-    key:token.key,
+    kind: token.kind,
+    key: token.key,
     parent: slimParent(token.parent)
   }
 }

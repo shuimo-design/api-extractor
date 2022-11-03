@@ -10,10 +10,12 @@ import type { APIOptionType } from "../../types/module/config";
 import type { JhAPIs } from "../../types/janghood-api-extractor";
 import { fileScanner, type SourceFileInfo } from "./tools/fileScanner";
 import { tokenExtractor } from "./tools/tokenExtractor";
+import { linkJHAPIs } from "../link";
 
 export const extractor = async (option: APIOptionType): Promise<JhAPIs> => {
   // get file source list
   const fileSourceList: SourceFileInfo[] = await fileScanner(option);
   const { extractFileSource } = await tokenExtractor();
-  return await extractFileSource(fileSourceList);
+  const res =  await extractFileSource(fileSourceList);
+  return linkJHAPIs(res);
 }

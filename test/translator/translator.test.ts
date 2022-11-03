@@ -7,7 +7,7 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
 import { run } from "./tokenCreateTool";
 import { translator } from "../../src/translator";
 import { Tokens } from "../../src/extractor/tools/tokenExtractor";
@@ -74,9 +74,9 @@ test('expect translator return right JhAPI', async () => {
 
 })
 
-test('expect type with value is return right',async ()=>{
+test('expect type with value is return right', async () => {
   const res = await run('example/pure/withValue.d.ts');
-  expect(translator(res as Tokens,'withValue')).toMatchInlineSnapshot(`
+  expect(translator(res as Tokens, 'withValue')).toMatchInlineSnapshot(`
     {
       "children": [
         {
@@ -98,9 +98,9 @@ test('expect type with value is return right',async ()=>{
   `);
 })
 
-test('expect function type param is return right',async ()=>{
+test('expect function type param is return right', async () => {
   const res = await run('example/pure/functionValue.d.ts');
-  expect(translator(res as Tokens,'functionValue')).toMatchInlineSnapshot(`
+  expect(translator(res as Tokens, 'functionValue')).toMatchInlineSnapshot(`
     {
       "children": [
         {
@@ -129,9 +129,9 @@ test('expect function type param is return right',async ()=>{
   `);
 })
 
-test('expect default with greater than is return right',async ()=>{
+test('expect default with greater than is return right', async () => {
   const res = await run('example/pure/defaultWithGreaterThan.d.ts');
-  expect(translator(res as Tokens,'defaultWithGreaterThan')).toMatchInlineSnapshot(`
+  expect(translator(res as Tokens, 'defaultWithGreaterThan')).toMatchInlineSnapshot(`
     {
       "children": [
         {
@@ -153,9 +153,9 @@ test('expect default with greater than is return right',async ()=>{
   `);
 })
 
-test('expect default with greater than is return right',async ()=>{
+test('expect default with greater than is return right', async () => {
   const res = await run('example/pure/defaultWithCurlyBraces.d.ts');
-  expect(translator(res as Tokens,'defaultWithCurlyBraces')).toMatchInlineSnapshot(`
+  expect(translator(res as Tokens, 'defaultWithCurlyBraces')).toMatchInlineSnapshot(`
     {
       "children": [
         {

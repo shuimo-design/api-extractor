@@ -69,6 +69,7 @@ export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
   // type identifier
   const iResult = interpretType(tokenIterator);
   tokenIterator = iResult.tokenIterator;
+  jhApi.intersections!.push(...iResult.intersections);
   token = tokenIterator.next();
   jhApi.children = iResult.children;
 
@@ -101,17 +102,23 @@ export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
  * @param tokenIterator
  */
 const interpretType = (tokenIterator: GToken) => {
+  let intersections: string[] = [];
   let token = tokenIterator.next();
   if (!token.value) {
     jError('interpreter error: type identifier is empty');
   }
+  const children: JhAPIs = [];
   if (token.value!.kind !== SyntaxKind.OpenBraceToken) {
-    // todo kind maybe Array like:  export declare type MParamLabelArr<T> = Array<{ param: keyof T } & BaseParamLabel> , to support this
-    jError(`interpreter error: can not interpret type block: ${token.value!.key}`);
+    const iResult = interpretNotOpenBraceTokenType(token.value!, tokenIterator);
+    if (iResult) {
+      intersections.push(...iResult.intersections);
+      if (!iResult.needContinue) {
+        return { children, tokenIterator, intersections }
+      }
+    }
   }
   // must start with openBraceToken
 
-  const children: JhAPIs = [];
 
   // interpret every param
   while (token.value!.kind !== SyntaxKind.CloseBraceToken) {
@@ -152,9 +159,59 @@ const interpretType = (tokenIterator: GToken) => {
 
   return {
     children,
-    tokenIterator
+    tokenIterator,
+    intersections
   };
 }
+
+
+/**
+ * if type not start with openBraceToken
+ * @param token
+ * @param tokenIterator
+ */
+const interpretNotOpenBraceTokenType = (token: Token, tokenIterator: GToken) => {
+  const res: { intersections: string[], needContinue: boolean } = {
+    intersections: [],
+    needContinue: true
+  }
+  if (token.kind === SyntaxKind.Identifier) {
+    // todo kind maybe Array like:  export declare type MParamLabelArr<T> = Array<{ param: keyof T } & BaseParamLabel> , to support this
+
+    res.intersections.push(token.key);
+
+    let nextToken = tokenIterator.next();
+    // type Type = Identifier &
+    if (nextToken.value!.kind === SyntaxKind.AmpersandToken) {
+      let token = tokenIterator.next();
+
+      // type Type = Identifier & Identifier2
+      if (token.value!.kind === SyntaxKind.Identifier) {
+        const newRes = interpretNotOpenBraceTokenType(token.value!, tokenIterator);
+        if (newRes) {
+          res.intersections.push(...newRes.intersections);
+          res.needContinue = newRes.needContinue;
+        }
+      }
+
+      if (token.value!.kind !== SyntaxKind.OpenBraceToken) {
+        jError(`interpreter error: type not start with { or Identifier, but ${token.value!.key}`);
+      }
+
+      // type Type = Identifier & {...}
+      return res;
+    }
+
+    // type Type = Identifier
+    if ([SyntaxKind.EndOfFileToken, SyntaxKind.SemicolonToken].includes(nextToken.value!.kind)) {
+      res.needContinue = false;
+      return res;
+    }
+
+  }
+  jError(`interpreter error: can not interpret type block: ${token!.key}: ${token!.kind}`);
+}
+
 
 /**
  * to identifier a param info
