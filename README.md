@@ -49,7 +49,7 @@ export default defineJhConfig({
  * @name w-button
  * @docDescription Button component with wash-painting-ui style.
  *              水墨组件的按钮组件。
- * @docUrl https://wash-painting.com/button
+ * @docUrl https://shuimo.janghood.com/button
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
