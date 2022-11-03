@@ -10,6 +10,7 @@ import { getFileDoc } from "./getFileDoc";
 import { apiTreeCreator } from "./apiTreeCreator";
 import type { Tokens } from "../extractor/tools/tokenExtractor";
 import type { JhAPI } from "../../types/janghood-api-extractor";
+import { JhAPIs } from "../../types/janghood-api-extractor";
 import { jWarn } from "../common/console";
 import { intersectionsProcess } from "./process/intersectionsProcess";
 
@@ -37,15 +38,30 @@ export const translator = (baseToken: Tokens, fileName: string): JhAPI | undefin
   } catch (e) {
     jWarn(`file ${fileName} throw error: ${(e as Error).message}`)
   }
-  let children = apiTreeCreator(apiToken);
 
-  children = intersectionsProcess(children);
-
-  return {
-    //  to fix path info
-    name: fileName,
-    doc,
-    children
+  let children: JhAPIs | undefined;
+  try {
+    children = apiTreeCreator(apiToken);
+  } catch (e) {
+    jWarn(`file ${fileName} has unexpected identifier: ${(e as Error).message}`)
+    throw e;
   }
+
+  if (!children) {
+    throw new Error('api info is empty');
+  }
+
+  try {
+    children = intersectionsProcess(children);
+    return {
+      //  to fix path info
+      name: fileName,
+      doc,
+      children
+    }
+  } catch (e) {
+    throw e;
+  }
+
 
 }
