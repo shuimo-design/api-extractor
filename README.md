@@ -12,7 +12,7 @@ const firstUpperCase = (str: string) => `${str[0].toUpperCase()}${str.slice(1, s
 
 const sourceSymbolTranslator = (dirList: string[]) => {
   let lastDir = firstUpperCase(dirList[dirList.length - 1]);
-  return `W${lastDir}`;
+  return `M${lastDir}`;
 }
 
 export default defineJhConfig({
@@ -77,7 +77,7 @@ export declare type ButtonProps = {
 
 ## warn
 
-according to inline tags definition, the following code is not valid:
+After version `0.0.1-alpha.8` we support some new feature like these following code:
 
 ```ts
 /**
@@ -86,6 +86,9 @@ according to inline tags definition, the following code is not valid:
  * @default (id:number) => void
  */
 ```
+
+but you should be carefully when you use them,
+because according to tsdoc inline tags definition, these are illegal.
 
 ## TODO
 
