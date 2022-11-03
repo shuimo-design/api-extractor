@@ -16,6 +16,7 @@ import type { Documents, JanghoodConfig } from "../../types/module/config";
 import { build } from 'esbuild';
 import { jWarn } from "../common/console";
 import { pathToFileURL } from "node:url";
+import { createRequire } from "node:module";
 
 
 export function lookupFile(
@@ -197,6 +198,10 @@ async function bundleConfigFile(
   }
 }
 
+interface NodeModuleWithCompile extends NodeModule {
+  _compile(code: string, filename: string): any
+}
+const _require = createRequire(import.meta.url)
 async function loadConfigFromBundledFile(
   fileName: string,
   bundledCode: string,
@@ -223,6 +228,21 @@ async function loadConfigFromBundledFile(
   }
   // for cjs, we can register a custom loader via `_require.extensions`
   else {
-    throw new Error('not support cjs');
+    const extension = path.extname(fileName)
+    const realFileName = fs.realpathSync(fileName)
+    const loaderExt = extension in _require.extensions ? extension : '.js'
+    const defaultLoader = _require.extensions[loaderExt]!
+    _require.extensions[loaderExt] = (module: NodeModule, filename: string) => {
+      if (filename === realFileName) {
+        ;(module as NodeModuleWithCompile)._compile(bundledCode, filename)
+      } else {
+        defaultLoader(module, filename)
+      }
+    }
+    // clear cache in case of server restart
+    delete _require.cache[_require.resolve(fileName)]
+    const raw = _require(fileName)
+    _require.extensions[loaderExt] = defaultLoader
+    return raw.__esModule ? raw.default : raw
   }
 }

@@ -16,6 +16,7 @@ export default ({
   output: [{
     sourcemap: true,
     file: 'dist/bin/jh-api.js',
+    format: 'cjs',
   }],
   external: [
     'typescript',
