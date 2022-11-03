@@ -46,8 +46,8 @@ export default defineJhConfig({
  * @date 2022/4/2 11:26 AM
  * @version v1.0.0
  *
- * @name w-button
- * @docDescription Button component with wash-painting-ui style.
+ * @name m-button
+ * @docDescription Button component with shuimo style.
  *              水墨组件的按钮组件。
  * @docUrl https://shuimo.janghood.com/button
  *
