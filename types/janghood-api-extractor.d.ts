@@ -8,10 +8,7 @@
  */
 
 
-import { Doc } from "./module/common";
-
-export { JanghoodConfig, defineJhConfig } from "./module/config";
-export { WebTypeOption } from "./module/web-type";
+import { Doc } from "@janghood/config";
 
 /**
  * @description output api type

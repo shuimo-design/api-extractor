@@ -6,7 +6,7 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import type { APIOptionType } from "../../types/module/config";
+import type { APIOptionType } from "@janghood/config";
 import type { JhAPIs } from "../../types/janghood-api-extractor";
 import { fileScanner, type SourceFileInfo } from "./tools/fileScanner";
 import { tokenExtractor } from "./tools/tokenExtractor";

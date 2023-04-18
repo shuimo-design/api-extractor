@@ -6,8 +6,8 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import fs from "fs";
-import { Doc } from "../../../types/module/common";
+import fs from 'fs';
+import { Doc } from '@janghood/config';
 
 export const loadPackage = (packageUrl = 'package.json'): Promise<Doc> => {
   return new Promise((resolve, reject) => {
@@ -19,5 +19,5 @@ export const loadPackage = (packageUrl = 'package.json'): Promise<Doc> => {
       const packageJson = JSON.parse(data);
       resolve(packageJson);
     });
-  })
+  });
 };

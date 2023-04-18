@@ -6,12 +6,11 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { loadConfigFromFile } from "../config/config";
-import { jError } from "../common/console";
-import type { Documents } from "../../types/module/config";
-import { getJhApi } from "../index";
-import webTypes from "../document/web-types";
-import markdown from "../document/markdown";
+import { loadJanghoodConfig, Documents, initConfig } from '@janghood/config';
+import { jError } from '../common/console';
+import { getJhApi } from '../index';
+import webTypes from '../document/web-types';
+import markdown from '../document/markdown';
 
 const noActiveDocument = (document: Documents) => {
   const documents = Object.values(document);
@@ -20,20 +19,20 @@ const noActiveDocument = (document: Documents) => {
     return true;
   }
   return !documents.some(e => e.active);
-}
+};
 
 const documents = [webTypes, markdown];
 
 // run jh-api
 const run = async () => {
   // resolve janghood.config, such as default value....
-  const jhConfigInfo = await loadConfigFromFile();
+  const jhConfigInfo = await loadJanghoodConfig();
   if (!jhConfigInfo) {
     jError('can not find janghood.config');
     return;
   }
-  const { config } = jhConfigInfo;
-
+  const config = initConfig(jhConfigInfo.config);
+  if (!config) {return;}
 
   const document = config.apiExtractor?.document;
   if (!document || noActiveDocument(document)) {
@@ -46,8 +45,8 @@ const run = async () => {
   // call documents
   documents.forEach(document => {
     document(apis, config);
-  })
+  });
 
-}
+};
 
 run();

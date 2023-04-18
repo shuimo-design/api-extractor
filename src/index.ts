@@ -6,10 +6,10 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import type { JhAPIs, JanghoodConfig } from "../types/janghood-api-extractor";
+import type { JhAPIs } from "../types/janghood-api-extractor";
 import { jError } from "./common/console";
 import { extractor } from "./extractor";
-import jhConfig from "./config/defineJhConfig";
+import { JanghoodConfig } from '@janghood/config';
 
 export const getJhApi = async (config: JanghoodConfig): Promise<JhAPIs> => {
   if (!config.apiExtractor) {
@@ -24,5 +24,3 @@ export const getJhApi = async (config: JanghoodConfig): Promise<JhAPIs> => {
 
   return await extractor(apiExtractor);
 }
-
-export const defineJhConfig = jhConfig;

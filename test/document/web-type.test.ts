@@ -6,70 +6,71 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { test, expect, describe, beforeAll } from "vitest";
-import type { JanghoodConfig, JhAPIs, WebTypeOption } from "../../types/janghood-api-extractor";
-import { getJhApi } from "../../src";
-import webTypes, { webTypesCreator } from "../../src/document/web-types";
+import { test, expect, describe, beforeAll } from 'vitest';
+import type { JanghoodConfig, WebTypeOption } from '@janghood/config';
+import type { JhAPIs } from '../../types/janghood-api-extractor';
+import { getJhApi } from '../../src';
+import webTypes, { webTypesCreator } from '../../src/document/web-types';
 
 
 const tag = {
-  "name": "w-button",
-  "source": {
-    "symbol": "WButton"
+  'name': 'w-button',
+  'source': {
+    'symbol': 'WButton'
   },
-  "description": "Button component with wash-painting-ui style.\n水墨组件的按钮组件。",
-  "doc-url": "https://wash-painting.com/button",
-  "attributes": [
+  'description': 'Button component with wash-painting-ui style.\n水墨组件的按钮组件。',
+  'doc-url': 'https://wash-painting.com/button',
+  'attributes': [
     {
-      "name": "text",
-      "description": "button inline text, will replace by slot\n按钮文本 会被slot覆盖",
-      "value": {
-        "type": "string",
-        "kind": "expression",
-        "default": ""
+      'name': 'text',
+      'description': 'button inline text, will replace by slot\n按钮文本 会被slot覆盖',
+      'value': {
+        'type': 'string',
+        'kind': 'expression',
+        'default': ''
       }
     },
     {
-      "name": "disabled",
-      "description": "disable or not 是否禁用",
-      "value": {
-        "type": "boolean",
-        "kind": "expression",
-        "default": "false"
+      'name': 'disabled',
+      'description': 'disable or not 是否禁用',
+      'value': {
+        'type': 'boolean',
+        'kind': 'expression',
+        'default': 'false'
       }
     },
     {
-      "name": "type",
-      "description": "button type 按钮类型",
-      "value": {
-        "type": "string",
-        "kind": "expression",
-        "default": "primary"
+      'name': 'type',
+      'description': 'button type 按钮类型',
+      'value': {
+        'type': 'string',
+        'kind': 'expression',
+        'default': 'primary'
       }
     }
   ]
 };
 const apiInfo = {
-  "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
-  "framework": "vue",
-  "name": "@janghood/api-extractor",
-  "version": "0.0.1-alpha.0",
-  "contributions": {
-    "html": {
-      "types-syntax": "typescript",
-      "description-markup": "markdown",
-      "tags": [tag]
+  '$schema': 'https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json',
+  'framework': 'vue',
+  'name': '@janghood/api-extractor',
+  'version': '0.0.1-alpha.0',
+  'contributions': {
+    'html': {
+      'types-syntax': 'typescript',
+      'description-markup': 'markdown',
+      'tags': [tag]
     }
   }
-}
+};
 const firstUpperCase = (str: string) => {
   return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
-}
+};
 
 const sourceSymbolTranslator = (dirList: string[]) => {
   let lastDir = firstUpperCase(dirList[dirList.length - 1]);
   return `W${lastDir}`;
-}
+};
 const webOptions: WebTypeOption = {
   active: true,
   sourceSymbolTranslator
@@ -82,10 +83,10 @@ describe('test web-type', () => {
     apiExtractor: {
       include: ['example/base/**/**.d.ts'],
       document: {
-        webTypes: webOptions,
+        webTypes: webOptions
       }
     }
-  }
+  };
 
   beforeAll(async () => {
     testApiInfo = await getJhApi(janghoodConfig);
@@ -168,14 +169,14 @@ describe('test web-type', () => {
 
     const config = Object.create(janghoodConfig);
     config.apiExtractor.document.webTypes.webTypesInfo = {
-      "framework": "vue",
-    }
+      'framework': 'vue'
+    };
     const webTypesInfo = await webTypeCreateHandler.run(config);
     // skip version check
     if (webTypesInfo?.version) {
       webTypesInfo.version = '0.0.1-alpha.0';
     }
     expect(webTypesInfo).toMatchObject(apiInfo);
-  })
-})
+  });
+});
 

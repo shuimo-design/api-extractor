@@ -6,7 +6,7 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import defineJhConfig from "./src/config/defineJhConfig";
+import { defineJhConfig } from '@janghood/config';
 
 
 const firstUpperCase = (str: string) => `${str[0].toUpperCase()}${str.slice(1, str.length)}`;
@@ -14,16 +14,16 @@ const firstUpperCase = (str: string) => `${str[0].toUpperCase()}${str.slice(1, s
 const sourceSymbolTranslator = (dirList: string[]) => {
   let lastDir = firstUpperCase(dirList[dirList.length - 1]);
   return `W${lastDir}`;
-}
+};
 
 export default defineJhConfig({
   apiExtractor: {
-    include: ["example/**/*.d.ts"],
+    include: ['example/**/*.d.ts'],
     document: {
       webTypes: {
         active: true,
         webTypesInfo: {
-          "framework": "vue",
+          'framework': 'vue'
         },
         sourceSymbolTranslator
       },

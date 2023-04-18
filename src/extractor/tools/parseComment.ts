@@ -6,10 +6,10 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { DocBlock, DocComment, DocNode, DocParagraph, DocSection } from "@microsoft/tsdoc";
-import type { Doc } from "../../../types/module/common";
-import { parseBlock } from "./parseBlock";
-import { jWarn } from "../../common/console";
+import { DocBlock, DocComment, DocNode, DocParagraph, DocSection } from '@microsoft/tsdoc';
+import type { Doc } from '@janghood/config';
+import { parseBlock } from './parseBlock';
+import { jWarn } from '../../common/console';
 
 export declare type DocAPIType = {
   key: string,
@@ -25,7 +25,7 @@ export const parseComment = (comment: DocComment) => {
     }
   }
   return keyValueListToObj(commentApiList);
-}
+};
 
 const parseCommentChild = (node: DocNode): DocAPIType[] => {
   if (node instanceof DocBlock || node instanceof DocParagraph) {
@@ -36,7 +36,7 @@ const parseCommentChild = (node: DocNode): DocAPIType[] => {
   }
   jWarn(`${node.kind} is not supported`);
   return [];
-}
+};
 
 const keyValueListToObj = (commentApiList: DocAPIType[]) => {
   const obj: Doc = {};
@@ -44,6 +44,6 @@ const keyValueListToObj = (commentApiList: DocAPIType[]) => {
     obj[item.key] = item.value;
   });
   return obj;
-}
+};
 
 

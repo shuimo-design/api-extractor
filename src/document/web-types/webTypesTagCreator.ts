@@ -6,11 +6,10 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import path from "path";
-import type { WebTypeOption, WebTypesAttributes, WebTypesTag } from "../../../types/module/web-type";
-import type { JhAPI } from "../../../types/janghood-api-extractor";
-import type { Doc } from "../../../types/module/common";
-import { jWarn } from "../../common/console";
+import path from 'path';
+import type { WebTypeOption, WebTypesAttributes, WebTypesTag, Doc } from '@janghood/config';
+import type { JhAPI } from '../../../types/janghood-api-extractor';
+import { jWarn } from '../../common/console';
 
 export declare type WebTypesTagCreatorRunner = (api: JhAPI) => WebTypesTag | undefined;
 
@@ -53,7 +52,7 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
       description: doc?.docDescription,
       'doc-url': doc?.docUrl,
       attributes
-    }
+    };
 
     // delete fileDoc.sourceSymbol;
 
@@ -64,7 +63,7 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
       tag.slots = slots;
     }
     return tag;
-  }
+  };
 
   const childToAttribute = (identifierAPI: JhAPI): WebTypesAttributes => {
     const { doc, name } = identifierAPI;
@@ -86,7 +85,7 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
     attribute.value = value;
 
     return attribute;
-  }
+  };
 
   const clearDefault = (str: string) => {
     //  if is empty string "''"
@@ -94,7 +93,7 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
       return '';
     }
     return str;
-  }
+  };
 
   const getDir = (file: string) => {
     const dirList = path.dirname(file).split(path.sep);
@@ -105,9 +104,9 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
       dirName = dirList[dirList.length - 1];
     }
     return dirName;
-  }
+  };
 
   return {
     run
-  }
-}
+  };
+};

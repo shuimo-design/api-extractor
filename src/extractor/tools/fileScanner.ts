@@ -6,7 +6,7 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import type { APIOptionType } from "../../../types/module/config";
+import type { APIOptionType } from "@janghood/config";
 import os from "os";
 import type { SourceFile } from 'typescript';
 import typescript from "typescript";

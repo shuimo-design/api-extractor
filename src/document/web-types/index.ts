@@ -6,13 +6,13 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import type { WebTypesTag } from "../../../types/module/web-type";
-import type { JanghoodConfig, JhAPIs } from "../../../types/janghood-api-extractor";
-import { loadPackage } from "./loadPackage";
-import { jError } from "../../common/console";
-import { webTypesTagCreator, WebTypesTagCreatorRunner } from "./webTypesTagCreator";
-import { createFile } from "../../common/createFile";
-import { validateDocumentConfig } from "../../config/config";
+import type { WebTypesTag, JanghoodConfig } from '@janghood/config';
+import { JanghoodDefineConfig, validateDocumentConfig } from '@janghood/config';
+import type { JhAPIs } from '../../../types/janghood-api-extractor';
+import { loadPackage } from './loadPackage';
+import { jError } from '../../common/console';
+import { webTypesTagCreator, WebTypesTagCreatorRunner } from './webTypesTagCreator';
+import { createFile } from '../../common/createFile';
 
 export const webTypesCreator = () => {
 
@@ -25,10 +25,10 @@ export const webTypesCreator = () => {
     apis = apiList.filter(api => api.doc && api.children && api.children.length > 0);
     apis.forEach(api => {
       if (api.children && api.children.length > 0) {
-        api.children = api.children.filter(item => item.name !== '')
+        api.children = api.children.filter(item => item.name !== '');
       }
-    })
-  }
+    });
+  };
 
   const createBaseInfo = async (config: JanghoodConfig) => {
     // get package.json info
@@ -40,23 +40,23 @@ export const webTypesCreator = () => {
     }
 
     return {
-      "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
+      '$schema': 'https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json',
       name: packageJson.name,
       version: packageJson.version,
       contributions: {
         html: {
-          "types-syntax": "typescript",
-          "description-markup": "markdown",
+          'types-syntax': 'typescript',
+          'description-markup': 'markdown',
           tags: [] as WebTypesTag[]
         }
       },
       ...option?.webTypesInfo
-    }
-  }
+    };
+  };
 
 
   const run = async (config: JanghoodConfig) => {
-    if (!validateDocumentConfig(config, 'webTypes')) {
+    if (!validateDocumentConfig(config as JanghoodDefineConfig, 'webTypes')) {
       return;
     }
     const webTypesInfo = await createBaseInfo(config);
@@ -73,13 +73,13 @@ export const webTypesCreator = () => {
         return a.name.localeCompare(b.name);
       }) as WebTypesTag[];
     return webTypesInfo;
-  }
+  };
 
   return {
     init,
     run
-  }
-}
+  };
+};
 
 export default async function (apis: JhAPIs, option?: JanghoodConfig) {
   const w = webTypesCreator();
