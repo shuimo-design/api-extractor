@@ -29,6 +29,7 @@
     "@janghood/config": "0.0.1-1",
     "@microsoft/tsdoc": "^0.14.2",
     "@microsoft/tsdoc-config": "^0.16.2",
+    "cac": "^6.7.14",
     "fast-glob": "^3.2.12",
     "tsutils": "^3.21.0"
   },

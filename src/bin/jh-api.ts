@@ -11,6 +11,7 @@ import { jError } from '../common/console';
 import { getJhApi } from '../index';
 import webTypes from '../document/web-types';
 import markdown from '../document/markdown';
+import cac from 'cac';
 
 const noActiveDocument = (document: Documents) => {
   const documents = Object.values(document);
@@ -24,16 +25,17 @@ const noActiveDocument = (document: Documents) => {
 const documents = [webTypes, markdown];
 
 // run jh-api
-const run = async () => {
+const run = async (options: {
+  config?: string
+}) => {
   // resolve janghood.config, such as default value....
-  const jhConfigInfo = await loadJanghoodConfig();
+  const jhConfigInfo = await loadJanghoodConfig(options.config);
   if (!jhConfigInfo) {
     jError('can not find janghood.config');
     return;
   }
-  const config = initConfig(jhConfigInfo.config);
+  const config = await initConfig(jhConfigInfo.config);
   if (!config) {return;}
-
   const document = config.apiExtractor?.document;
   if (!document || noActiveDocument(document)) {
     console.log('can not found document in config or not have any active document');
@@ -49,4 +51,17 @@ const run = async () => {
 
 };
 
-run();
+const cli = cac('jh-api');
+cli.command('[root]')
+  .option('-c, --config [config]', 'config file path')
+  .action(async (
+    root: string, options: {
+      config?: string
+    }
+  ) => {
+    run({
+      config: options.config
+    });
+  });
+cli.help();
+cli.parse();
