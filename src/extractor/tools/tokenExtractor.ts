@@ -6,17 +6,18 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { jError } from "../../common/console";
-import { TSDocConfigFile } from "@microsoft/tsdoc-config";
-import { DocNode, TextRange, TSDocConfiguration, TSDocParser } from "@microsoft/tsdoc";
-import { forEachTokenWithTrivia } from "tsutils";
-import type { Node, SyntaxKind as SyntaxKindType } from "typescript";
-import typescript from "typescript";
-import type { SourceFileInfo } from "./fileScanner";
-import { translator } from "../../translator";
-import { JhAPI, JhAPIs } from "../../../types/janghood-api-extractor";
-import { getPathInfo, logMessage } from "./uitls";
+import { jError } from '../../common/console';
+import { TSDocConfigFile } from '@microsoft/tsdoc-config';
+import { DocNode, TextRange, TSDocConfiguration, TSDocParser } from '@microsoft/tsdoc';
+import { forEachTokenWithTrivia } from 'tsutils';
+import type { Node, SyntaxKind as SyntaxKindType } from 'typescript';
+import typescript from 'typescript';
+import type { SourceFileInfo } from './fileScanner';
+import { translator } from '../../translator';
+import { JhAPI, JhAPIs } from '../../../types/janghood-api-extractor';
+import { getPathInfo, logMessage } from './uitls';
 import jsonConfigObjStr from '../../../tsdoc.json';
+import { ApiExtractorType } from '@janghood/config/types/api-extractor/apiExtractor';
 
 const { SyntaxKind } = typescript;
 
@@ -28,10 +29,16 @@ export declare type Token = {
 };
 export declare type Tokens = Token[];
 
-export const parseInit = () => {
+export const parseInit = (option?: ApiExtractorType) => {
   // need init config
   if (!jsonConfigObjStr) {
     jError('tsdoc.json not found');
+  }
+
+  if (option?.annotate && jsonConfigObjStr.tagDefinitions) {
+    const tagDefinitions = Object.keys(option.annotate)
+      .map(tagName => ({ tagName: `@${tagName}`, syntaxKind: option.annotate![tagName].type ?? 'block' }));
+    jsonConfigObjStr.tagDefinitions = Object.assign(jsonConfigObjStr.tagDefinitions, tagDefinitions);
   }
   const tsdocConfigFile = TSDocConfigFile.loadFromObject(jsonConfigObjStr ?? {});
   const customConfiguration = new TSDocConfiguration();
@@ -40,17 +47,17 @@ export const parseInit = () => {
 
   return {
     tsdocParser
-  }
-}
+  };
+};
 
-export const tokenExtractor = async () => {
+export const tokenExtractor = async (option?: ApiExtractorType) => {
 
-  const { tsdocParser } = parseInit();
+  const { tsdocParser } = parseInit(option);
 
   const getComment = (textRange: TextRange) => {
     const parserContext = tsdocParser!.parseRange(textRange);
     return parserContext.docComment;
-  }
+  };
 
   const getTokensByFile = async (sourceFile: SourceFileInfo): Promise<Tokens> => {
     const { source } = sourceFile;
@@ -74,8 +81,8 @@ export const tokenExtractor = async () => {
           resolve(comments);
         }
       });
-    })
-  }
+    });
+  };
 
   /**
    * @description extract single file
@@ -88,7 +95,7 @@ export const tokenExtractor = async () => {
     } catch (e) {
       jError(`file:${sourceFile.filename}: ${(e as Error).message}`);
     }
-  }
+  };
 
   const extractFileSource = async (fileSourceList: SourceFileInfo[]) => {
     const apiList = await Promise.all(
@@ -106,11 +113,11 @@ export const tokenExtractor = async () => {
       }))
     );
     return (apiList.filter(e => e) as JhAPIs).flat();
-  }
+  };
 
   return {
     getTokensByFile,
     extract,
     extractFileSource
-  }
-}
+  };
+};

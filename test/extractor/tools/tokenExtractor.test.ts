@@ -91,3 +91,52 @@ test('if props have merge type', async () => {
     }
   `);
 })
+
+test('support customer annotate', async ()=>{
+  const unknownAnnotateFile = await fileScanner({
+    include: ['example/base/unknownAnnotate/input.d.ts']
+  });
+  const { extract } = await tokenExtractor();
+  const res = await extract(unknownAnnotateFile[0]);
+  expect(res).toMatchInlineSnapshot(`
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "doc": {
+                "required": "false",
+                "type": "string|number",
+              },
+              "name": "value",
+            },
+          ],
+          "name": "InputProps",
+        },
+        {
+          "children": [
+            {
+              "doc": {
+                "required": "false",
+                "type": "(e:HTMLElementEvent<HTMLInputElement>)=>voidonFocus?:(e:FocusEvent)=>voidonBlur?:(e:FocusEvent)=>void",
+              },
+              "name": "onInput",
+            },
+          ],
+          "name": "InputEvents",
+        },
+      ],
+      "doc": {
+        "author": "阿怪",
+        "date": "2022/4/6 10:50 PM",
+        "description": "input api type",
+        "docDescription": "Input component with shuimo-ui style.
+    水墨组件的输入组件。",
+        "docUrl": "https://shuimo.janghood.com/input",
+        "name": "m-input",
+        "version": "v1.0.0",
+      },
+      "name": "example/base/unknownAnnotate/input.d.ts",
+    }
+  `);
+})
