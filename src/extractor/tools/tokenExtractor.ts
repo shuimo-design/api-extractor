@@ -38,7 +38,7 @@ export const parseInit = (option?: ApiExtractorType) => {
   if (option?.annotate && jsonConfigObjStr.tagDefinitions) {
     const tagDefinitions = Object.keys(option.annotate)
       .map(tagName => ({ tagName: `@${tagName}`, syntaxKind: option.annotate![tagName].type ?? 'block' }));
-    jsonConfigObjStr.tagDefinitions = Object.assign(jsonConfigObjStr.tagDefinitions, tagDefinitions);
+    jsonConfigObjStr.tagDefinitions.push(...tagDefinitions);
   }
   const tsdocConfigFile = TSDocConfigFile.loadFromObject(jsonConfigObjStr ?? {});
   const customConfiguration = new TSDocConfiguration();
