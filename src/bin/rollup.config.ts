@@ -7,16 +7,17 @@
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
 
-import typescript from "@rollup/plugin-typescript";
-import json from "@rollup/plugin-json";
+import typescript from '@rollup/plugin-typescript';
+import json from '@rollup/plugin-json';
 
 export default ({
   input: 'src/bin/jh-api.ts',
   plugins: [typescript(), json()],
   output: [{
+    banner: '#!/usr/bin/env node',
     sourcemap: true,
     file: 'dist/bin/jh-api.js',
-    format: 'cjs',
+    format: 'cjs'
   }],
   external: [
     'typescript',
