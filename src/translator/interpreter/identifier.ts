@@ -84,7 +84,7 @@ export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
 
   // 1. maybe document is end
   if (token.done) {
-    return { jhApi, tokenIterator, name,linker };
+    return { jhApi, tokenIterator, name, linker };
   }
 
   // 2. maybe have AmpersandToken
@@ -240,6 +240,16 @@ const interpretNotOpenBraceTokenType = (token: Token, tokenIterator: GToken) => 
       return res;
     }
 
+    // type Type = Identifier |
+    if (nextToken.value!.kind === SyntaxKind.BarToken) {
+      // todo support this situation, this version just skip
+      let token = tokenIterator.next();
+      while (![SyntaxKind.EndOfFileToken, SyntaxKind.SemicolonToken].includes(token.value!.kind)) {
+        token = tokenIterator.next();
+      }
+      return res;
+    }
+
     // type Type = Identifier
     if ([SyntaxKind.EndOfFileToken, SyntaxKind.SemicolonToken].includes(nextToken.value!.kind)) {
       res.needContinue = false;
@@ -295,8 +305,8 @@ const getParamInfo = (currentToken: IteratorResult<Token>, tokenIterator: GToken
     token = tokenIterator.next();
   }
 
-  if (token.value!.kind !== SyntaxKind.ColonToken) {
-    jError(`type interpreter error: identifier followed token can not be ${token.value!.key} `);
+  if (![SyntaxKind.ColonToken, SyntaxKind.TypeKeyword].includes(token.value!.kind)) {
+    jError(`type interpreter error: identifier followed token can not be ${token.value!.key},kind is ${token.value!.kind} `);
   }
 
   token = tokenIterator.next();
