@@ -13,6 +13,7 @@ import type { JhAPI } from "../../types/janghood-api-extractor";
 import { JhAPIs } from "../../types/janghood-api-extractor";
 import { jWarn } from "../common/console";
 import { intersectionsProcess } from "./process/intersectionsProcess";
+import { linkerProcess } from './process/linkerProcess';
 
 const tokensValidate = (tokens: Tokens) => {
   if (tokens.length === 0) {
@@ -53,6 +54,7 @@ export const translator = (baseToken: Tokens, fileName: string): JhAPI | undefin
 
   try {
     children = intersectionsProcess(children);
+    children = linkerProcess(children);
     return {
       //  to fix path info
       name: fileName,

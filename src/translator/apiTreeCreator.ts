@@ -6,10 +6,10 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import typescript from "typescript";
-import type { Token, Tokens } from "../extractor/tools/tokenExtractor";
-import type { JhAPI, JhAPIs } from "../../types/janghood-api-extractor";
-import { identifierInterpreter } from "./interpreter/identifier";
+import typescript from 'typescript';
+import type { Token, Tokens } from '../extractor/tools/tokenExtractor';
+import type { JhAPI, JhAPIs } from '../../types/janghood-api-extractor';
+import { identifierInterpreter } from './interpreter/identifier';
 
 const { SyntaxKind } = typescript;
 export type GToken = Generator<Token, void, unknown>
@@ -25,7 +25,7 @@ const toTokenIterator: (tokens: Tokens) => GToken = tokens => {
   }
 
   return tokenIterable();
-}
+};
 
 
 export const apiTreeCreator = (tokens: Tokens) => {
@@ -41,7 +41,7 @@ export const apiTreeCreator = (tokens: Tokens) => {
       // is type
       token = tokenIterator.next();
       if (token.value!.kind === SyntaxKind.Identifier) {
-        let jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [] };
+        let jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [], link: [], linker: [] };
         const name = token.value!.key;
         const iResult = identifierInterpreter(tokenIterator, name);
         jhApi.name = iResult.name;
@@ -51,6 +51,9 @@ export const apiTreeCreator = (tokens: Tokens) => {
         }
         if (iResult.jhApi.intersections) {
           jhApi.intersections!.push(...iResult.jhApi.intersections);
+        }
+        if (iResult.linker) {
+          jhApi.linker!.push(...iResult.linker);
         }
         identifierAPIs.push(clearAPI(jhApi));
       }
@@ -67,7 +70,7 @@ export const apiTreeCreator = (tokens: Tokens) => {
 
 
   return identifierAPIs;
-}
+};
 
 export const clearAPI = (jhApi: JhAPI) => {
   if (jhApi.children && jhApi.children.length === 0) {
@@ -76,8 +79,11 @@ export const clearAPI = (jhApi: JhAPI) => {
   if (jhApi.intersections && jhApi.intersections.length === 0) {
     delete jhApi.intersections;
   }
+  if (jhApi.link && jhApi.link.length === 0) {
+    delete jhApi.link;
+  }
   if (Object.keys(jhApi.doc!).length === 0) {
     delete jhApi.doc;
   }
   return jhApi;
-}
+};

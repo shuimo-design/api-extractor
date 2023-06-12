@@ -8,9 +8,9 @@
  */
 
 import { expect, test } from 'vitest';
-import { run } from "./tokenCreateTool";
-import { translator } from "../../src/translator";
-import { Tokens } from "../../src/extractor/tools/tokenExtractor";
+import { run } from './tokenCreateTool';
+import { translator } from '../../src/translator';
+import { Tokens } from '../../src/extractor/tools/tokenExtractor';
 
 test('expect translator return right JhAPI', async () => {
 
@@ -72,7 +72,7 @@ test('expect translator return right JhAPI', async () => {
   `);
 
 
-})
+});
 
 test('expect type with value is return right', async () => {
   const res = await run('example/pure/withValue.d.ts');
@@ -96,7 +96,7 @@ test('expect type with value is return right', async () => {
       "name": "withValue",
     }
   `);
-})
+});
 
 test('expect function type param is return right', async () => {
   const res = await run('example/pure/functionValue.d.ts');
@@ -127,7 +127,7 @@ test('expect function type param is return right', async () => {
       "name": "functionValue",
     }
   `);
-})
+});
 
 test('expect default with greater than is return right', async () => {
   const res = await run('example/pure/defaultWithGreaterThan.d.ts');
@@ -151,7 +151,7 @@ test('expect default with greater than is return right', async () => {
       "name": "defaultWithGreaterThan",
     }
   `);
-})
+});
 
 test('expect default with greater than is return right', async () => {
   const res = await run('example/pure/defaultWithCurlyBraces.d.ts');
@@ -175,4 +175,10 @@ test('expect default with greater than is return right', async () => {
       "name": "defaultWithCurlyBraces",
     }
   `);
-})
+});
+
+test('unionType', async () => {
+  const file = await run('example/pure/unionType.d.ts');
+  const res = translator(file as Tokens, 'unionType');
+  expect(res!.children![0].children![1].doc!.type).toBe('\'top-right\'|\'top-left\'|\'bottom-right\'|\'bottom-left\'|\'top-center\'');
+});

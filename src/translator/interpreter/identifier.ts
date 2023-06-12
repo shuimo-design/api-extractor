@@ -6,15 +6,16 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import type { SyntaxKind as SyntaxKindType } from "typescript";
-import typescript from "typescript";
-import { DocComment } from "@microsoft/tsdoc";
-import type { JhAPI, JhAPIs } from "../../../types/janghood-api-extractor";
-import type { Token } from "../../extractor/tools/tokenExtractor";
-import type { GToken } from "../apiTreeCreator";
-import { clearAPI } from "../apiTreeCreator";
-import { parseComment } from "../../extractor/tools/parseComment";
-import { jError } from "../../common/console";
+import type { SyntaxKind as SyntaxKindType } from 'typescript';
+import typescript from 'typescript';
+import { DocComment } from '@microsoft/tsdoc';
+import type { JhAPI, JhAPIs } from '../../../types/janghood-api-extractor';
+import type { Token } from '../../extractor/tools/tokenExtractor';
+import type { GToken } from '../apiTreeCreator';
+import { clearAPI } from '../apiTreeCreator';
+import { parseComment } from '../../extractor/tools/parseComment';
+import { jError } from '../../common/console';
+import { Doc } from '@janghood/config';
 
 const { SyntaxKind } = typescript;
 
@@ -36,7 +37,7 @@ const appendGenericInfo = (name: string, tokenIterator: GToken) => {
   }
 
   return name + genericInfo;
-}
+};
 
 // when token is identifier
 export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
@@ -44,7 +45,8 @@ export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
   if (!token.value) {
     jError('interpreter error: identifier is empty');
   }
-  let jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [] };
+  let jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [], link: [] };
+  const linker: Array<{ name: string, doc: Doc }> = [];
   // if key follow kind not equals token
   if (token.value!.kind !== SyntaxKind.EqualsToken) {
 
@@ -65,17 +67,24 @@ export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
   // after equal token,
   // 1. open brace token "{"
   // 2. identifier token with ampersand "&"
+  // 3. string like: type A = 'hi' | 'hello';
+
 
   // type identifier
   const iResult = interpretType(tokenIterator);
-  tokenIterator = iResult.tokenIterator;
-  jhApi.intersections!.push(...iResult.intersections);
-  token = tokenIterator.next();
-  jhApi.children = iResult.children;
+  if (iResult.type === 'api') {
+    tokenIterator = iResult.tokenIterator;
+    jhApi.intersections!.push(...iResult.intersections);
+    token = tokenIterator.next();
+    jhApi.children = iResult.children;
+  } else if (iResult.type === 'linker') {
+    linker.push({ name, doc: iResult.doc });
+  }
+
 
   // 1. maybe document is end
   if (token.done) {
-    return { jhApi, tokenIterator, name };
+    return { jhApi, tokenIterator, name,linker };
   }
 
   // 2. maybe have AmpersandToken
@@ -92,16 +101,25 @@ export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
   return {
     jhApi: clearAPI(jhApi),
     tokenIterator,
-    name
+    name,
+    linker
   };
+};
+
+type InterpretTypeResponse = {
+  type: 'api';
+  children: JhAPIs;
+  tokenIterator: GToken;
+  intersections: string[];
+} | {
+  type: 'linker',
+  doc: Doc
 }
-
-
 /**
  * interpret whole type block
  * @param tokenIterator
  */
-const interpretType = (tokenIterator: GToken) => {
+const interpretType = (tokenIterator: GToken): InterpretTypeResponse => {
   let intersections: string[] = [];
   let token = tokenIterator.next();
   if (!token.value) {
@@ -109,11 +127,28 @@ const interpretType = (tokenIterator: GToken) => {
   }
   const children: JhAPIs = [];
   if (token.value!.kind !== SyntaxKind.OpenBraceToken) {
+
+    if (token.value!.kind === SyntaxKind.StringLiteral) {
+      // string union type like: type A = 'hi' | 'hello';
+      // ** this is a special logic **  need more examples!!!
+      const doc: Doc = {
+        type: ''
+      };
+      doc.type += token.value!.key;
+      token = tokenIterator.next();
+      while (![SyntaxKind.EndOfFileToken, SyntaxKind.SemicolonToken].includes(token.value!.kind)) {
+        doc.type += token.value!.key;
+        token = tokenIterator.next();
+      }
+      return { doc, type: 'linker' };
+    }
+
+
     const iResult = interpretNotOpenBraceTokenType(token.value!, tokenIterator);
     if (iResult) {
       intersections.push(...iResult.intersections);
       if (!iResult.needContinue) {
-        return { children, tokenIterator, intersections }
+        return { children, tokenIterator, intersections, type: 'api' };
       }
     }
   }
@@ -151,18 +186,21 @@ const interpretType = (tokenIterator: GToken) => {
       doc: { ...paramJhApi.doc, ...iResult.jhApi.doc },
       name: iResult.jhApi.name,
       children: iResult.jhApi.children,
-    }
+      link: iResult.jhApi.link
+    };
     token = iResult.token;
     children.push(clearAPI(paramJhApi));
   }
   // until closeBraceToken
 
+
   return {
+    type: 'api',
     children,
     tokenIterator,
     intersections
   };
-}
+};
 
 
 /**
@@ -174,7 +212,7 @@ const interpretNotOpenBraceTokenType = (token: Token, tokenIterator: GToken) => 
   const res: { intersections: string[], needContinue: boolean } = {
     intersections: [],
     needContinue: true
-  }
+  };
   if (token.kind === SyntaxKind.Identifier) {
     // todo kind maybe Array like:  export declare type MParamLabelArr<T> = Array<{ param: keyof T } & BaseParamLabel> , to support this
 
@@ -210,7 +248,7 @@ const interpretNotOpenBraceTokenType = (token: Token, tokenIterator: GToken) => 
 
   }
   jError(`interpreter error: can not interpret type block: ${token!.key}: ${token!.kind}`);
-}
+};
 
 
 /**
@@ -218,10 +256,12 @@ const interpretNotOpenBraceTokenType = (token: Token, tokenIterator: GToken) => 
  * support like this:
  * - param: boolean,
  * - [K in AEnum]?: string
- * break at identifier or  comma or close brace
+ * - typeParam: AEnumType
+ * todo support TParam: T, TTypeParam: AReflectType<T>
+ * break at identifier or comma or close brace
  */
 const getParamInfo = (currentToken: IteratorResult<Token>, tokenIterator: GToken) => {
-  const jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [] };
+  const jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [], link: [] };
 
   if (currentToken.value!.kind !== SyntaxKind.Identifier) {
     // if is '['
@@ -246,7 +286,7 @@ const getParamInfo = (currentToken: IteratorResult<Token>, tokenIterator: GToken
 
   jhApi.doc = {
     required: 'true'
-  }
+  };
 
   let token = tokenIterator.next();
   // kind is ?
@@ -278,6 +318,9 @@ const getParamInfo = (currentToken: IteratorResult<Token>, tokenIterator: GToken
 
     }
 
+    if (token.value!.kind === SyntaxKind.Identifier) {
+      jhApi.link?.push({ key: token.value!.key });
+    }
 
     keyList.push(token.value!.key);
     token = tokenIterator.next();
@@ -287,21 +330,21 @@ const getParamInfo = (currentToken: IteratorResult<Token>, tokenIterator: GToken
   return {
     jhApi,
     token,
-    tokenIterator,
+    tokenIterator
   };
-}
+};
 
 const notBreakKind = (kind: SyntaxKindType) => {
   return ![SyntaxKind.CloseBraceToken,
     SyntaxKind.MultiLineCommentTrivia].includes(kind);
-}
+};
 
 const passedKind = (kind: SyntaxKindType) => {
   return [SyntaxKind.Identifier,
-    SyntaxKind.MultiLineCommentTrivia,
+    SyntaxKind.MultiLineCommentTrivia
     // 中括号
   ].includes(kind);
-}
+};
 
 const interpretIntersections = (currentToken: IteratorResult<Token>, tokenIterator: GToken) => {
   const intersections = [];
@@ -317,5 +360,5 @@ const interpretIntersections = (currentToken: IteratorResult<Token>, tokenIterat
   return {
     intersections,
     tokenIterator
-  }
-}
+  };
+};

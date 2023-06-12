@@ -8,7 +8,7 @@
  */
 
 
-import { Doc } from "@janghood/config";
+import { Doc } from '@janghood/config';
 
 /**
  * @description output api type
@@ -37,7 +37,23 @@ export declare type JhAPI = {
    * @description intersection type list
    * @type string[]
    */
-  intersections?: string[]
+  intersections?: string[],
+  /**
+   * @description some id needs to link other types
+   */
+  link?: LinkType[],
+  /**
+   * @description some types, like union types
+   */
+  linker?: LinkerType[]
+}
+
+type LinkType = {
+  key: string;
+}
+type LinkerType = {
+  name: string;
+  doc: Doc;
 }
 
 /**
