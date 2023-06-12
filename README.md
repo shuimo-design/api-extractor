@@ -106,4 +106,5 @@ const sourceSymbolTranslator = (dirList: string[]) => {
 ```
 
 - [ ] webTypes add default icon
+- [ ] webTypes can build to specify directory
 
