@@ -59,6 +59,11 @@ test('jh-api', async () => {
                   "required": "true",
                   "type": "Array<any>",
                 },
+                "link": [
+                  {
+                    "key": "Array",
+                  },
+                ],
                 "name": "type",
               },
               {
@@ -72,6 +77,7 @@ test('jh-api', async () => {
               },
             ],
             "intersections": [],
+            "linker": [],
             "name": "ButtonProps",
           },
           {
@@ -86,6 +92,7 @@ test('jh-api', async () => {
                 "name": "K in ButtonType",
               },
             ],
+            "linker": [],
             "name": "ButtonTypeProps",
           },
         ],
@@ -111,9 +118,18 @@ test('jh-api', async () => {
                   "required": "true",
                   "type": "{key:string,value:number",
                 },
+                "link": [
+                  {
+                    "key": "key",
+                  },
+                  {
+                    "key": "value",
+                  },
+                ],
                 "name": "object",
               },
             ],
+            "linker": [],
             "name": "defaultWithCurlyBraces",
           },
         ],
@@ -143,6 +159,7 @@ test('jh-api', async () => {
                 "name": "func",
               },
             ],
+            "linker": [],
             "name": "defaultWithGreaterThan",
           },
         ],
@@ -181,9 +198,21 @@ test('jh-api', async () => {
                   "required": "false",
                   "type": "(option:any,value:any)=>Boolean",
                 },
+                "link": [
+                  {
+                    "key": "option",
+                  },
+                  {
+                    "key": "value",
+                  },
+                  {
+                    "key": "Boolean",
+                  },
+                ],
                 "name": "toMatch",
               },
             ],
+            "linker": [],
             "name": "FunctionValue",
           },
         ],
@@ -205,12 +234,79 @@ test('jh-api', async () => {
             "children": [
               {
                 "doc": {
+                  "description": "string",
+                  "required": "true",
+                  "type": "string",
+                },
+                "name": "type",
+              },
+              {
+                "doc": {
+                  "default": "top-right",
+                  "description": "The direction in which the component appears",
+                  "required": "false",
+                  "type": "'top-right'|'top-left'|'bottom-right'|'bottom-left'|'top-center'",
+                },
+                "link": [
+                  {
+                    "key": "MessageDirectionType",
+                  },
+                ],
+                "name": "direction",
+              },
+            ],
+            "linker": [],
+            "name": "MessageProps",
+          },
+          {
+            "linker": [
+              {
+                "doc": {
+                  "type": "'top-right'|'top-left'|'bottom-right'|'bottom-left'|'top-center'",
+                },
+                "name": "MessageDirectionType",
+              },
+            ],
+            "name": "MessageDirectionType",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2021/6/22 2:33 下午",
+          "description": "message消息组件类型",
+          "docDescription": "Message component with shuimo-ui style.
+    水墨组件的消息组件。",
+          "docUrl": "https://shuimo.janghood.com/message",
+          "name": "m-message",
+          "version": "v2.0.1",
+        },
+        "name": "example/pure/unionType.d.ts",
+        "path": {
+          "directory": "example/pure",
+          "file": "unionType.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
                   "required": "true",
                   "type": "string|VNode[]|WithValue[]",
                 },
+                "link": [
+                  {
+                    "key": "VNode",
+                  },
+                  {
+                    "key": "WithValue",
+                  },
+                ],
                 "name": "key",
               },
             ],
+            "linker": [],
             "name": "WithValue",
           },
         ],
@@ -260,6 +356,7 @@ test('jh-api', async () => {
                 "name": "type",
               },
             ],
+            "linker": [],
             "name": "ButtonProps",
           },
           {
@@ -273,6 +370,7 @@ test('jh-api', async () => {
                 "name": "click",
               },
             ],
+            "linker": [],
             "name": "ButtonEvents",
           },
         ],
@@ -298,6 +396,286 @@ test('jh-api', async () => {
             "children": [
               {
                 "doc": {
+                  "default": "'info'",
+                  "description": "Type of message",
+                  "required": "false",
+                  "type": "'success'|'warning'|'info'|'error'",
+                },
+                "link": [
+                  {
+                    "key": "MessageType",
+                  },
+                ],
+                "name": "type",
+              },
+              {
+                "doc": {
+                  "default": "3000",
+                  "description": "The time of duration",
+                  "required": "false",
+                  "type": "number",
+                },
+                "name": "duration",
+              },
+              {
+                "doc": {
+                  "default": "这是一条消息",
+                  "description": "The message content",
+                  "required": "true",
+                  "type": "string",
+                },
+                "name": "content",
+              },
+              {
+                "doc": {
+                  "default": "top-right",
+                  "description": "The direction in which the component appears",
+                  "required": "false",
+                  "type": "'top-right'|'top-left'|'bottom-right'|'bottom-left'|'top-center'",
+                },
+                "link": [
+                  {
+                    "key": "MessageDirectionType",
+                  },
+                ],
+                "name": "direction",
+              },
+              {
+                "doc": {
+                  "default": "true",
+                  "description": "Whether the component is allowed to be dragged",
+                  "required": "false",
+                  "type": "boolean",
+                },
+                "name": "dragAllow",
+              },
+              {
+                "doc": {
+                  "default": "{triggerBoundary:2}",
+                  "description": "Whether the component is allowed to be dragged",
+                  "required": "false",
+                  "type": "DragConfigType",
+                },
+                "link": [
+                  {
+                    "key": "DragConfigType",
+                  },
+                ],
+                "name": "dragConfig",
+              },
+            ],
+            "linker": [],
+            "name": "MessageProps",
+          },
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "top-right",
+                  "description": "The direction in which the component appears",
+                  "required": "false",
+                  "type": "'top-right'|'top-left'|'bottom-right'|'bottom-left'|'top-center'",
+                },
+                "link": [
+                  {
+                    "key": "MessageDirectionType",
+                  },
+                ],
+                "name": "direction",
+              },
+            ],
+            "linker": [],
+            "name": "MessageListProps",
+          },
+          {
+            "linker": [
+              {
+                "doc": {
+                  "type": "'top-right'|'top-left'|'bottom-right'|'bottom-left'|'top-center'",
+                },
+                "name": "MessageDirectionType",
+              },
+            ],
+            "name": "MessageDirectionType",
+          },
+          {
+            "linker": [
+              {
+                "doc": {
+                  "type": "'success'|'warning'|'info'|'error'",
+                },
+                "name": "MessageType",
+              },
+            ],
+            "name": "MessageType",
+          },
+          {
+            "children": [
+              {
+                "doc": {
+                  "required": "true",
+                  "type": "'success'|'warning'|'info'|'error'",
+                },
+                "link": [
+                  {
+                    "key": "IMessageEnum",
+                  },
+                  {
+                    "key": "T",
+                  },
+                  {
+                    "key": "K",
+                  },
+                  {
+                    "key": "MessageType",
+                  },
+                  {
+                    "key": "options",
+                  },
+                  {
+                    "key": "MessageConfig",
+                  },
+                  {
+                    "key": "duration",
+                  },
+                  {
+                    "key": "Promise",
+                  },
+                  {
+                    "key": "T",
+                  },
+                ],
+                "name": "MessageProps",
+              },
+            ],
+            "intersections": [],
+            "linker": [],
+            "name": "MessageConfig",
+          },
+          {
+            "children": [
+              {
+                "doc": {
+                  "required": "true",
+                  "type": "MessageConfig):Promise<T>|void",
+                },
+                "link": [
+                  {
+                    "key": "MessageConfig",
+                  },
+                  {
+                    "key": "Promise",
+                  },
+                  {
+                    "key": "T",
+                  },
+                ],
+                "name": "config",
+              },
+            ],
+            "intersections": [
+              "IMessageEnum",
+            ],
+            "linker": [],
+            "name": "IMessage<T>",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2021/6/22 2:33 下午",
+          "description": "message消息组件类型",
+          "docDescription": "Message component with shuimo-ui style.
+    水墨组件的消息组件。",
+          "docUrl": "https://shuimo.janghood.com/message",
+          "name": "m-message",
+          "version": "v2.0.1",
+        },
+        "name": "example/base/message/message.d.ts",
+        "path": {
+          "directory": "example/base/message",
+          "file": "message.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
+                  "required": "false",
+                  "type": "string|number",
+                },
+                "name": "value",
+              },
+            ],
+            "linker": [],
+            "name": "InputProps",
+          },
+          {
+            "children": [
+              {
+                "doc": {
+                  "required": "false",
+                  "type": "(e:HTMLElementEvent<HTMLInputElement>)=>voidonFocus?:(e:FocusEvent)=>voidonBlur?:(e:FocusEvent)=>void",
+                },
+                "link": [
+                  {
+                    "key": "e",
+                  },
+                  {
+                    "key": "HTMLElementEvent",
+                  },
+                  {
+                    "key": "HTMLInputElement",
+                  },
+                  {
+                    "key": "onFocus",
+                  },
+                  {
+                    "key": "e",
+                  },
+                  {
+                    "key": "FocusEvent",
+                  },
+                  {
+                    "key": "onBlur",
+                  },
+                  {
+                    "key": "e",
+                  },
+                  {
+                    "key": "FocusEvent",
+                  },
+                ],
+                "name": "onInput",
+              },
+            ],
+            "linker": [],
+            "name": "InputEvents",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2022/4/6 10:50 PM",
+          "description": "input api type",
+          "docDescription": "Input component with shuimo-ui style.
+    水墨组件的输入组件。",
+          "docUrl": "https://shuimo.janghood.com/input",
+          "name": "m-input",
+          "version": "v1.0.0",
+        },
+        "name": "example/base/unknownAnnotate/input.d.ts",
+        "path": {
+          "directory": "example/base/unknownAnnotate",
+          "file": "input.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
                   "default": "'请选择...'",
                   "description": "input placeholder. 提示语",
                   "required": "false",
@@ -315,12 +693,24 @@ test('jh-api', async () => {
                   "required": "false",
                   "type": "(option:any,value:any)=>Boolean",
                 },
+                "link": [
+                  {
+                    "key": "option",
+                  },
+                  {
+                    "key": "value",
+                  },
+                  {
+                    "key": "Boolean",
+                  },
+                ],
                 "name": "toMatch",
               },
             ],
             "intersections": [
               "FunctionValue",
             ],
+            "linker": [],
             "name": "LinkType",
           },
         ],
@@ -359,6 +749,7 @@ test('jh-api', async () => {
                 "name": "submit",
               },
             ],
+            "linker": [],
             "name": "FormProps",
           },
         ],
@@ -401,6 +792,7 @@ test('jh-api', async () => {
                 "name": "prop",
               },
             ],
+            "linker": [],
             "name": "FormItemProps",
           },
         ],
@@ -441,6 +833,11 @@ test('jh-api', async () => {
                   "required": "true",
                   "type": "MParamLabel[]",
                 },
+                "link": [
+                  {
+                    "key": "MParamLabel",
+                  },
+                ],
                 "name": "columns",
               },
               {
@@ -459,12 +856,18 @@ test('jh-api', async () => {
                   "required": "false",
                   "type": "Pagination",
                 },
+                "link": [
+                  {
+                    "key": "Pagination",
+                  },
+                ],
                 "name": "pagination",
               },
             ],
             "intersections": [
               "MTablePlusProps",
             ],
+            "linker": [],
             "name": "MInputFormProps",
           },
         ],
@@ -532,6 +935,14 @@ test('jh-api', async () => {
                   "required": "false",
                   "type": "(value:any,row:any)=>void",
                 },
+                "link": [
+                  {
+                    "key": "value",
+                  },
+                  {
+                    "key": "row",
+                  },
+                ],
                 "name": "customRender",
               },
               {
@@ -541,9 +952,15 @@ test('jh-api', async () => {
                   "required": "false",
                   "type": "Record<string,any>",
                 },
+                "link": [
+                  {
+                    "key": "Record",
+                  },
+                ],
                 "name": "props",
               },
             ],
+            "linker": [],
             "name": "BaseParamLabel",
           },
           {
@@ -601,6 +1018,14 @@ test('jh-api', async () => {
                   "required": "false",
                   "type": "(value:any,row:any)=>void",
                 },
+                "link": [
+                  {
+                    "key": "value",
+                  },
+                  {
+                    "key": "row",
+                  },
+                ],
                 "name": "customRender",
               },
               {
@@ -610,10 +1035,16 @@ test('jh-api', async () => {
                   "required": "false",
                   "type": "Record<string,any>",
                 },
+                "link": [
+                  {
+                    "key": "Record",
+                  },
+                ],
                 "name": "props",
               },
             ],
             "intersections": [],
+            "linker": [],
             "name": "MParamLabel",
           },
         ],
@@ -649,6 +1080,11 @@ test('jh-api', async () => {
                   "required": "true",
                   "type": "MParamLabel[]",
                 },
+                "link": [
+                  {
+                    "key": "MParamLabel",
+                  },
+                ],
                 "name": "columns",
               },
               {
@@ -667,9 +1103,15 @@ test('jh-api', async () => {
                   "required": "false",
                   "type": "Pagination",
                 },
+                "link": [
+                  {
+                    "key": "Pagination",
+                  },
+                ],
                 "name": "pagination",
               },
             ],
+            "linker": [],
             "name": "MTablePlusProps",
           },
           {
@@ -718,9 +1160,15 @@ test('jh-api', async () => {
                   "required": "false",
                   "type": "(pn:number)=>void",
                 },
+                "link": [
+                  {
+                    "key": "pn",
+                  },
+                ],
                 "name": "onChange",
               },
             ],
+            "linker": [],
             "name": "Pagination",
           },
         ],
@@ -774,12 +1222,24 @@ test('expect link type is return right', async () => {
                   "required": "false",
                   "type": "(option:any,value:any)=>Boolean",
                 },
+                "link": [
+                  {
+                    "key": "option",
+                  },
+                  {
+                    "key": "value",
+                  },
+                  {
+                    "key": "Boolean",
+                  },
+                ],
                 "name": "toMatch",
               },
             ],
             "intersections": [
               "FunctionValue",
             ],
+            "linker": [],
             "name": "LinkType",
           },
         ],
@@ -818,9 +1278,21 @@ test('expect link type is return right', async () => {
                   "required": "false",
                   "type": "(option:any,value:any)=>Boolean",
                 },
+                "link": [
+                  {
+                    "key": "option",
+                  },
+                  {
+                    "key": "value",
+                  },
+                  {
+                    "key": "Boolean",
+                  },
+                ],
                 "name": "toMatch",
               },
             ],
+            "linker": [],
             "name": "FunctionValue",
           },
         ],

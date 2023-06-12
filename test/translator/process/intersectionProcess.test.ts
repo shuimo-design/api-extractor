@@ -49,6 +49,11 @@ test('expect intersectionProcess success', () => {
               "required": "true",
               "type": "Array<any>",
             },
+            "link": [
+              {
+                "key": "Array",
+              },
+            ],
             "name": "type",
           },
           {
@@ -60,6 +65,7 @@ test('expect intersectionProcess success', () => {
           },
         ],
         "intersections": [],
+        "linker": [],
         "name": "ButtonProps",
       },
       {
@@ -72,6 +78,7 @@ test('expect intersectionProcess success', () => {
             "name": "K in ButtonType",
           },
         ],
+        "linker": [],
         "name": "ButtonTypeProps",
       },
     ]

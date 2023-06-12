@@ -51,6 +51,11 @@ test('if props have merge type', async () => {
                 "required": "true",
                 "type": "Array<any>",
               },
+              "link": [
+                {
+                  "key": "Array",
+                },
+              ],
               "name": "type",
             },
             {
@@ -64,6 +69,7 @@ test('if props have merge type', async () => {
             },
           ],
           "intersections": [],
+          "linker": [],
           "name": "ButtonProps",
         },
         {
@@ -78,6 +84,7 @@ test('if props have merge type', async () => {
               "name": "K in ButtonType",
             },
           ],
+          "linker": [],
           "name": "ButtonTypeProps",
         },
       ],
@@ -111,6 +118,7 @@ test('support customer annotate', async ()=>{
               "name": "value",
             },
           ],
+          "linker": [],
           "name": "InputProps",
         },
         {
@@ -120,9 +128,39 @@ test('support customer annotate', async ()=>{
                 "required": "false",
                 "type": "(e:HTMLElementEvent<HTMLInputElement>)=>voidonFocus?:(e:FocusEvent)=>voidonBlur?:(e:FocusEvent)=>void",
               },
+              "link": [
+                {
+                  "key": "e",
+                },
+                {
+                  "key": "HTMLElementEvent",
+                },
+                {
+                  "key": "HTMLInputElement",
+                },
+                {
+                  "key": "onFocus",
+                },
+                {
+                  "key": "e",
+                },
+                {
+                  "key": "FocusEvent",
+                },
+                {
+                  "key": "onBlur",
+                },
+                {
+                  "key": "e",
+                },
+                {
+                  "key": "FocusEvent",
+                },
+              ],
               "name": "onInput",
             },
           ],
+          "linker": [],
           "name": "InputEvents",
         },
       ],

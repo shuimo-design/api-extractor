@@ -20,33 +20,24 @@ const tag = {
   },
   'description': 'Button component with wash-painting-ui style.\n水墨组件的按钮组件。',
   'doc-url': 'https://wash-painting.com/button',
-  'attributes': [
+  'props': [
     {
       'name': 'text',
       'description': 'button inline text, will replace by slot\n按钮文本 会被slot覆盖',
-      'value': {
-        'type': 'string',
-        'kind': 'expression',
-        'default': ''
-      }
+      'type': 'string',
+      'default': ''
     },
     {
       'name': 'disabled',
       'description': 'disable or not 是否禁用',
-      'value': {
-        'type': 'boolean',
-        'kind': 'expression',
-        'default': 'false'
-      }
+      'type': 'boolean',
+      'default': 'false'
     },
     {
       'name': 'type',
       'description': 'button type 按钮类型',
-      'value': {
-        'type': 'string',
-        'kind': 'expression',
-        'default': 'primary'
-      }
+      'type': 'string',
+      'default': 'primary'
     }
   ]
 };
@@ -55,11 +46,11 @@ const apiInfo = {
   'framework': 'vue',
   'name': '@janghood/api-extractor',
   'version': '0.0.1-alpha.0',
+  'js-types-syntax': 'typescript',
+  'description-markup': 'markdown',
   'contributions': {
     'html': {
-      'types-syntax': 'typescript',
-      'description-markup': 'markdown',
-      'tags': [tag]
+      'vue-components': [tag]
     }
   }
 };
@@ -109,54 +100,108 @@ describe('test web-type', () => {
     }
     expect(webTypesInfo).toMatchInlineSnapshot(`
       {
-        "\$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
+        "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
         "contributions": {
           "html": {
-            "description-markup": "markdown",
-            "tags": [
+            "vue-components": [
               {
-                "attributes": [
+                "description": "Input component with shuimo-ui style.
+      水墨组件的输入组件。",
+                "doc-url": "https://shuimo.janghood.com/input",
+                "name": "m-input",
+                "props": [
                   {
-                    "description": "button inline text, will replace by slot
-      按钮文本 会被slot覆盖",
-                    "name": "text",
-                    "value": {
-                      "default": "",
-                      "kind": "expression",
-                      "type": "string",
-                    },
-                  },
-                  {
-                    "description": "disable or not 是否禁用",
-                    "name": "disabled",
-                    "value": {
-                      "default": "false",
-                      "kind": "expression",
-                      "type": "boolean",
-                    },
-                  },
-                  {
-                    "description": "button type 按钮类型",
-                    "name": "type",
-                    "value": {
-                      "default": "primary",
-                      "kind": "expression",
-                      "type": "string",
-                    },
+                    "default": undefined,
+                    "name": "value",
+                    "type": "string|number",
                   },
                 ],
+                "source": {
+                  "symbol": "WUnknownannotate",
+                },
+              },
+              {
+                "description": "Message component with shuimo-ui style.
+      水墨组件的消息组件。",
+                "doc-url": "https://shuimo.janghood.com/message",
+                "name": "m-message",
+                "props": [
+                  {
+                    "default": "'info'",
+                    "description": "Type of message",
+                    "name": "type",
+                    "type": "'success'|'warning'|'info'|'error'",
+                  },
+                  {
+                    "default": "3000",
+                    "description": "The time of duration",
+                    "name": "duration",
+                    "type": "number",
+                  },
+                  {
+                    "default": "这是一条消息",
+                    "description": "The message content",
+                    "name": "content",
+                    "type": "string",
+                  },
+                  {
+                    "default": "top-right",
+                    "description": "The direction in which the component appears",
+                    "name": "direction",
+                    "type": "'top-right'|'top-left'|'bottom-right'|'bottom-left'|'top-center'",
+                  },
+                  {
+                    "default": "true",
+                    "description": "Whether the component is allowed to be dragged",
+                    "name": "dragAllow",
+                    "type": "boolean",
+                  },
+                  {
+                    "default": "{triggerBoundary:2}",
+                    "description": "Whether the component is allowed to be dragged",
+                    "name": "dragConfig",
+                    "type": "DragConfigType",
+                  },
+                ],
+                "source": {
+                  "symbol": "WMessage",
+                },
+              },
+              {
                 "description": "Button component with wash-painting-ui style.
       水墨组件的按钮组件。",
                 "doc-url": "https://wash-painting.com/button",
                 "name": "w-button",
+                "props": [
+                  {
+                    "default": "",
+                    "description": "button inline text, will replace by slot
+      按钮文本 会被slot覆盖",
+                    "name": "text",
+                    "type": "string",
+                  },
+                  {
+                    "default": "false",
+                    "description": "disable or not 是否禁用",
+                    "name": "disabled",
+                    "type": "boolean",
+                  },
+                  {
+                    "default": "primary",
+                    "description": "button type 按钮类型",
+                    "name": "type",
+                    "type": "string",
+                  },
+                ],
                 "source": {
                   "symbol": "WButton",
                 },
               },
             ],
-            "types-syntax": "typescript",
           },
         },
+        "description-markup": "markdown",
+        "js-types-syntax": "typescript",
         "name": "@janghood/api-extractor",
         "version": "0.0.1-alpha.0",
       }

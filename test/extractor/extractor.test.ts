@@ -50,6 +50,7 @@ test('just run extractor test', async () => {
               "name": "type",
             },
           ],
+          "linker": [],
           "name": "ButtonProps",
         },
         {
@@ -63,6 +64,7 @@ test('just run extractor test', async () => {
               "name": "click",
             },
           ],
+          "linker": [],
           "name": "ButtonEvents",
         },
       ],

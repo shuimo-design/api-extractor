@@ -40,6 +40,11 @@ test('expect translator return right JhAPI', async () => {
                 "required": "true",
                 "type": "Array<any>",
               },
+              "link": [
+                {
+                  "key": "Array",
+                },
+              ],
               "name": "type",
             },
             {
@@ -51,6 +56,7 @@ test('expect translator return right JhAPI', async () => {
             },
           ],
           "intersections": [],
+          "linker": [],
           "name": "ButtonProps",
         },
         {
@@ -63,6 +69,7 @@ test('expect translator return right JhAPI', async () => {
               "name": "K in ButtonType",
             },
           ],
+          "linker": [],
           "name": "ButtonTypeProps",
         },
       ],
@@ -86,9 +93,18 @@ test('expect type with value is return right', async () => {
                 "required": "true",
                 "type": "string|VNode[]|WithValue[]",
               },
+              "link": [
+                {
+                  "key": "VNode",
+                },
+                {
+                  "key": "WithValue",
+                },
+              ],
               "name": "key",
             },
           ],
+          "linker": [],
           "name": "WithValue",
         },
       ],
@@ -117,9 +133,21 @@ test('expect function type param is return right', async () => {
                 "required": "false",
                 "type": "(option:any,value:any)=>Boolean",
               },
+              "link": [
+                {
+                  "key": "option",
+                },
+                {
+                  "key": "value",
+                },
+                {
+                  "key": "Boolean",
+                },
+              ],
               "name": "toMatch",
             },
           ],
+          "linker": [],
           "name": "FunctionValue",
         },
       ],
@@ -144,6 +172,7 @@ test('expect default with greater than is return right', async () => {
               "name": "func",
             },
           ],
+          "linker": [],
           "name": "defaultWithGreaterThan",
         },
       ],
@@ -165,9 +194,18 @@ test('expect default with greater than is return right', async () => {
                 "required": "true",
                 "type": "{key:string,value:number",
               },
+              "link": [
+                {
+                  "key": "key",
+                },
+                {
+                  "key": "value",
+                },
+              ],
               "name": "object",
             },
           ],
+          "linker": [],
           "name": "defaultWithCurlyBraces",
         },
       ],
