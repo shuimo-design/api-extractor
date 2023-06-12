@@ -13,12 +13,13 @@ const firstUpperCase = (str: string) => `${str[0].toUpperCase()}${str.slice(1, s
 
 const sourceSymbolTranslator = (dirList: string[]) => {
   let lastDir = firstUpperCase(dirList[dirList.length - 1]);
-  return `W${lastDir}`;
+  return `M${lastDir}`;
 };
 
 export default defineJhConfig({
   apiExtractor: {
-    include: ['example/**/*.d.ts'],
+    // include: ['example/**/*.d.ts'],
+    include: ['example/base/message/message.d.ts'],
     document: {
       webTypes: {
         active: true,
@@ -30,6 +31,11 @@ export default defineJhConfig({
       markdown: {
         output: 'doc',
         active: true
+      }
+    },
+    annotate:{
+      component: {
+        type: 'block'
       }
     }
   }

@@ -25,7 +25,7 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
       return;
     }
 
-    const attributes: WebTypesAttributes[] = [];
+    const props: WebTypesAttributes[] = [];
     const events: [] = [];
     const slots: [] = [];
     if (!children || children.length === 0) {
@@ -37,8 +37,9 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
 
           if (child.name.includes('Prop')) {
             for (const c of child.children) {
-              attributes.push(childToAttribute(c));
+              props.push(childToAttribute(c));
             }
+            break;
           }
 
         }
@@ -51,7 +52,7 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
       source: { symbol: doc?.sourceSymbol ?? getDir(api.name ?? '') },
       description: doc?.docDescription,
       'doc-url': doc?.docUrl,
-      attributes
+      props
     };
 
     // delete fileDoc.sourceSymbol;
@@ -74,7 +75,6 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
     if (doc) {
       value.type = doc.type;
       value.default = clearDefault(doc.default);
-      value.kind = 'expression';
       if (doc.docUrl) {
         attribute['doc-url'] = doc.docUrl;
       }
@@ -82,7 +82,7 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
         attribute.description = doc.description;
       }
     }
-    attribute.value = value;
+    Object.assign(attribute, value);
 
     return attribute;
   };

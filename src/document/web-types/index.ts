@@ -43,11 +43,11 @@ export const webTypesCreator = () => {
       '$schema': 'https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json',
       name: packageJson.name,
       version: packageJson.version,
+      'js-types-syntax': 'typescript',
+      'description-markup': 'markdown',
       contributions: {
         html: {
-          'types-syntax': 'typescript',
-          'description-markup': 'markdown',
-          tags: [] as WebTypesTag[]
+          'vue-components': [] as WebTypesTag[]
         }
       },
       ...option?.webTypesInfo
@@ -64,7 +64,7 @@ export const webTypesCreator = () => {
       jError('please init first');
       return;
     }
-    webTypesInfo.contributions.html.tags = apis.map(api => tagCreator.run(api))
+    webTypesInfo.contributions.html['vue-components'] = apis.map(api => tagCreator.run(api))
       .filter(e => e)
       .sort((a, b) => {
         if (!a || !b || !a.name || !b.name) {

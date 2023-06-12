@@ -6,11 +6,11 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import type { APIOptionType } from "@janghood/config";
-import os from "os";
+import type { APIOptionType } from '@janghood/config';
+import os from 'os';
 import type { SourceFile } from 'typescript';
-import typescript from "typescript";
-import { getSource, getSourceFilenameLists } from "./sourceTools";
+import typescript from 'typescript';
+import { getSource, getSourceFilenameLists } from './sourceTools';
 
 
 const { createProgram, flattenDiagnosticMessageText, ScriptTarget } = typescript;
@@ -57,12 +57,11 @@ export const fileScanner = async (option: APIOptionType): Promise<SourceFileInfo
       }
     }
     return program;
-  }
-
+  };
   const sourceFileList = await getSourceFilenameLists(include, exclude);
   const program = compiler(sourceFileList);
   return sourceFileList.map(filename => ({
     source: getSource(filename, program),
     filename
   }));
-}
+};

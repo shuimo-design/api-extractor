@@ -6,7 +6,7 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { Program } from "typescript";
+import { Program } from 'typescript';
 import FastGlob from 'fast-glob';
 
 

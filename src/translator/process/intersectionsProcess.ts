@@ -6,7 +6,7 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { JhAPI, JhAPIs } from "../../../types/janghood-api-extractor";
+import { JhAPI, JhAPIs } from '../../../types/janghood-api-extractor';
 
 
 export const intersectionsProcess = (apis: JhAPIs) => {
@@ -27,14 +27,15 @@ export const intersectionsProcess = (apis: JhAPIs) => {
         needProcessApis.push(jhApi);
       }
     }
-  }
+  };
 
 
   const apiIntersectionsFilter = (e: string, jhApi: JhAPI) => {
 
     if (apiMaps.has(e)) {
-      const children = apiMaps.get(e)!.children!;
+      const children = apiMaps.get(e)!.children! ?? [];
       if (jhApi.children) {
+
         jhApi.children.push(...children);
       } else {
         jhApi.children = [...children];
@@ -42,17 +43,17 @@ export const intersectionsProcess = (apis: JhAPIs) => {
       return false;
     }
     return true;
-  }
+  };
 
   apis.forEach(setMaps);
 
 
   needProcessApis.forEach(jhApi => {
     jhApi.intersections = jhApi.intersections!.filter(e => apiIntersectionsFilter(e, jhApi));
-  })
+  });
 
   return apis;
-}
+};
 
 
 
