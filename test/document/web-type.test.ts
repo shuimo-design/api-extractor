@@ -113,7 +113,10 @@ describe('test web-type', () => {
                   {
                     "default": undefined,
                     "name": "value",
-                    "type": "string|number",
+                    "type": [
+                      "string",
+                      "number",
+                    ],
                   },
                 ],
                 "source": {

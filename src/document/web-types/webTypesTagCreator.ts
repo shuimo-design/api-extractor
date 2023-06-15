@@ -66,14 +66,45 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
     return tag;
   };
 
+  const handleType = (type: string) => {
+    if (!type.includes('|')) {
+      return type;
+    }
+    const types = type.split('|');
+    const isString = (str: string) => {
+      if (str.startsWith('\'') && str.endsWith('\'')) {
+        return true;
+      }
+      return str.startsWith('"') && str.endsWith('"');
+    };
+    const typeList: string[] = [];
+    let currentStrList: string[] = [];
+    for (const t of types) {
+      if (isString(t)) {
+        currentStrList.push(t);
+      } else {
+        if (currentStrList.length > 0) {
+          typeList.push(currentStrList.join('|'));
+          currentStrList = [];
+        } else {
+          typeList.push(t);
+        }
+      }
+    }
+    if (currentStrList.length > 0) {
+      return currentStrList.join('|');
+    }
+    return typeList;
+  };
+
   const childToAttribute = (identifierAPI: JhAPI): WebTypesAttributes => {
     const { doc, name } = identifierAPI;
     const attribute: WebTypesAttributes = {
       name
     };
-    const value: Doc = {};
+    const value: Doc & { type?: string | string[] } = {};
     if (doc) {
-      value.type = doc.type;
+      value.type = handleType(doc.type);
       value.default = clearDefault(doc.default);
       if (doc.docUrl) {
         attribute['doc-url'] = doc.docUrl;
