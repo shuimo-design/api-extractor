@@ -20,6 +20,6 @@ describe('fileScanner expect return right file source', () => {
 
   test('scan example and except merge document', async () => {
     const fileSourceList = await fileScanner({ include: ['example/**/*.d.ts'],exclude:['**/merge/**/*.d.ts'] });
-    expect(fileSourceList.length).toBe(14);
+    expect(fileSourceList.length).toBe(15);
   });
 })

@@ -234,6 +234,43 @@ test('jh-api', async () => {
             "children": [
               {
                 "doc": {
+                  "description": "type",
+                  "required": "true",
+                  "type": "string",
+                },
+                "name": "type",
+              },
+              {
+                "doc": {
+                  "description": "name",
+                  "required": "true",
+                  "type": "string",
+                },
+                "name": "name",
+              },
+            ],
+            "linker": [],
+            "name": "semicolonType",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2023/6/15 15:30",
+          "description": "",
+          "version": "v1.0.0",
+        },
+        "name": "example/pure/semicolonType.d.ts",
+        "path": {
+          "directory": "example/pure",
+          "file": "semicolonType.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
                   "description": "string",
                   "required": "true",
                   "type": "string",

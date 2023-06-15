@@ -220,3 +220,9 @@ test('unionType', async () => {
   const res = translator(file as Tokens, 'unionType');
   expect(res!.children![0].children![1].doc!.type).toBe('\'top-right\'|\'top-left\'|\'bottom-right\'|\'bottom-left\'|\'top-center\'');
 });
+
+test('semicolonType', async () => {
+  const file = await run('example/pure/semicolonType.d.ts');
+  const res = translator(file as Tokens, 'semicolonType');
+  expect(res?.children![0].children![0].doc!.type).toBe('string');
+});
