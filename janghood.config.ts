@@ -33,7 +33,7 @@ export default defineJhConfig({
         active: true
       }
     },
-    annotate:{
+    annotate: {
       component: {
         type: 'block'
       }

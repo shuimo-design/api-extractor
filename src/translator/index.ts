@@ -6,14 +6,15 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { getFileDoc } from "./getFileDoc";
-import { apiTreeCreator } from "./apiTreeCreator";
-import type { Tokens } from "../extractor/tools/tokenExtractor";
-import type { JhAPI } from "../../types/janghood-api-extractor";
-import { JhAPIs } from "../../types/janghood-api-extractor";
-import { jWarn } from "../common/console";
-import { intersectionsProcess } from "./process/intersectionsProcess";
+import { getFileDoc } from './getFileDoc';
+import { apiTreeCreator } from './apiTreeCreator';
+import type { Tokens } from '../extractor/tools/tokenExtractor';
+import type { JhAPI } from '../../types/janghood-api-extractor';
+import { JhAPIs } from '../../types/janghood-api-extractor';
+import { jWarn } from '../common/console';
+import { intersectionsProcess } from './process/intersectionsProcess';
 import { linkerProcess } from './process/linkerProcess';
+import { ApiExtractorAnnotate } from '../../../config';
 
 const tokensValidate = (tokens: Tokens) => {
   if (tokens.length === 0) {
@@ -21,10 +22,10 @@ const tokensValidate = (tokens: Tokens) => {
     return true;
   }
   return false;
-}
+};
 
 
-export const translator = (baseToken: Tokens, fileName: string): JhAPI | undefined => {
+export const translator = (baseToken: Tokens, fileName: string, plugins?: ApiExtractorAnnotate): JhAPI | undefined => {
   if (tokensValidate(baseToken)) {
     return;
   }
@@ -37,14 +38,14 @@ export const translator = (baseToken: Tokens, fileName: string): JhAPI | undefin
       doc = docInfo.fileDoc;
     }
   } catch (e) {
-    jWarn(`file ${fileName} throw error: ${(e as Error).message}`)
+    jWarn(`file ${fileName} throw error: ${(e as Error).message}`);
   }
 
   let children: JhAPIs | undefined;
   try {
-    children = apiTreeCreator(apiToken);
+    children = apiTreeCreator(apiToken, plugins);
   } catch (e) {
-    jWarn(`file ${fileName} has unexpected identifier: ${(e as Error).message}`)
+    jWarn(`file ${fileName} has unexpected identifier: ${(e as Error).message}`);
     throw e;
   }
 
@@ -60,10 +61,10 @@ export const translator = (baseToken: Tokens, fileName: string): JhAPI | undefin
       name: fileName,
       doc,
       children
-    }
+    };
   } catch (e) {
     throw e;
   }
 
 
-}
+};

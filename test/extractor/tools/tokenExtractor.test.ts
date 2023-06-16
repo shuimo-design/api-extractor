@@ -8,15 +8,15 @@
  */
 
 import { test, expect, beforeAll } from 'vitest';
-import { tokenExtractor } from "../../../src/extractor/tools/tokenExtractor";
-import { fileScanner, SourceFileInfo } from "../../../src/extractor/tools/fileScanner";
+import { tokenExtractor } from '../../../src/extractor/tools/tokenExtractor';
+import { fileScanner, SourceFileInfo } from '../../../src/extractor/tools/fileScanner';
 
 const fileSourceList: SourceFileInfo[] = [];
 beforeAll(async () => {
   fileSourceList.push(...await fileScanner({
     include: ['example/merge/**.d.ts']
   }));
-})
+});
 
 test('if props have merge type', async () => {
   const { extract } = await tokenExtractor();
@@ -97,13 +97,25 @@ test('if props have merge type', async () => {
       "name": "example/merge/merge.d.ts",
     }
   `);
-})
+});
 
-test('support customer annotate', async ()=>{
+test('support customer annotate', async () => {
   const unknownAnnotateFile = await fileScanner({
     include: ['example/base/unknownAnnotate/input.d.ts']
   });
-  const { extract } = await tokenExtractor();
+  const { extract } = await tokenExtractor({
+    annotate: {
+      component: {
+        type: 'block',
+        onInit: (param) => {
+          if (param.name === 'value') {
+            param.name = 'modelValue';
+          }
+          return param;
+        }
+      }
+    }
+  });
   const res = await extract(unknownAnnotateFile[0]);
   expect(res).toMatchInlineSnapshot(`
     {
@@ -112,10 +124,11 @@ test('support customer annotate', async ()=>{
           "children": [
             {
               "doc": {
+                "component": "",
                 "required": "false",
                 "type": "string|number",
               },
-              "name": "value",
+              "name": "modelValue",
             },
           ],
           "linker": [],
@@ -177,4 +190,4 @@ test('support customer annotate', async ()=>{
       "name": "example/base/unknownAnnotate/input.d.ts",
     }
   `);
-})
+});

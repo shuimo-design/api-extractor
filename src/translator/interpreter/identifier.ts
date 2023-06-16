@@ -15,7 +15,7 @@ import type { GToken } from '../apiTreeCreator';
 import { clearAPI } from '../apiTreeCreator';
 import { parseComment } from '../../extractor/tools/parseComment';
 import { jError } from '../../common/console';
-import { Doc } from '@janghood/config';
+import { ApiExtractorAnnotate, Doc } from '@janghood/config';
 
 const { SyntaxKind } = typescript;
 
@@ -40,7 +40,7 @@ const appendGenericInfo = (name: string, tokenIterator: GToken) => {
 };
 
 // when token is identifier
-export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
+export const identifierInterpreter = (tokenIterator: GToken, name: string, plugins?: ApiExtractorAnnotate) => {
   let token = tokenIterator.next();
   if (!token.value) {
     jError('interpreter error: identifier is empty');
@@ -71,7 +71,7 @@ export const identifierInterpreter = (tokenIterator: GToken, name: string) => {
 
 
   // type identifier
-  const iResult = interpretType(tokenIterator);
+  const iResult = interpretType(tokenIterator, plugins);
   if (iResult.type === 'api') {
     tokenIterator = iResult.tokenIterator;
     jhApi.intersections!.push(...iResult.intersections);
@@ -118,8 +118,9 @@ type InterpretTypeResponse = {
 /**
  * interpret whole type block
  * @param tokenIterator
+ * @param plugins
  */
-const interpretType = (tokenIterator: GToken): InterpretTypeResponse => {
+const interpretType = (tokenIterator: GToken, plugins?: ApiExtractorAnnotate): InterpretTypeResponse => {
   let intersections: string[] = [];
   let token = tokenIterator.next();
   if (!token.value) {
@@ -188,6 +189,24 @@ const interpretType = (tokenIterator: GToken): InterpretTypeResponse => {
       children: iResult.jhApi.children,
       link: iResult.jhApi.link
     };
+
+
+    // handler plugin?
+    if (plugins && paramJhApi.doc) {
+      // const annotates =
+      const keys = Object.keys(paramJhApi.doc);
+      Object.keys(plugins).forEach(k => {
+        if (keys.includes(k)) {
+          const plugin = plugins[k];
+          if (plugin.onInit) {
+            paramJhApi = plugin.onInit(paramJhApi);
+          }
+        }
+      });
+
+    }
+
+
     token = iResult.token;
     children.push(clearAPI(paramJhApi));
   }

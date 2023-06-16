@@ -6,7 +6,7 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { DocBlock, DocComment, DocNode, DocParagraph, DocSection } from '@microsoft/tsdoc';
+import { DocBlock, DocComment, DocNode, DocParagraph, DocSection, DocSoftBreak } from '@microsoft/tsdoc';
 import type { Doc } from '@janghood/config';
 import { parseBlock } from './parseBlock';
 import { jWarn } from '../../common/console';
@@ -32,6 +32,13 @@ const parseCommentChild = (node: DocNode): DocAPIType[] => {
     return parseBlock(node);
   }
   if (node instanceof DocSection) {
+    const list = [];
+    for (const child of node.getChildNodes()) {
+      list.push(...parseCommentChild(child));
+    }
+    return list;
+  }
+  if (node instanceof DocSoftBreak) {
     return [];
   }
   jWarn(`${node.kind} is not supported`);

@@ -15,21 +15,29 @@ import {
   DocNode,
   DocParagraph,
   DocPlainText,
-  DocSection
-} from "@microsoft/tsdoc";
-import { DocAPIType } from "./parseComment";
-import { isSoftBreak } from "./uitls";
-import { jError, jWarn } from "../../common/console";
-import { blockErrorHandler } from "./blockErrorHandler";
+  DocSection, DocSoftBreak
+} from '@microsoft/tsdoc';
+import { DocAPIType } from './parseComment';
+import { isSoftBreak } from './uitls';
+import { jError, jWarn } from '../../common/console';
+import { blockErrorHandler } from './blockErrorHandler';
 
 export const parseBlock = (block: DocBlock | DocParagraph): DocAPIType[] => {
 
   const blockInfo = block.getChildNodes();
+  if (firstTagMustBeDocBlockTag(blockInfo)) {
+    return [];
+  }
+  const key = (blockInfo[0] as DocBlockTag).tagName.replace(/^@/, '');
+  if (isEmptyAnnotate(blockInfo)) {
+    return [{ key, value: '' }];
+  }
+
+
   if (canNotParseBlockChild(blockInfo)) {
     return [];
   }
 
-  const key = (blockInfo[0] as DocBlockTag).tagName.replace(/^@/, "");
 
   // make validate better
   if (key === 'example') {
@@ -39,7 +47,7 @@ export const parseBlock = (block: DocBlock | DocParagraph): DocAPIType[] => {
 
   const value = parseBlockChild(blockInfo[1], key);
   return [{ key, value }];
-}
+};
 
 
 const parseBlockChild = (section: DocNode, block?: string) => {
@@ -50,7 +58,7 @@ const parseBlockChild = (section: DocNode, block?: string) => {
   let softBreakCount = 0;
   // maybe have more than one paragraph
   for (const paragraph of section.getChildNodes()) {
-    let prevIsPrevCurlyBraces = false
+    let prevIsPrevCurlyBraces = false;
     const plainTexts = paragraph.getChildNodes();
     for (const plainText of plainTexts) {
       if (isSoftBreak(plainText)) {
@@ -84,7 +92,7 @@ const parseBlockChild = (section: DocNode, block?: string) => {
       if (canNotParsePlainText(plainText)) {
         return info.join('\n');
       }
-      softBreakCount = 0
+      softBreakCount = 0;
       const plainTextDocExcerpt = plainText.getChildNodes()[0] as DocExcerpt;
       const str = plainTextDocExcerpt.content.toString().trim();
       if (prevIsPrevCurlyBraces) {
@@ -96,18 +104,27 @@ const parseBlockChild = (section: DocNode, block?: string) => {
     }
   }
   return info.join('\n');
-}
+};
 
-
-const canNotParseBlockChild = (blockInfo: readonly DocNode[]) => {
-  if (blockInfo.length !== 2 ||
-    !(blockInfo[0] instanceof DocBlockTag) ||
-    !(blockInfo[1] instanceof DocSection)) {
-    jError('can not parse this block, please open an issue on github.');
+const firstTagMustBeDocBlockTag = (blockInfo: readonly DocNode[]) => {
+  if (!(blockInfo[0] instanceof DocBlockTag)) {
+    jWarn('can not parse this block, please open an issue on github.');
     return true;
   }
   return false;
-}
+};
+
+const canNotParseBlockChild = (blockInfo: readonly DocNode[]) => {
+  if (blockInfo.length !== 2 ||
+    !(blockInfo[1] instanceof DocSection)) {
+    jWarn('can not parse this block, please open an issue on github.');
+    return true;
+  }
+  return false;
+};
+const isEmptyAnnotate = (blockInfo: readonly DocNode[]) => {
+  return blockInfo.length === 2 && blockInfo[1] instanceof DocSoftBreak;
+};
 
 const canNotParseBlockSection = (section: DocNode) => {
   if (!(section instanceof DocSection)) {
@@ -115,7 +132,7 @@ const canNotParseBlockSection = (section: DocNode) => {
     return true;
   }
   return false;
-}
+};
 
 const canNotParsePlainText = (plainText: DocNode) => {
   if (!(plainText instanceof DocPlainText) ||
@@ -130,4 +147,4 @@ const canNotParsePlainText = (plainText: DocNode) => {
     return true;
   }
   return false;
-}
+};

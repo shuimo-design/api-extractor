@@ -26,7 +26,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@janghood/config": "0.0.1-2",
+    "@janghood/config": "0.0.1-3",
     "@microsoft/tsdoc": "^0.14.2",
     "@microsoft/tsdoc-config": "^0.16.2",
     "cac": "^6.7.14",

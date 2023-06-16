@@ -639,6 +639,7 @@ test('jh-api', async () => {
             "children": [
               {
                 "doc": {
+                  "component": "",
                   "required": "false",
                   "type": "string|number",
                 },

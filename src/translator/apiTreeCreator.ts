@@ -10,6 +10,7 @@ import typescript from 'typescript';
 import type { Token, Tokens } from '../extractor/tools/tokenExtractor';
 import type { JhAPI, JhAPIs } from '../../types/janghood-api-extractor';
 import { identifierInterpreter } from './interpreter/identifier';
+import { ApiExtractorAnnotate } from '../../../config';
 
 const { SyntaxKind } = typescript;
 export type GToken = Generator<Token, void, unknown>
@@ -28,7 +29,7 @@ const toTokenIterator: (tokens: Tokens) => GToken = tokens => {
 };
 
 
-export const apiTreeCreator = (tokens: Tokens) => {
+export const apiTreeCreator = (tokens: Tokens, plugins?: ApiExtractorAnnotate) => {
   const identifierAPIs: JhAPIs = [];
 
   let tokenIterator = toTokenIterator(tokens);
@@ -43,7 +44,7 @@ export const apiTreeCreator = (tokens: Tokens) => {
       if (token.value!.kind === SyntaxKind.Identifier) {
         let jhApi: JhAPI = { doc: {}, name: '', children: [], intersections: [], link: [], linker: [] };
         const name = token.value!.key;
-        const iResult = identifierInterpreter(tokenIterator, name);
+        const iResult = identifierInterpreter(tokenIterator, name, plugins);
         jhApi.name = iResult.name;
         tokenIterator = iResult.tokenIterator;
         if (iResult.jhApi.children) {
@@ -67,8 +68,6 @@ export const apiTreeCreator = (tokens: Tokens) => {
 
     token = tokenIterator.next();
   }
-
-
   return identifierAPIs;
 };
 

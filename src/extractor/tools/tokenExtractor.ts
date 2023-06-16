@@ -91,7 +91,7 @@ export const tokenExtractor = async (option?: ApiExtractorType) => {
   const extract = async (sourceFile: SourceFileInfo) => {
     const tokens = await getTokensByFile(sourceFile);
     try {
-      return translator(tokens, sourceFile.filename);
+      return translator(tokens, sourceFile.filename, option?.annotate);
     } catch (e) {
       jError(`file:${sourceFile.filename}: ${(e as Error).message}`);
     }

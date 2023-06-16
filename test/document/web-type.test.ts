@@ -226,5 +226,35 @@ describe('test web-type', () => {
     }
     expect(webTypesInfo).toMatchObject(apiInfo);
   });
+
+  test('remove customer annotate', async () => {
+    const info = await getJhApi({
+      apiExtractor: {
+        include: ['example/base/unknownAnnotate/input.d.ts'],
+        document: {
+          webTypes: webOptions
+        },
+        annotate: {
+          component: {
+            type: 'block',
+            onInit: (param) => {
+              if (param.name === 'value') {
+                param.name = 'modelValue';
+              }
+              return param;
+            }
+          }
+        }
+      }
+    });
+    const webTypeCreateHandler = webTypesCreator();
+    webTypeCreateHandler.init(info);
+    const webTypesInfo = await webTypeCreateHandler.run(janghoodConfig);
+    expect(webTypesInfo?.contributions.html['vue-components'][0].props![0]).toMatchObject({
+      name: 'modelValue',
+      type: ['string', 'number'],
+      default: undefined
+    });
+  });
 });
 
