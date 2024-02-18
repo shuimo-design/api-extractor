@@ -714,62 +714,6 @@ test('jh-api', async () => {
             "children": [
               {
                 "doc": {
-                  "default": "'请选择...'",
-                  "description": "input placeholder. 提示语",
-                  "required": "false",
-                  "type": "string",
-                },
-                "name": "placeholder",
-              },
-              {
-                "doc": {
-                  "default": "undefined",
-                  "description": "modelValue match function
-    用于比较参数和modelValue是否相等的方法，常用于modelValue为对象的场景
-    option: 列表数据
-    value: modelValue",
-                  "required": "false",
-                  "type": "(option:any,value:any)=>Boolean",
-                },
-                "link": [
-                  {
-                    "key": "option",
-                  },
-                  {
-                    "key": "value",
-                  },
-                  {
-                    "key": "Boolean",
-                  },
-                ],
-                "name": "toMatch",
-              },
-            ],
-            "intersections": [
-              "FunctionValue",
-            ],
-            "linker": [],
-            "name": "LinkType",
-          },
-        ],
-        "doc": {
-          "author": "阿怪",
-          "date": "2022/11/3 12:41",
-          "description": "link type",
-          "version": "v1.0.0",
-        },
-        "name": "example/pure/link/linkType.d.ts",
-        "path": {
-          "directory": "example/pure/link",
-          "file": "linkType.d.ts",
-        },
-      },
-      {
-        "children": [
-          {
-            "children": [
-              {
-                "doc": {
                   "default": "false",
                   "description": "form是否行内显示",
                   "required": "true",
@@ -919,9 +863,9 @@ test('jh-api', async () => {
           "sourceSymbol": "MInputForm",
           "version": "v1.0.0",
         },
-        "name": "example/template/table /InputForm.d.ts",
+        "name": "example/template/table/InputForm.d.ts",
         "path": {
-          "directory": "example/template/table ",
+          "directory": "example/template/table",
           "file": "InputForm.d.ts",
         },
       },
@@ -1092,9 +1036,9 @@ test('jh-api', async () => {
           "description": "通用的参数类型",
           "version": "v1.0.0",
         },
-        "name": "example/template/table /MParamLabel.d.ts",
+        "name": "example/template/table/MParamLabel.d.ts",
         "path": {
-          "directory": "example/template/table ",
+          "directory": "example/template/table",
           "file": "MParamLabel.d.ts",
         },
       },
@@ -1220,10 +1164,66 @@ test('jh-api', async () => {
           "sourceSymbol": "MTablePlus",
           "version": "v1.0.0",
         },
-        "name": "example/template/table /TablePlus.d.ts",
+        "name": "example/template/table/TablePlus.d.ts",
         "path": {
-          "directory": "example/template/table ",
+          "directory": "example/template/table",
           "file": "TablePlus.d.ts",
+        },
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "doc": {
+                  "default": "'请选择...'",
+                  "description": "input placeholder. 提示语",
+                  "required": "false",
+                  "type": "string",
+                },
+                "name": "placeholder",
+              },
+              {
+                "doc": {
+                  "default": "undefined",
+                  "description": "modelValue match function
+    用于比较参数和modelValue是否相等的方法，常用于modelValue为对象的场景
+    option: 列表数据
+    value: modelValue",
+                  "required": "false",
+                  "type": "(option:any,value:any)=>Boolean",
+                },
+                "link": [
+                  {
+                    "key": "option",
+                  },
+                  {
+                    "key": "value",
+                  },
+                  {
+                    "key": "Boolean",
+                  },
+                ],
+                "name": "toMatch",
+              },
+            ],
+            "intersections": [
+              "FunctionValue",
+            ],
+            "linker": [],
+            "name": "LinkType",
+          },
+        ],
+        "doc": {
+          "author": "阿怪",
+          "date": "2022/11/3 12:41",
+          "description": "link type",
+          "version": "v1.0.0",
+        },
+        "name": "example/pure/link/linkType.d.ts",
+        "path": {
+          "directory": "example/pure/link",
+          "file": "linkType.d.ts",
         },
       },
     ]
