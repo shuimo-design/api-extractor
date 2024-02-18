@@ -127,7 +127,7 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
   };
 
   const getDir = (file: string) => {
-    const dirList = path.dirname(file).split(path.sep);
+    const dirList = path.dirname(file).split('/');
     let dirName = '';
     if (option?.sourceSymbolTranslator) {
       dirName = option.sourceSymbolTranslator(dirList);
