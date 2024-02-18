@@ -10,7 +10,7 @@ import typescript from 'typescript';
 import type { Token, Tokens } from '../extractor/tools/tokenExtractor';
 import type { JhAPI, JhAPIs } from '../../types/janghood-api-extractor';
 import { identifierInterpreter } from './interpreter/identifier';
-import { ApiExtractorAnnotate } from '../../../config';
+import { ApiExtractorAnnotate } from '@janghood/config';
 
 const { SyntaxKind } = typescript;
 export type GToken = Generator<Token, void, unknown>

@@ -14,7 +14,7 @@ import { JhAPIs } from '../../types/janghood-api-extractor';
 import { jWarn } from '../common/console';
 import { intersectionsProcess } from './process/intersectionsProcess';
 import { linkerProcess } from './process/linkerProcess';
-import { ApiExtractorAnnotate } from '../../../config';
+import { ApiExtractorAnnotate } from '@janghood/config';
 
 const tokensValidate = (tokens: Tokens) => {
   if (tokens.length === 0) {
