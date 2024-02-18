@@ -81,6 +81,7 @@ describe('test web-type', () => {
 
   beforeAll(async () => {
     testApiInfo = await getJhApi(janghoodConfig);
+    testApiInfo = testApiInfo.sort((a,b)=>a.name.localeCompare(b.name));
   });
 
   test('output expected web-type tag', async () => {
