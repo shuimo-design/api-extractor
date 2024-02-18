@@ -2,7 +2,7 @@
 
 A simple api extractor for code. based on [tsdoc](https://tsdoc.org/).
 
-[![codecov](https://codecov.io/gh/janghood/api-extractor/branch/master/graph/badge.svg?token=NU71GX2KFM)](https://codecov.io/gh/janghood/api-extractor)
+[![codecov](https://codecov.io/gh/shuimo-design/api-extractor/graph/badge.svg?token=NU71GX2KFM)](https://codecov.io/gh/shuimo-design/api-extractor)
 
 ## config
 
