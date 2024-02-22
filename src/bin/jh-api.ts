@@ -11,6 +11,7 @@ import { jError } from '../common/console';
 import { getJhApi } from '../index';
 import webTypes from '../document/web-types';
 import markdown from '../document/markdown';
+import vscode from '../document/vscode';
 import cac from 'cac';
 
 const noActiveDocument = (document: Documents) => {
@@ -22,7 +23,7 @@ const noActiveDocument = (document: Documents) => {
   return !documents.some(e => e.active);
 };
 
-const documents = [webTypes, markdown];
+const documents = [webTypes, vscode, markdown];
 
 // run jh-api
 const run = async (options: {

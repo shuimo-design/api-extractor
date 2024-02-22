@@ -9,7 +9,7 @@
 import type { WebTypesTag, JanghoodConfig } from '@janghood/config';
 import { JanghoodDefineConfig, validateDocumentConfig } from '@janghood/config';
 import type { JhAPIs } from '../../../types/janghood-api-extractor';
-import { loadPackage } from './loadPackage';
+import { loadPackage } from '../../common/loadPackage';
 import { jError } from '../../common/console';
 import { webTypesTagCreator, WebTypesTagCreatorRunner } from './webTypesTagCreator';
 import { createFile } from '../../common/createFile';

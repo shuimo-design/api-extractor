@@ -28,6 +28,9 @@ export default defineJhConfig({
         },
         sourceSymbolTranslator
       },
+      vscode: {
+        active: true
+      },
       markdown: {
         output: 'doc',
         active: true
