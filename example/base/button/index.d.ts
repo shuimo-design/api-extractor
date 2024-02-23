@@ -1,16 +1,17 @@
 /**
- * @description 按钮组件API
+ * @description button api type
  * @author 阿怪
- * @date 2022/4/2 11:26 AM
+ * @date 2022/4/2 12:58 AM
  * @version v1.0.0
  *
- * @name w-button
- * @docDescription Button component with wash-painting-ui style.
+ * @name m-button
+ * @docDescription Button component with shuimo-ui style.
  *              水墨组件的按钮组件。
- * @docUrl https://wash-painting.com/button
+ * @docUrl https://shuimo.design/button
  *
- * 江湖的业务千篇一律，复杂的代码好几百行。
+ * 公司的业务千篇一律，复杂的代码好几百行。
  */
+
 export declare type ButtonProps = {
   /**
    * @description button inline text, will replace by slot
@@ -18,26 +19,28 @@ export declare type ButtonProps = {
    * @type string
    * @default ''
    */
-  text: string,
+  text?: string,
+  /**
+   * @description link or not 是否是链接
+   * @type boolean
+   * @default false
+   */
+  link?: boolean,
   /**
    * @description disable or not 是否禁用
    * @type boolean
    * @default false
    */
-  disabled: boolean,
+  disabled?: boolean,
   /**
    * @description button type 按钮类型
    * @type string
-   * @default primary
-   * @enum primary|gray
+   * @default default
+   * @enum default|primary|error|confirm|warning
    */
-  type: string
-}
+  type?: 'default' | 'primary' | 'error' | 'confirm' | 'warning'
+};
 
 export declare type ButtonEvents = {
-  /**
-   * @description 点击事件
-   * @type Function
-   */
-  click: () => void
-}
+  onClick?: (e: MouseEvent) => void
+};
