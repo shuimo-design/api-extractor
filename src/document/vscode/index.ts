@@ -25,6 +25,7 @@ interface VeturAttributes {
     default: string
     description: string
     type: string
+    options?: string[]
   }
 }
 

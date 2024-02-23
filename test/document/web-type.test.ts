@@ -86,10 +86,8 @@ describe('test web-type', () => {
 
   test('output expected web-type tag', async () => {
     const webTypeCreateHandler = webTypesCreator();
-    console.log('testApiInfo', testApiInfo);
     webTypeCreateHandler.init([testApiInfo[0]]);
     const webTypesInfo = await webTypeCreateHandler.run(janghoodConfig);
-    console.log('webTypesInfo', webTypesInfo);
     expect(webTypesInfo?.contributions.html['vue-components'][0]).toMatchObject(tag);
   });
 

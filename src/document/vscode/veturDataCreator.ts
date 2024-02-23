@@ -28,6 +28,7 @@ type AttributeType = {
   default: string
   description: string
   type: string
+  options?: string[]
 }
 
 export const veturDataCreator = () => {
@@ -69,11 +70,53 @@ export const veturDataCreator = () => {
     return str;
   };
 
+  const BASE_TYPES = ['string', 'number', 'boolean', 'null', 'undefined'];
+
+  const isBaseTypes = (type: string) => {
+    return BASE_TYPES.some(baseType => type.includes(baseType));
+  }
+
+  const handleType = (type: string) => {
+    if (!type.includes('|') || isBaseTypes(type)) {
+      return type;
+    }
+    const types = type.split('|');
+    const isString = (str: string) => {
+      if (str.startsWith('\'') && str.endsWith('\'')) {
+        return true;
+      }
+      return str.startsWith('"') && str.endsWith('"');
+    };
+    const typeList: string[] = [];
+    let currentStrList: string[] = [];
+    for (const t of types) {
+      if (isString(t)) {
+        currentStrList.push(t);
+      } else {
+        if (currentStrList.length > 0) {
+          typeList.push(currentStrList.join('|'));
+          currentStrList = [];
+        } else {
+          typeList.push(t);
+        }
+      }
+    }
+    if (currentStrList.length > 0) {
+      return currentStrList;
+    }
+    return typeList;
+  };
+
   const childToAttribute = (identifierAPI: JhAPI): AttributeType => {
     const { doc, name } = identifierAPI;
     const attribute = {} as AttributeType;
     if (doc) {
+      const type = handleType(doc.type)
       attribute.type = doc.type;
+      if (Array.isArray(type)) {
+        attribute.type = 'string';
+        attribute.options = type;
+      }
       attribute.default = clearDefault(doc.default);
 
       if (doc.description) {
