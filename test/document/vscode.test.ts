@@ -40,7 +40,7 @@ describe('test vscode tags and attributes', () => {
   };
 
   beforeAll(async () => {
-    testApiInfo = await getJhApi(janghoodConfig as JanghoodConfig);
+    testApiInfo = await getJhApi(janghoodConfig);
     testApiInfo = testApiInfo.sort((a, b) => a.name.localeCompare(b.name));
   });
 

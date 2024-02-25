@@ -10,6 +10,7 @@ import path from 'path';
 import type { WebTypeOption, WebTypesAttributes, WebTypesTag, Doc } from '@janghood/config';
 import type { JhAPI } from '../../../types/janghood-api-extractor';
 import { jWarn } from '../../common/console';
+import { clearDefault, formatTypes } from '../../common/utils';
 
 export declare type WebTypesTagCreatorRunner = (api: JhAPI) => WebTypesTag | undefined;
 
@@ -70,27 +71,7 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
     if (!type.includes('|')) {
       return type;
     }
-    const types = type.split('|');
-    const isString = (str: string) => {
-      if (str.startsWith('\'') && str.endsWith('\'')) {
-        return true;
-      }
-      return str.startsWith('"') && str.endsWith('"');
-    };
-    const typeList: string[] = [];
-    let currentStrList: string[] = [];
-    for (const t of types) {
-      if (isString(t)) {
-        currentStrList.push(t);
-      } else {
-        if (currentStrList.length > 0) {
-          typeList.push(currentStrList.join('|'));
-          currentStrList = [];
-        } else {
-          typeList.push(t);
-        }
-      }
-    }
+    const [currentStrList, typeList] = formatTypes(type)
     if (currentStrList.length > 0) {
       return currentStrList.join('|');
     }
@@ -116,14 +97,6 @@ export const webTypesTagCreator = (option?: WebTypeOption) => {
     Object.assign(attribute, value);
 
     return attribute;
-  };
-
-  const clearDefault = (str: string) => {
-    //  if is empty string "''"
-    if (str === '\'\'') {
-      return '';
-    }
-    return str;
   };
 
   const getDir = (file: string) => {

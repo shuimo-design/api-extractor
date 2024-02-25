@@ -8,28 +8,8 @@
  */
 import { JhAPI } from '../../../types/janghood-api-extractor';
 import { jWarn } from '../../common/console';
-
-interface VeturTags {
-  [key: string]: {
-    attributes: string[]
-    description: string
-  }
-}
-
-interface VeturAttributes {
-  [key: string]: {
-    default: string
-    description: string
-    type: string
-  }
-}
-
-type AttributeType = {
-  default: string
-  description: string
-  type: string
-  options?: string[]
-}
+import { VeturAttribute, VeturAttributes } from '@janghood/config';
+import { clearDefault, formatTypes } from '../../common/utils';
 
 export const veturDataCreator = () => {
   const generateVeturTag = (api: JhAPI) => {
@@ -62,14 +42,6 @@ export const veturDataCreator = () => {
     }
   }
 
-  const clearDefault = (str: string) => {
-    //  if is empty string "''"
-    if (str === '\'\'') {
-      return '';
-    }
-    return str;
-  };
-
   const BASE_TYPES = ['string', 'number', 'boolean', 'null', 'undefined'];
 
   const isBaseTypes = (type: string) => {
@@ -80,36 +52,16 @@ export const veturDataCreator = () => {
     if (!type.includes('|') || isBaseTypes(type)) {
       return type;
     }
-    const types = type.split('|');
-    const isString = (str: string) => {
-      if (str.startsWith('\'') && str.endsWith('\'')) {
-        return true;
-      }
-      return str.startsWith('"') && str.endsWith('"');
-    };
-    const typeList: string[] = [];
-    let currentStrList: string[] = [];
-    for (const t of types) {
-      if (isString(t)) {
-        currentStrList.push(t);
-      } else {
-        if (currentStrList.length > 0) {
-          typeList.push(currentStrList.join('|'));
-          currentStrList = [];
-        } else {
-          typeList.push(t);
-        }
-      }
-    }
+    const [currentStrList, typeList] = formatTypes(type)
     if (currentStrList.length > 0) {
       return currentStrList;
     }
     return typeList;
   };
 
-  const childToAttribute = (identifierAPI: JhAPI): AttributeType => {
+  const childToAttribute = (identifierAPI: JhAPI): VeturAttribute => {
     const { doc, name } = identifierAPI;
-    const attribute = {} as AttributeType;
+    const attribute = {} as VeturAttribute;
     if (doc) {
       const type = handleType(doc.type)
       attribute.type = doc.type;

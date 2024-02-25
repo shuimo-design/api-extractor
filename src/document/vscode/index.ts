@@ -8,26 +8,17 @@
  */
 
 import type { JhAPIs } from '../../../types/janghood-api-extractor';
-import { JanghoodConfig, JanghoodDefineConfig, validateDocumentConfig } from '@janghood/config';
+import {
+  JanghoodConfig,
+  JanghoodDefineConfig,
+  validateDocumentConfig,
+  VeturAttributes,
+  VeturTags,
+} from '@janghood/config';
 import { jError } from '../../common/console';
 import { veturDataCreator } from './veturDataCreator';
 import { createFile } from '../../common/createFile';
 
-interface VeturTags {
-  [key: string]: {
-    attributes: string[]
-    description: string
-  }
-}
-
-interface VeturAttributes {
-  [key: string]: {
-    default: string
-    description: string
-    type: string
-    options?: string[]
-  }
-}
 
 export const veturCreator = () => {
   let apis: JhAPIs;
