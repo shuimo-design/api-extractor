@@ -33,3 +33,5 @@ pnpm-global
 web-types.json
 doc
 coverage
+tags.json
+attributes.json

@@ -10,7 +10,7 @@ import { test, expect, describe, beforeAll } from 'vitest';
 import type { JanghoodConfig, WebTypeOption } from '@janghood/config';
 import type { JhAPIs } from '../../types/janghood-api-extractor';
 import { getJhApi } from '../../src';
-import webTypes, { webTypesCreator } from '../../src/document/web-types';
+import { webTypesCreator } from '../../src/document/web-types';
 
 
 const tag = {
