@@ -6,7 +6,7 @@
  *
  * 江湖的业务千篇一律，复杂的代码好几百行。
  */
-import { test, expect, describe, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, test } from 'vitest';
 import type { JanghoodConfig, WebTypeOption } from '@janghood/config';
 import type { JhAPIs } from '../../types/janghood-api-extractor';
 import { getJhApi } from '../../src';
@@ -14,32 +14,27 @@ import { webTypesCreator } from '../../src/document/web-types';
 
 
 const tag = {
-  'name': 'w-button',
+  'name': 'm-button',
   'source': {
-    'symbol': 'WButton'
+    'symbol': 'MButton',
   },
-  'description': 'Button component with wash-painting-ui style.\n水墨组件的按钮组件。',
-  'doc-url': 'https://wash-painting.com/button',
-  'props': [
-    {
-      'name': 'text',
-      'description': 'button inline text, will replace by slot\n按钮文本 会被slot覆盖',
-      'type': 'string',
-      'default': ''
-    },
-    {
-      'name': 'disabled',
-      'description': 'disable or not 是否禁用',
-      'type': 'boolean',
-      'default': 'false'
-    },
-    {
-      'name': 'type',
-      'description': 'button type 按钮类型',
-      'type': 'string',
-      'default': 'primary'
-    }
-  ]
+  'description': 'Button component with shuimo-ui style.\n水墨组件的按钮组件。',
+  'doc-url': 'https://shuimo.design/button',
+  'props': [{
+    'default': '',
+    'description': 'button inline text, will replace by slot\n按钮文本 会被slot覆盖',
+    'name': 'text',
+    'type': 'string',
+  }, {
+    'default': 'false', 'description': 'link or not 是否是链接', 'name': 'link', 'type': 'boolean',
+  }, {
+    'default': 'false', 'description': 'disable or not 是否禁用', 'name': 'disabled', 'type': 'boolean',
+  }, {
+    'default': 'default',
+    'description': 'button type 按钮类型',
+    'name': 'type',
+    'type': '\'default\'|\'primary\'|\'error\'|\'confirm\'|\'warning\'',
+  }],
 };
 const apiInfo = {
   '$schema': 'https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json',
@@ -50,9 +45,9 @@ const apiInfo = {
   'description-markup': 'markdown',
   'contributions': {
     'html': {
-      'vue-components': [tag]
-    }
-  }
+      'vue-components': [tag],
+    },
+  },
 };
 const firstUpperCase = (str: string) => {
   return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
@@ -60,7 +55,7 @@ const firstUpperCase = (str: string) => {
 
 const sourceSymbolTranslator = (dirList: string[]) => {
   let lastDir = firstUpperCase(dirList[dirList.length - 1]);
-  return `W${lastDir}`;
+  return `M${lastDir}`;
 };
 const webOptions: WebTypeOption = {
   active: true,
@@ -81,7 +76,7 @@ describe('test web-type', () => {
 
   beforeAll(async () => {
     testApiInfo = await getJhApi(janghoodConfig);
-    testApiInfo = testApiInfo.sort((a,b)=>a.name.localeCompare(b.name));
+    testApiInfo = testApiInfo.sort((a, b) => a.name.localeCompare(b.name));
   });
 
   test('output expected web-type tag', async () => {
@@ -106,6 +101,42 @@ describe('test web-type', () => {
           "html": {
             "vue-components": [
               {
+                "description": "Button component with shuimo-ui style.
+      水墨组件的按钮组件。",
+                "doc-url": "https://shuimo.design/button",
+                "name": "m-button",
+                "props": [
+                  {
+                    "default": "",
+                    "description": "button inline text, will replace by slot
+      按钮文本 会被slot覆盖",
+                    "name": "text",
+                    "type": "string",
+                  },
+                  {
+                    "default": "false",
+                    "description": "link or not 是否是链接",
+                    "name": "link",
+                    "type": "boolean",
+                  },
+                  {
+                    "default": "false",
+                    "description": "disable or not 是否禁用",
+                    "name": "disabled",
+                    "type": "boolean",
+                  },
+                  {
+                    "default": "default",
+                    "description": "button type 按钮类型",
+                    "name": "type",
+                    "type": "'default'|'primary'|'error'|'confirm'|'warning'",
+                  },
+                ],
+                "source": {
+                  "symbol": "MButton",
+                },
+              },
+              {
                 "description": "Input component with shuimo-ui style.
       水墨组件的输入组件。",
                 "doc-url": "https://shuimo.janghood.com/input",
@@ -121,7 +152,7 @@ describe('test web-type', () => {
                   },
                 ],
                 "source": {
-                  "symbol": "WUnknownannotate",
+                  "symbol": "MUnknownannotate",
                 },
               },
               {
@@ -168,37 +199,7 @@ describe('test web-type', () => {
                   },
                 ],
                 "source": {
-                  "symbol": "WMessage",
-                },
-              },
-              {
-                "description": "Button component with wash-painting-ui style.
-      水墨组件的按钮组件。",
-                "doc-url": "https://wash-painting.com/button",
-                "name": "w-button",
-                "props": [
-                  {
-                    "default": "",
-                    "description": "button inline text, will replace by slot
-      按钮文本 会被slot覆盖",
-                    "name": "text",
-                    "type": "string",
-                  },
-                  {
-                    "default": "false",
-                    "description": "disable or not 是否禁用",
-                    "name": "disabled",
-                    "type": "boolean",
-                  },
-                  {
-                    "default": "primary",
-                    "description": "button type 按钮类型",
-                    "name": "type",
-                    "type": "string",
-                  },
-                ],
-                "source": {
-                  "symbol": "WButton",
+                  "symbol": "MMessage",
                 },
               },
             ],
@@ -238,7 +239,7 @@ describe('test web-type', () => {
         annotate: {
           component: {
             type: 'block',
-            onInit: (param) => {
+            onInit: (param: any) => {
               if (param.name === 'value') {
                 param.name = 'modelValue';
               }
