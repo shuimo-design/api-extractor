@@ -11,7 +11,7 @@ exports[`jh-api 1`] = `
               "default": "''",
               "description": "button inline text, will replace by slot
 按钮文本 会被slot覆盖",
-              "required": "true",
+              "required": "false",
               "type": "string",
             },
             "name": "text",
@@ -19,19 +19,28 @@ exports[`jh-api 1`] = `
           {
             "doc": {
               "default": "false",
+              "description": "link or not 是否是链接",
+              "required": "false",
+              "type": "boolean",
+            },
+            "name": "link",
+          },
+          {
+            "doc": {
+              "default": "false",
               "description": "disable or not 是否禁用",
-              "required": "true",
+              "required": "false",
               "type": "boolean",
             },
             "name": "disabled",
           },
           {
             "doc": {
-              "default": "primary",
+              "default": "default",
               "description": "button type 按钮类型",
-              "enum": "primary|gray",
-              "required": "true",
-              "type": "string",
+              "enum": "default|primary|error|confirm|warning",
+              "required": "false",
+              "type": "'default'|'primary'|'error'|'confirm'|'warning'",
             },
             "name": "type",
           },
@@ -43,11 +52,18 @@ exports[`jh-api 1`] = `
         "children": [
           {
             "doc": {
-              "description": "点击事件",
-              "required": "true",
-              "type": "()=>void",
+              "required": "false",
+              "type": "(e:MouseEvent)=>void",
             },
-            "name": "click",
+            "link": [
+              {
+                "key": "e",
+              },
+              {
+                "key": "MouseEvent",
+              },
+            ],
+            "name": "onClick",
           },
         ],
         "linker": [],
@@ -56,12 +72,12 @@ exports[`jh-api 1`] = `
     ],
     "doc": {
       "author": "阿怪",
-      "date": "2022/4/2 11:26 AM",
-      "description": "按钮组件API",
-      "docDescription": "Button component with wash-painting-ui style.
+      "date": "2022/4/2 12:58 AM",
+      "description": "button api type",
+      "docDescription": "Button component with shuimo-ui style.
 水墨组件的按钮组件。",
-      "docUrl": "https://wash-painting.com/button",
-      "name": "w-button",
+      "docUrl": "https://shuimo.design/button",
+      "name": "m-button",
       "version": "v1.0.0",
     },
     "name": "example/base/button/index.d.ts",
@@ -821,6 +837,121 @@ value: modelValue",
     "path": {
       "directory": "example/template/menu",
       "file": "formItem.d.ts",
+    },
+  },
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "doc": {
+              "default": "0",
+              "description": "page total
+分页总数",
+              "required": "false",
+              "type": "number",
+            },
+            "name": "total",
+          },
+          {
+            "doc": {
+              "default": "undefined",
+              "description": "current page number
+当前页",
+              "required": "false",
+              "type": "number",
+            },
+            "name": "modelValue",
+          },
+          {
+            "doc": {
+              "default": "undefined",
+              "description": "default current page number
+默认当前页",
+              "required": "false",
+              "type": "number",
+            },
+            "name": "defaultCurrent",
+          },
+          {
+            "doc": {
+              "default": "10",
+              "description": "page size
+每页数量",
+              "required": "false",
+              "type": "number",
+            },
+            "name": "pageSize",
+          },
+          {
+            "doc": {
+              "default": "[10, 20, 30, 40, 50, 100]",
+              "description": "page size select list
+可选每页数量",
+              "required": "false",
+              "type": "number[]",
+            },
+            "name": "pageSizes",
+          },
+          {
+            "doc": {
+              "default": "'prev, pager, next, jumper, total'",
+              "description": "component layout
+组件显示",
+              "required": "false",
+              "type": "string",
+            },
+            "name": "layout",
+          },
+          {
+            "doc": {
+              "default": "5",
+              "description": "show pages when folded
+折叠时最多显示页码按钮数",
+              "required": "false",
+              "type": "number|null",
+            },
+            "name": "foldedMaxPageBtn",
+          },
+          {
+            "doc": {
+              "default": "10",
+              "description": "the max display pages
+最大显示页数",
+              "required": "false",
+              "type": "number|null",
+            },
+            "name": "maxPageBtn",
+          },
+          {
+            "doc": {
+              "default": "true",
+              "description": "show edge page number
+是否显示边缘页码",
+              "required": "false",
+              "type": "boolean",
+            },
+            "name": "showEdgePageNum",
+          },
+        ],
+        "linker": [],
+        "name": "PaginationProps",
+      },
+    ],
+    "doc": {
+      "author": "阿怪",
+      "date": "2022/4/17 01:47",
+      "description": "pagination api type",
+      "docDescription": "pagination component with shuimo-ui style.
+水墨组件的分页组件。",
+      "docUrl": "https://shuimo.design/pagination",
+      "name": "m-pagination",
+      "version": "v1.0.0",
+    },
+    "name": "example/template/pagination/index.d.ts",
+    "path": {
+      "directory": "example/template/pagination",
+      "file": "index.d.ts",
     },
   },
   {

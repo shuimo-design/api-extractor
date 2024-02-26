@@ -107,7 +107,7 @@ test('support customer annotate', async () => {
     annotate: {
       component: {
         type: 'block',
-        onInit: (param) => {
+        onInit: (param: any) => {
           if (param.name === 'value') {
             param.name = 'modelValue';
           }

@@ -25,7 +25,7 @@ test('just run extractor test', async () => {
                 "default": "''",
                 "description": "button inline text, will replace by slot
     按钮文本 会被slot覆盖",
-                "required": "true",
+                "required": "false",
                 "type": "string",
               },
               "name": "text",
@@ -33,19 +33,28 @@ test('just run extractor test', async () => {
             {
               "doc": {
                 "default": "false",
+                "description": "link or not 是否是链接",
+                "required": "false",
+                "type": "boolean",
+              },
+              "name": "link",
+            },
+            {
+              "doc": {
+                "default": "false",
                 "description": "disable or not 是否禁用",
-                "required": "true",
+                "required": "false",
                 "type": "boolean",
               },
               "name": "disabled",
             },
             {
               "doc": {
-                "default": "primary",
+                "default": "default",
                 "description": "button type 按钮类型",
-                "enum": "primary|gray",
-                "required": "true",
-                "type": "string",
+                "enum": "default|primary|error|confirm|warning",
+                "required": "false",
+                "type": "'default'|'primary'|'error'|'confirm'|'warning'",
               },
               "name": "type",
             },
@@ -57,11 +66,18 @@ test('just run extractor test', async () => {
           "children": [
             {
               "doc": {
-                "description": "点击事件",
-                "required": "true",
-                "type": "()=>void",
+                "required": "false",
+                "type": "(e:MouseEvent)=>void",
               },
-              "name": "click",
+              "link": [
+                {
+                  "key": "e",
+                },
+                {
+                  "key": "MouseEvent",
+                },
+              ],
+              "name": "onClick",
             },
           ],
           "linker": [],
@@ -70,12 +86,12 @@ test('just run extractor test', async () => {
       ],
       "doc": {
         "author": "阿怪",
-        "date": "2022/4/2 11:26 AM",
-        "description": "按钮组件API",
-        "docDescription": "Button component with wash-painting-ui style.
+        "date": "2022/4/2 12:58 AM",
+        "description": "button api type",
+        "docDescription": "Button component with shuimo-ui style.
     水墨组件的按钮组件。",
-        "docUrl": "https://wash-painting.com/button",
-        "name": "w-button",
+        "docUrl": "https://shuimo.design/button",
+        "name": "m-button",
         "version": "v1.0.0",
       },
       "name": "example/base/button/index.d.ts",
