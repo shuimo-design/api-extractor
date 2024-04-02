@@ -41,17 +41,28 @@ export const veturCreator = () => {
       return;
     }
     const { generateVeturTag, generateVeturAttributes } = veturDataCreator();
-    let tags: VeturTags = {}
-    let attributes: VeturAttributes = {}
+    let localTags: VeturTags = {}
+    let localAttributes: VeturAttributes = {}
     apis.forEach(api => {
       const apiTag = generateVeturTag(api);
       if (apiTag) {
-        tags = { ...tags, ...apiTag }
+        localTags = { ...localTags, ...apiTag }
       }
       const apiAttributes = generateVeturAttributes(api);
       if (apiAttributes) {
-        attributes = { ...attributes, ...apiAttributes }
+        localAttributes = { ...localAttributes, ...apiAttributes }
       }
+    })
+    const tags: VeturTags = {}
+    const attributes: VeturAttributes = {}
+    Object.keys(localTags).sort((a, b) => a.localeCompare(b)).forEach(key => {
+      if (localTags[key].attributes) {
+        localTags[key].attributes.sort((aAt, bAt) => aAt.localeCompare(bAt))
+      }
+      tags[key] = localTags[key]
+    })
+    Object.keys(localAttributes).sort((a, b) => a.localeCompare(b)).forEach(key => {
+      attributes[key] = localAttributes[key]
     })
     return {
       tags,
