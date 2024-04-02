@@ -6,7 +6,7 @@ import { veturCreator } from '../../src/document/vscode';
 
 const tags = {
   'm-button': {
-    'attributes': ['text', 'link', 'disabled', 'type'],
+    'attributes': ['disabled', 'link', 'text', 'type'],
     'description': 'Button component with shuimo-ui style.\n水墨组件的按钮组件。\n[docs](https://shuimo.design/button)',
   },
 };
